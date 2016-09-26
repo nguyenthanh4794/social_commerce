@@ -2,10 +2,10 @@
   'package' => 
   array (
     'type' => 'module',
-    'name' => 'ut-socialcommerce',
+    'name' => 'socialcommerce',
     'version' => '4.0.1',
-    'path' => 'application/modules/UtSocialcommerce',
-    'title' => 'UT - Social Commerce',
+    'path' => 'application/modules/Socialcommerce',
+    'title' => 'Social - Commerce',
     'description' => '',
     'author' => '<a href="http://4lifemedi.com/" title="University of Technology" target="_blank">University of Technology</a>',
     'callback' => 
@@ -22,11 +22,11 @@
     ),
     'directories' => 
     array (
-      0 => 'application/modules/UtSocialcommerce',
+      0 => 'application/modules/Socialcommerce',
     ),
     'files' => 
     array (
-      0 => 'application/languages/en/ut-socialcommerce.csv',
+      0 => 'application/languages/en/socialcommerce.csv',
     ),
   ),
 ); ?>

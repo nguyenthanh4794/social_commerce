@@ -1,1 +1,0 @@
-INSERT IGNORE INTO `engine4_core_modules` (`name`, `title`, `description`, `version`, `enabled`, `type`) VALUES  ('ut-socialcommerce', 'UT - Social Commerce', '', '4.0.1', 1, 'extra') ;

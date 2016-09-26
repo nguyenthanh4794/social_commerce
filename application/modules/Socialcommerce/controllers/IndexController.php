@@ -1,6 +1,6 @@
 <?php
 
-class UtSocialcommerce_IndexController extends Core_Controller_Action_Standard
+class Socialcommerce_IndexController extends Core_Controller_Action_Standard
 {
   public function indexAction()
   {

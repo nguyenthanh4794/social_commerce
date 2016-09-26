@@ -1,12 +1,12 @@
 {
   "type": "module",
-  "name": "ut-socialcommerce",
+  "name": "socialcommerce",
   "version": "4.0.1",
   "revision": null,
-  "path": "application\/modules\/UtSocialcommerce",
+  "path": "application\/modules\/Socialcommerce",
   "repository": null,
-  "date": "Mon, 26 Sep 2016 14:04:17 +0000",
-  "title": "UT - Social Commerce",
+  "date": "Mon, 26 Sep 2016 14:05:55 +0000",
+  "title": "Social - Commerce",
   "description": "",
   "thumb": null,
   "developer": null,
@@ -15,8 +15,8 @@
   ],
   "changeLog": null,
   "meta": {
-    "date": "Mon, 26 Sep 2016 14:04:17 +0000",
-    "title": "UT - Social Commerce",
+    "date": "Mon, 26 Sep 2016 14:05:55 +0000",
+    "title": "Social - Commerce",
     "description": "",
     "developer": null,
     "authors": [
@@ -44,17 +44,17 @@
     
   ],
   "structure": {
-    "application\/modules\/UtSocialcommerce": {
+    "application\/modules\/Socialcommerce": {
       "type": "directory",
-      "path": "application\/modules\/UtSocialcommerce",
+      "path": "application\/modules\/Socialcommerce",
       "structure": [
         {
           "path": "Bootstrap.php",
           "dir": false,
           "file": true,
           "perms": "0666",
-          "size": 95,
-          "sha1": "6ddbfb29764b202da86eca90782c6dfc54cada79"
+          "size": 93,
+          "sha1": "09f33d36e8378254fef154d00e52c4f08227fa0f"
         },
         {
           "path": "controllers",
@@ -69,8 +69,8 @@
           "dir": false,
           "file": true,
           "perms": "0666",
-          "size": 177,
-          "sha1": "63c542f6b0a9c298e5a528584a679905613f8e53"
+          "size": 175,
+          "sha1": "f7d7bf084e44ccc83327c3d951c52120651368cf"
         },
         {
           "path": "externals",
@@ -189,16 +189,16 @@
           "dir": false,
           "file": true,
           "perms": "0666",
-          "size": 813,
-          "sha1": "1f38da7c12c2de878ec09bd3090512502cc4b3f4"
+          "size": 800,
+          "sha1": "d666697a47a7381646cccfd35c5000019ddbdbec"
         },
         {
           "path": "settings\/my-install.sql",
           "dir": false,
           "file": true,
           "perms": "0666",
-          "size": 185,
-          "sha1": "e05303d5fd309477d6ff50d43458fdaf0def7aa0"
+          "size": 179,
+          "sha1": "7d15d7b50635d6dc0ea0093f354b570056b38df3"
         },
         {
           "path": "views",
@@ -229,16 +229,16 @@
           "dir": false,
           "file": true,
           "perms": "0666",
-          "size": 89,
-          "sha1": "14f8942682d2440f57f284507ee75c76a4fe6aaf"
+          "size": 87,
+          "sha1": "7ddd1542cecdd23044bee4f2dafc1aa4bba63b82"
         }
       ]
     },
-    "application\/languages\/en\/ut-socialcommerce.csv": {
+    "application\/languages\/en\/socialcommerce.csv": {
       "type": "file",
-      "path": "application\/languages\/en\/ut-socialcommerce.csv",
+      "path": "application\/languages\/en\/socialcommerce.csv",
       "structure": {
-        "path": "ut-socialcommerce.csv",
+        "path": "socialcommerce.csv",
         "dir": false,
         "file": true,
         "perms": "0666",
