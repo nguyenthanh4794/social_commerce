@@ -44,13 +44,6 @@ class Socialcommerce_Form_Admin_Settings_Global extends Engine_Form
         ));
         $this->socialcommerce_google_api_key->getDecorator('Description')->setEscape(false);
 
-        // Element: currency
-        $this->addElement('Select', 'socialcommerce_currency', array(
-            'label' => 'Currency',
-            'value' => $settings->getSetting('socialcommerce_currency', 'USD'),
-        ));
-        $this->getElement('socialcommerce_currency')->getDecorator('Description')->setOption('placement', 'APPEND');
-
         // Element: Payment Plans
         $this->addElement('Select', 'socialcommerce_payment_plan', array(
             'label' => 'Payment Plan For Seller To Use',

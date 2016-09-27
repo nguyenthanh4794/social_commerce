@@ -13,7 +13,6 @@ class Socialcommerce_Form_Admin_Settings_Level extends Authorization_Form_Admin_
             ->setTitle('Member Level Settings')
             ->setDescription('SOCIALCOMMERCE_SETTINGS_LEVEL_DESCRIPTION');
 
-        $translate = Array(Zend_Registry::get('Zend_Translate'));
         $levels = array();
         $table  = Engine_Api::_()->getDbtable('levels', 'authorization');
         foreach ($table->fetchAll($table->select()) as $row) {
@@ -26,181 +25,213 @@ class Socialcommerce_Form_Admin_Settings_Level extends Authorization_Form_Admin_
             'ignore' => true
         ));
         if( !$this->isPublic() ) {
-            if (Engine_Api::_() -> hasModuleBootstrap('yncredit')) {
-                $this->addElement('Heading','payment_method', array(
-                    'value' => 'Payment Method',
-                    'description' => $translate -> _('Choose what payment method enable for users in this group can choose')
-                ));
+            $this->addElement('Heading','payment_method', array(
+                'label' => 'Payment Method',
+                'description' => 'Choose what payment method enable for users in this group can choose'
+            ));
 
-                $this->addElement('Checkbox', 'is_online_payment', array(
-                    'label' => $translate -> _('Online Payment')
-                ));
+            $this->addElement('Checkbox', 'is_online_payment', array(
+                'label' => 'Online Payment'
+            ));
 
-                $this->addElement('Select', 'plan', array(
+            $this->addElement('Select', 'plan', array(
+                'description' => 'Choose Plan',
+                'multiOptions' => array(
                     '1' => 'Plan 1',
                     '2' => 'Plan 2',
-                ));
+                )
+            ));
 
-                $this->addElement('Checkbox', 'is_offline_payment', array(
-                    'label' => $translate -> _('Offline Payment/Cash On Delivery')
-                ));
+            $this->addElement('Checkbox', 'is_offline_payment', array(
+                'label' => 'Offline Payment/Cash On Delivery'
+            ));
 
-                $this->addElement('Integer', 'publish_fee', array());
+            $this->addElement('Integer', 'publish_fee', array(
+                'description' => 'Publishing Fee',
+                'validators' => array(
+                    new Engine_Validate_AtLeast(0),
+                ),
+            ));
 
-                $this->addElement('Integer', 'first_amount', array(
-                    'label' => 'Credit for creating listings',
-                    'description' => 'No of First Actions',
-                    'required' =>true,
-                    'validators' => array(
-                        new Engine_Validate_AtLeast(0),
-                    ),
-                    'value' => 0,
-                ));
+            $this->addElement('Integer', 'commission_fee', array(
+                'description' => '- Commission Fee',
+                'validators' => array(
+                    new Engine_Validate_AtLeast(0),
+                ),
+            ));
 
-                $this->addElement('Integer', 'first_credit', array(
-                    'description' => 'Credit/Action',
-                    'required' =>true,
-                    'validators' => array(
-                        new Engine_Validate_AtLeast(0),
-                    ),
-                    'value' => 0,
-                ));
+            $this->addElement('Integer', 'feature_fee', array(
+                'description' => 'Feature Listing Fee',
+                'validators' => array(
+                    new Engine_Validate_AtLeast(0),
+                ),
+            ));
 
-                $this->addElement('Integer', 'credit', array(
-                    'description' => 'Credit for next action',
-                    'required' =>true,
-                    'validators' => array(
-                        new Engine_Validate_AtLeast(0),
-                    ),
-                    'value' => 0,
-                ));
-                $this->addElement('Integer', 'max_credit', array(
-                    'description' => 'Max Credit/Period',
-                    'required' =>true,
-                    'validators' => array(
-                        new Engine_Validate_AtLeast(0),
-                    ),
-                    'value' => 0,
-                ));
-                $this->addElement('Integer', 'period', array(
-                    'description' => 'Period (days)',
-                    'required' =>true,
-                    'validators' => array(
-                        new Engine_Validate_AtLeast(1),
-                    ),
-                    'value' => 1,
-                ));
-
-                $this->addElement('Radio', 'use_credit', array(
-                    'label' => 'Allow users to use Credit to purchase Listing',
-                    'multiOptions' => array(
-                        1 => 'Yes, allow users to purchase Listing by Credit.',
-                        0 => 'No, do not allow users to purchase Listing by Credit.'
-                    ),
-                    'value' => 1,
-                ));
-            }
+            $this->addElement('Radio', 'view', array(
+                'label' => 'Allow Viewing Details of Listing?',
+                'multiOptions' => array(
+                    1 => 'Yes, allow users to view listings',
+                    0 => 'No, do not allow users to view listings'
+                ),
+                'value' => 1,
+            ));
 
             $this->addElement('Radio', 'create', array(
-                'label' => 'Allow Creation of Listing',
+                'label' => 'Allow Creation of Listing?',
                 'multiOptions' => array(
-                    1 => 'Yes, allow users to create new listing.',
-                    0 => 'No, do not allow users to create new listing.'
+                    1 => 'Yes, allow users to create new listing',
+                    0 => 'No, do not allow users to create new listing'
                 ),
                 'value' => 1,
             ));
 
             $this->addElement('Radio', 'edit', array(
-                'label' => 'Allow Editing of Listing',
+                'label' => 'Allow Editing of Listing?',
                 'multiOptions' => array(
-                    2 => 'Yes, allow users to edit all listings.',
-                    1 => 'Yes, allow users to edit their own listings.',
-                    0 => 'No, do not allow users to edit their own listings.'
+                    1 => 'Yes, allow users to edit their own listings',
+                    0 => 'No, do not allow users to edit their own listings'
                 ),
-                'value' => ( $this->isModerator() ? 2 : 1 ),
+                'value' => 1,
             ));
 
             $this->addElement('Radio', 'delete', array(
-                'label' => 'Allow Deletion of Listing',
+                'label' => 'Allow Deletion of Listing?',
                 'multiOptions' => array(
-                    2 => 'Yes, allow users to delete all listings.',
-                    1 => 'Yes, allow users to delete their own listings.',
-                    0 => 'No, do not allow users to delete their own listings.'
-                ),
-                'value' => ( $this->isModerator() ? 2 : 1 ),
-            ));
-
-            $this->addElement('Radio', 'view', array(
-                'label' => 'Allow Viewing Details of Listing',
-                'multiOptions' => array(
-                    1 => 'Yes, allow users to view listings.',
-                    0 => 'No, do not allow users to view listings.'
+                    1 => 'Yes, allow users to delete their own listings',
+                    0 => 'No, do not allow users to delete their own listings'
                 ),
                 'value' => 1,
             ));
+
 
             $this->addElement('Radio', 'comment', array(
-                'label' => 'Allow Commenting on Listing',
+                'label' => 'Allow Commenting on Listing?',
                 'multiOptions' => array(
-                    1 => 'Yes, allow users to comment on listings.',
-                    0 => 'No, do not allow users to comment on listings.'
+                    1 => 'Yes, allow users to comment on listings',
+                    0 => 'No, do not allow users to comment on listings'
                 ),
                 'value' => 1,
             ));
 
-            $this->addElement('Radio', 'close', array(
-                'label' => 'Allow Closing of Listing',
+            $this->addElement('Radio', 'follow', array(
+                'label' => 'Allow follow Listing Owner?',
                 'multiOptions' => array(
-                    2 => 'Yes, allow users to close all listings.',
-                    1 => 'Yes, allow users to close their own listings.',
-                    0 => 'No, do not allow users to close their own listings.'
-                ),
-                'value' => ( $this->isModerator() ? 2 : 1 ),
-            ));
-
-            $this->addElement('Radio', 'review', array(
-                'label' => 'Allow Review & Rating on Listing',
-                'multiOptions' => array(
-                    1 => 'Yes, allow users to review & rate on listings.',
-                    0 => 'No, do not allow users to review & rate on listings.'
+                    1 => 'Yes, allow follow on listings owner',
+                    0 => 'No, do not allow follow on listings owner'
                 ),
                 'value' => 1,
             ));
 
-            $this->addElement('Radio', 'auto_approve', array(
-                'label' => 'Allow auto approve listings created by these users?',
+            $this->addElement('Radio', 'theme', array(
+                'label' => 'Allow select theme for own Listings?',
                 'multiOptions' => array(
-                    1 => 'Yes, allow auto approve.',
-                    0 => 'No, do not allow auto approve.'
+                    1 => 'Yes, allow select theme for own Listings',
+                    0 => 'No, do not allow select theme for own Listings'
                 ),
                 'value' => 1,
             ));
 
-            $this->addElement('Integer', 'max_listing', array(
-                'label' => 'Maximum Listings the user can create',
-                'description' => 'Set 0 is unlimited',
-                'required' => true,
-                'validators' => array(
-                    new Engine_Validate_AtLeast(0),
+            $this->addElement('Radio', 'upload', array(
+                'label' => 'Allow upload photos to Listings?',
+                'multiOptions' => array(
+                    1 => 'Yes, allow upload photos to Listings',
+                    0 => 'No, do not allow upload photos to Listings'
                 ),
-                'value' => 20,
+                'value' => 1,
+            ));
+
+            $this->addElement('Radio', 'upload', array(
+                'label' => 'Allow upload videos to Listings?',
+                'multiOptions' => array(
+                    1 => 'Yes, allow upload videos to Listings',
+                    0 => 'No, do not allow upload videos to Listings'
+                ),
+                'value' => 1,
+            ));
+
+            $this->addElement('Radio', 'discuss', array(
+                'label' => 'Allow add discussion to Listings?',
+                'multiOptions' => array(
+                    1 => 'Yes, allow add discussion to Listings',
+                    0 => 'No, do not allow add discussion to Listings'
+                ),
+                'value' => 1,
+            ));
+
+            $this->addElement('Radio', 'approve', array(
+                'label' => 'Approve Listings before they are publicly displayed?',
+                'multiOptions' => array(
+                    1 => 'Yes, listings must be approved before displaying',
+                    0 => 'No, listing will be shown immediately after creating'
+                ),
+                'value' => 1,
+            ));
+
+            $this->addElement('Radio', 'print', array(
+                'label' => 'Allow print Listing?',
+                'multiOptions' => array(
+                    1 => 'Yes, listings must be approved before displaying',
+                    0 => 'No, listing will be shown immediately after creating'
+                ),
+                'value' => 1,
+            ));
+
+            $this->addElement('Radio', 'import', array(
+                'label' => 'Allow import own Listing?',
+                'multiOptions' => array(
+                    1 => 'Yes, allow import own Listings',
+                    0 => 'No, do not allow import own Listings'
+                ),
+                'value' => 1,
+            ));
+
+            $this->addElement('Radio', 'export', array(
+                'label' => 'Allow export own Listing?',
+                'multiOptions' => array(
+                    1 => 'Yes, allow export own Listings',
+                    0 => 'No, do not allow export own Listings'
+                ),
+                'value' => 1,
+            ));
+
+            $this->addElement('Integer', 'max_listings', array(
+                'label' => 'Maximum listings can be added',
+                'description' => '0 mean unlimited',
+                'value' => 10,
+            ));
+
+            $this->addElement('Radio', 'report', array(
+                'label' => 'Allow report Listing?',
+                'multiOptions' => array(
+                    1 => 'Yes, allow report Listings',
+                    0 => 'No, do not allow report Listings'
+                ),
+                'value' => 1,
+            ));
+
+            $this->addElement('Radio', 'rating', array(
+                'label' => 'Allow rate Listing?',
+                'multiOptions' => array(
+                    1 => 'Yes, allow rate Listings',
+                    0 => 'No, do not allow rate Listings'
+                ),
+                'value' => 1,
             ));
 
             $roles = array(
                 'everyone' => 'Everyone',
                 'registered' => 'All Registered Members',
                 'owner_network' => 'Friends and Networks',
-                'owner_member_member' => 'Friends of Friends',
                 'owner_member' => 'Friends Only',
                 'owner' => 'Just Me'
             );
 
-            $roles_values = array('everyone', 'registered', 'owner_network', 'owner_member_member', 'owner_member', 'owner');
+            $roles_values = array('everyone', 'registered', 'owner_network', 'owner_member', 'owner');
             $auths = array('view', 'comment', 'share', 'photo', 'video', 'discussion');
             foreach ($auths as $auth) {
                 $this->addElement('MultiCheckbox', 'auth_'.$auth, array(
                     'label' => ucfirst($auth).' Privacy',
-                    'description' => 'YNMULTILISTING_AUTH_'.strtoupper($auth).'_DESCRIPTION',
+                    'description' => 'SOCIALCOMMERCE_AUTH_'.strtoupper($auth).'_DESCRIPTION',
                     'multiOptions' => $roles,
                     'value' => $roles_values
                 ));
@@ -208,10 +239,10 @@ class Socialcommerce_Form_Admin_Settings_Level extends Authorization_Form_Admin_
         }
         else {
             $this->addElement('Radio', 'view', array(
-                'label' => 'Allow Viewing Details of Listing',
+                'label' => 'Allow Viewing Details of Listing?',
                 'multiOptions' => array(
-                    1 => 'Yes, allow users to view listings.',
-                    0 => 'No, do not allow users to view listings.'
+                    1 => 'Yes, allow users to view listings',
+                    0 => 'No, do not allow users to view listings'
                 ),
                 'value' => 1,
             ));
