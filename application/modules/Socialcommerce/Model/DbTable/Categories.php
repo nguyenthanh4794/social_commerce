@@ -10,6 +10,21 @@ class Socialcommerce_Model_DbTable_Categories extends Socialcommerce_Model_DbTab
 {
     protected $_rowClass = 'Socialcommerce_Model_Category';
 
+    public function getCategoriesAssoc()
+    {
+        $stmt = $this->select()
+            ->from($this, array('category_id', 'title'))
+            ->order('order ASC')
+            ->query();
+
+        $data = array();
+        foreach( $stmt->fetchAll() as $category ) {
+            $data[$category['category_id']] = $category['title'];
+        }
+
+        return $data;
+    }
+
     public function getCategoryByOptionId($option_id)
     {
         $select = $this->select();

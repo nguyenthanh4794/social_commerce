@@ -59,12 +59,14 @@ class Socialcommerce_AdminCategoriesFieldsController extends Fields_Controller_A
 
         if($form){
             $form -> removeElement('show');
-            $form -> removeElement('search');
 
-            $form -> addElement('Hidden', 'search', array(
-                'order' => 999,
-                'value' => 0,
-            ));
+            $display = $form->getElement('search');
+            $display->setLabel('Show on browse search?');
+            $display->setOptions(array('multiOptions' => array(
+                0 => 'Hide on browse search',
+                1 => 'Show on browse search',
+                2 => 'Show on browse search when no question has been selected',
+            )));
 
             $display = $form->getElement('display');
             $display->setLabel('Show on listing page?');
@@ -82,12 +84,14 @@ class Socialcommerce_AdminCategoriesFieldsController extends Fields_Controller_A
 
         if($form){
             $form -> removeElement('show');
-            $form -> removeElement('search');
 
-            $form -> addElement('Hidden', 'search', array(
-                'order' => 999,
-                'value' => 0,
-            ));
+            $display = $form->getElement('search');
+            $display->setLabel('Show on browse search?');
+            $display->setOptions(array('multiOptions' => array(
+                0 => 'Hide on browse search',
+                1 => 'Show on browse search',
+                2 => 'Show on browse search when no question has been selected',
+            )));
 
             $display = $form->getElement('display');
             $display->setLabel('Show on listing page?');

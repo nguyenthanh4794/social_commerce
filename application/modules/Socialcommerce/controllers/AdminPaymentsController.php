@@ -127,79 +127,18 @@ class Socialcommerce_AdminPaymentsController extends Core_Controller_Action_Admi
             return;
         }
 
-
         // Process
         $values = $form->getValues();
 
-        $tmp = $values['recurrence'];
-        unset($values['recurrence']);
-        if( empty($tmp) || !is_array($tmp) ) {
-            $tmp = array(null, null);
-        }
-        $values['recurrence'] = (int) $tmp[0];
-        $values['recurrence_type'] = $tmp[1];
-
-        $tmp = $values['duration'];
-        unset($values['duration']);
-        if( empty($tmp) || !is_array($tmp) ) {
-            $tmp = array(null, null);
-        }
-        $values['duration'] = (int) $tmp[0];
-        $values['duration_type'] = $tmp[1];
-
-        /*
-        $tmp = $values['trial_duration'];
-        unset($values['trial_duration']);
-        if( empty($tmp) || !is_array($tmp) ) {
-          $tmp = array(null, null);
-        }
-        $values['trial_duration'] = (int) $tmp[0];
-        $values['trial_duration_type'] = $tmp[1];
-         *
-         */
-
-        if( !empty($values['default']) && (float) $values['price'] > 0 ) {
-            return $form->addError('Only a free plan may be the default plan.');
-        }
-
-
-        $packageTable = Engine_Api::_()->getDbtable('packages', 'payment');
+        $packageTable = Engine_Api::_()->getDbtable('packages', 'socialcommerce');
         $db = $packageTable->getAdapter();
         $db->beginTransaction();
 
         try {
-
-            // Update default
-            if( !empty($values['default']) ) {
-                $packageTable->update(array(
-                    'default' => 0,
-                ), array(
-                    '`default` = ?' => 1,
-                ));
-            }
-
             // Create package
             $package = $packageTable->createRow();
             $package->setFromArray($values);
             $package->save();
-
-            // Create package in gateways?
-            if( !$package->isFree() ) {
-                $gatewaysTable = Engine_Api::_()->getDbtable('gateways', 'payment');
-                foreach( $gatewaysTable->fetchAll(array('enabled = ?' => 1)) as $gateway ) {
-                    $gatewayPlugin = $gateway->getGateway();
-                    // Check billing cycle support
-                    if( !$package->isOneTime() ) {
-                        $sbc = $gateway->getGateway()->getSupportedBillingCycles();
-                        if( !in_array($package->recurrence_type, array_map('strtolower', $sbc)) ) {
-                            continue;
-                        }
-                    }
-                    if( method_exists($gatewayPlugin, 'createProduct') ) {
-                        $gatewayPlugin->createProduct($package->getGatewayParams());
-                    }
-                }
-            }
 
             $db->commit();
         } catch( Exception $e ) {

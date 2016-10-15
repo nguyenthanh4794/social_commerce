@@ -1,0 +1,18 @@
+.mce-tinymce.mce-container.mce-panel {
+    min-width: 500px;
+}
+#global_page_socialcommerce-product-create {
+    +yn-global-form-inline();
+}
+#global_page_socialcommerce-stall-create-step-one {
+    +yn-global-form-inline();
+}
+#global_page_socialcommerce-stall-create-step-two {
+    +yn-global-form-inline();
+}
+#global_page_socialcommerce-stall-browse {
+    +yn-category();
+}
+#global_page_socialcommerce-stall-browse {
+    +yn-form-search-widget();
+}
