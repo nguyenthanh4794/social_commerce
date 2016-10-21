@@ -11,13 +11,12 @@
         </span>
     </div>
 
-    <div id="socialcommerce_list_item_browse_content" class="socialcommerce-tabs-content ynclearfix">
+    <div id="socialcommerce_list_item_browse_content" class="socialcommerce-tabs-content">
         <div id="tab_stalls_browse_stalls">
             <?php
 			echo $this->partial('_list_most_item.tpl', 'socialcommerce', array('stalls' => $this->paginator, 'tab' => 'stalls_browse_listing'));
             ?>
         </div>
-        <iframe id='browse-iframe' style="max-height: 500px;"> </iframe>
     </div>
 </div>
 

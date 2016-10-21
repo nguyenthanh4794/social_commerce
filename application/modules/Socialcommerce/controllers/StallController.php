@@ -11,8 +11,10 @@ class Socialcommerce_StallController extends Core_Controller_Action_Standard
     public function init()
     {
         $iStallId = $this -> _getParam('stall_id', $this -> _getParam('id', null));
+
         if($iStallId) {
             $oStall = Engine_Api::_() -> getItem('socialcommerce_stall', $iStallId);
+
             if($oStall) {
                 Engine_Api::_() -> core() -> setSubject($oStall);
 
@@ -210,5 +212,36 @@ class Socialcommerce_StallController extends Core_Controller_Action_Standard
             'parentRefresh' => true,
             'messages' => array(Zend_Registry::get('Zend_Translate')->_("Your stall's photo has been removed."))
         ));
+    }
+
+    public function profileAction()
+    {
+        if(!Engine_Api::_()->core()->hasSubject())
+        {
+            return $this->_helper->requireSubject()->forward();
+        }
+        $subject = Engine_Api::_()->core()->getSubject();
+
+        if (!$subject) {
+            return $this->_helper->requireSubject()->forward();
+        }
+        // Check authorization to view business.
+        if (!$subject->isViewable()) {
+            return $this -> _helper -> requireAuth() -> forward();
+        }
+        $viewer = Engine_Api::_()->user()->getViewer();
+
+//        if(!$viewer -> isAdmin() && !$viewer -> isSelf($subject -> getOwner()))
+//        {
+//            return $this -> _helper -> requireAuth() -> forward();
+//        }
+
+        //$subject -> view_count += 1;
+        $subject -> save();
+        // Render
+        $this->_helper->content
+            ->setNoRender()
+            ->setEnabled()
+        ;
     }
 }

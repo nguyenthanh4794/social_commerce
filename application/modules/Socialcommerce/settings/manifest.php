@@ -1,4 +1,6 @@
-<?php return array(
+<?php
+$route = 'social-commerce';
+return array(
     'package' =>
         array(
             'type' => 'module',
@@ -36,9 +38,39 @@
         'socialcommerce_listing',
         'socialcommerce_category',
         'socialcommerce_stall',
+        'socialcommerce_review',
+    ),
+
+    // Hooks ---------------------------------------------------------------------
+    'hooks' => array(
+        array(
+            'event' => 'onItemCreateAfter',
+            'resource' => 'Socialcommerce_Plugin_Core',
+        ),
+        array(
+            'event' => 'addActivity',
+            'resource' => 'Socialcommerce_Plugin_Core'
+        ),
+        array(
+            'event' => 'getActivity',
+            'resource' => 'Socialcommerce_Plugin_Core'
+        ),
     ),
 
     'routes' => array(
+        'socialcommerce_extended' => array(
+            'route' => $route.'/:controller/:action/*',
+            'defaults' => array(
+                'module' => 'socialcommerce',
+                'controller' => 'index',
+                'action' => 'index',
+            ),
+            'reqs' => array(
+                'controller' => '\D+',
+                'action' => '\D+',
+            )
+        ),
+
         'socialcommerce_general' => array(
             'route' => 'social-commerce/:controller/:action/*',
             'defaults' => array(
@@ -49,6 +81,19 @@
             'reqs' => array(
                 'controller' => '\D+',
                 'action' => '\D+',
+            )
+        ),
+
+        'socialcommerce_profile' => array(
+            'route' => $route.'/stall/:stall_id/:slug/*',
+            'defaults' => array(
+                'module' => 'socialcommerce',
+                'controller' => 'stall',
+                'action' => 'profile',
+                'slug' => '',
+            ),
+            'reqs' => array(
+                'id' => '\d+',
             )
         ),
 

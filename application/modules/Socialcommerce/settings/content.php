@@ -50,6 +50,50 @@ return array(
     ),
 
     array(
+        'title' => 'Social Commerce - Quick Links',
+        'description' => 'Displays a list of quick links.',
+        'category' => 'Social Commerce',
+        'type' => 'widget',
+        'name' => 'socialcommerce.home-links',
+        'requirements' => array(
+            'viewer',
+        ),
+    ),
+
+    array(
+        'title' => 'Social Commerce - Newest Videos',
+        'description' => 'Displays Newest Videos of Stall on Stall Detail page',
+        'category' => 'Social Commerce',
+        'type' => 'widget',
+        'name' => 'socialcommerce.stall-newest-videos',
+        'isPaginated' => true,
+        'defaultParams' => array(
+            'title' => 'Newest Videos',
+            'itemCountPerPage' => 1,
+        ),
+        'requirements' => array(
+            'subject' => 'socialcommerce_stall',
+        ),
+    ),
+
+    array(
+        'title' => 'Social Commerce - Profile Videos',
+        'description' => 'Displays Stall Videos on Stall Detail page',
+        'category' => 'Social Commerce',
+        'type' => 'widget',
+        'name' => 'socialcommerce.stall-profile-videos',
+        'isPaginated' => true,
+        'defaultParams' => array(
+            'title' => 'Videos',
+            'titleCount' => true,
+            'itemCountPerPage' => 5
+        ),
+        'requirements' => array(
+            'subject' => 'socialcommerce_stall',
+        ),
+    ),
+
+    array(
         'title' => 'Social Commerce - Stall Listings',
         'description' => 'Displays stall listings in browse page.',
         'category' => 'Social Commerce',

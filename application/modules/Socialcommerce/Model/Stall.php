@@ -28,6 +28,53 @@ class Socialcommerce_Model_Stall extends Core_Model_Item_Abstract
         return new Engine_ProxyObject($this, Engine_Api::_()->getDbtable('likes', 'core'));
     }
 
+    public function isViewable()
+    {
+        return true;
+    }
+
+    public function getCategory()
+    {
+        $category = Engine_Api::_()->getItem('socialcommerce_category', $this->category);
+
+        if ($category) {
+            return $category;
+        }
+    }
+
+    public function getRating()
+    {
+        $table = Engine_Api::_()->getItemTable('socialcommerce_review');
+
+        $rating_sum = $table->select()
+            ->from($table->info('name'), new Zend_Db_Expr('SUM(rate_number)'))
+            ->group('stall_id')
+            ->where('stall_id = ?', $this->getIdentity())
+            ->where('user_id <> ?', $this->owner_id)
+            ->query()
+            ->fetchColumn(0)
+        ;
+
+        $total = $this->ratingCount();
+        if ($total)
+            $rating = $rating_sum / $total;
+        else
+            $rating = 0;
+        echo $rating;
+
+        return $rating;
+    }
+
+    public function ratingCount() {
+        $table = Engine_Api::_()->getItemTable('socialcommerce_review');
+        $select = $table->select()
+            ->where('stall_id = ?', $this->getIdentity())
+            ->where('user_id <> ?', $this->owner_id);
+        $row = $table->fetchAll($select);
+        $total = count($row);
+        return $total;
+    }
+
     public function setPhoto($photo)
     {
         if( $photo instanceof Zend_Form_Element_File ) {

@@ -44,6 +44,19 @@ CREATE TABLE `engine4_socialcommerce_stalls` (
   PRIMARY KEY (`stall_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS `engine4_socialcommerce_reviews` (
+  `review_id` int(11) NOT NULL AUTO_INCREMENT,
+  `stall_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `body` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `rate_number` smallint(5) unsigned NOT NULL,
+  `creation_date` datetime NOT NULL,
+  `modified_date` datetime NOT NULL,
+  PRIMARY KEY (`review_id`),
+  KEY `stall_id` (`stall_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 CREATE TABLE `engine4_socialcommerce_packages` (
   `package_id` int(10) UNSIGNED NOT NULL,
   `title` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
@@ -175,6 +188,7 @@ CREATE TABLE IF NOT EXISTS `engine4_socialcommerce_listing_fields_values` (
 --
 
 INSERT IGNORE INTO `engine4_core_menus` (`name`, `type`, `title`, `order`) VALUES
+  ('socialcommerce_link', 'standard', 'Social Commerce Quick Links Menu', 998),
   ('socialcommerce_main', 'standard', 'Social Commerce Main Navigation Menu', 999);
 
 INSERT IGNORE INTO `engine4_core_menuitems` (`name`, `module`, `label`, `plugin`, `params`, `menu`, `submenu`, `order`) VALUES
@@ -190,6 +204,12 @@ INSERT IGNORE INTO `engine4_core_menuitems` (`name`, `module`, `label`, `plugin`
   ('socialcommerce_admin_main_accounts', 'socialcommerce', 'Manage Accounts', '', '{"route":"admin_default","module":"socialcommerce","controller":"accounts", "action":"index"}', 'socialcommerce_admin_main', '', 9),
   ('socialcommerce_admin_main_faqs', 'socialcommerce', 'Manage FAQs', '', '{"route":"admin_default","module":"socialcommerce","controller":"faqs", "action":"index"}', 'socialcommerce_admin_main', '', 10),
 
+  ('socialcommerce_link_home', 'user', 'Trader Club', 'Socialcommerce_Plugin_Menus', '{"route":"socialcommerce_general","controller":"stall","action":"browse","icon":"application/modules/Socialcommerce/externals/images/links/trader.png"}', 'socialcommerce_link', '', 1),
+  ('socialcommerce_link_my-bag', 'user', 'My Bag', 'Socialcommerce_Plugin_Menus', '{"route":"socialcommerce_general","controller":"stall","action":"browse","icon":"application/modules/Socialcommerce/externals/images/links/bag.png"}', 'socialcommerce_link', '', 2),
+  ('socialcommerce_link_seller-account', 'user', 'Stalls', 'Socialcommerce_Plugin_Menus', '{"route":"socialcommerce_general","controller":"stall","action":"browse","icon":"application/modules/Socialcommerce/externals/images/links/seller.png"}', 'socialcommerce_link', '', 3),
+  ('socialcommerce_link_item-to-buy', 'user', 'Item to buy', 'Socialcommerce_Plugin_Menus', '{"route":"socialcommerce_general","controller":"stall","action":"browse","icon":"application/modules/Socialcommerce/externals/images/links/item.png"}', 'socialcommerce_link', '', 4),
+  ('socialcommerce_link_create-stall', 'user', 'Create Stall', 'Socialcommerce_Plugin_Menus', '{"route":"socialcommerce_general","controller":"stall","action":"create-step-one","icon":"application/modules/Socialcommerce/externals/images/links/plus.png"}', 'socialcommerce_link', '', 5),
+
   ('core_main_socialcommerce', 'socialcommerce', 'Social Commerce', '', '{"route":"socialcommerce_general"}', 'core_main', '', 999),
   ('socialcommerce_main_home', 'socialcommerce', 'Home Page', '', '{"route":"socialcommerce_general","action":"index"}', 'socialcommerce_main', '', 1),
   ('socialcommerce_main_browse', 'socialcommerce', 'Products', '', '{"route":"socialcommerce_general","action":"browse"}', 'socialcommerce_main', '', 2),
@@ -198,7 +218,8 @@ INSERT IGNORE INTO `engine4_core_menuitems` (`name`, `module`, `label`, `plugin`
 
 INSERT IGNORE INTO `engine4_activity_actiontypes` (`type`, `module`, `body`, `enabled`, `displayable`, `attachable`, `commentable`, `shareable`, `is_generated`) VALUES
   ('stall_new', 'socialcommerce', '{item:$subject} created a new stall:', 1, 5, 1, 3, 1, 1),
-  ('comment_stall', 'socialcommerce', '{item:$subject} commented on {item:$owner}''s {item:$object:stall}: {body:$body}', 1, 1, 1, 1, 1, 0);
+  ('comment_stall', 'socialcommerce', '{item:$subject} commented on {item:$owner}''s {item:$object:stall}: {body:$body}', 1, 1, 1, 1, 1, 0),
+  ('socialcommerce_video_create', 'socialcommerce', '{item:$subject} posted a new video.', 1, 3, 1, 1, 1, 1);
 
 -- ALL
 -- auth_view, auth_comment, auth_html
