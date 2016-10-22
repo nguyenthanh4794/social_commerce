@@ -1,10 +1,29 @@
+=socialcommerce-clearfix-inline{
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+=socialcommerce-truncate{
+     text-overflow: ellipsis;
+     overflow: hidden;
+     white-space: nowrap;
+}
+
+=socialcommerce-box-sizing{
+     -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+     box-sizing: border-box;
+ }
 .mce-tinymce.mce-container.mce-panel {
     min-width: 500px;
 }
 #global_page_socialcommerce-product-create {
     +yn-global-form-inline();
 }
-#global_page_socialcommerce-stall-create-step-one {
+#global_page_socialcommerce-stall-create-step-one, #global_page_socialcommerce-stall-edit-info {
     +yn-global-form-inline();
 }
 #global_page_socialcommerce-stall-create-step-two {
@@ -16,3 +35,391 @@
 #global_page_socialcommerce-stall-browse {
     +yn-form-search-widget();
 }
+
+body[id^=global_page_socialcommerce]{
+i[class^=ynicon-], span[class^=ynicon-]{
+	background-image: url("~/application/modules/Socialcommerce/externals/images/icon-sprite.png");
+	background-repeat: no-repeat;
+	display: inline-block;
+	vertical-align: -2px;
+}
+}
+
+.socialcommerce-widget-profile-cover{
+    position: relative;
+    .profile-cover-picture{
+        span{
+            background-position: top center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            border: 1px solid $theme_border_color;
+            display: block;
+            width: 100%;
+            height: 330px;
+            border-radius: 5px;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+    }
+    .profile-cover-avatar{
+        position: absolute;
+        top: 289px;
+        left: 20px;
+        background: $theme_body_background_color;
+        padding: 5px;
+        border: 1px solid $theme_border_color;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        z-index: 3;
+        span{
+            background-position: top center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-color: #f1f1f1;
+            display: block;
+            width: 110px;
+            height: 110px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+        }
+    }
+    .socialcommerce-detail-info{
+        padding: 0 20px;
+        .info-top{
+            position: relative;
+            background: $theme_foreground_background_color;
+            border-bottom: 1px solid $theme_border_color;
+            border-left: 1px solid $theme_border_color;
+            border-right: 1px solid $theme_border_color;
+            -webkit-border-radius: 0 0 0 5px;
+            -moz-border-radius: 0 0 0 5px;
+            border-radius: 0 0 0 5px;
+            min-height: 80px;
+            .socialcommerce-detail-main{
+                padding-top: 5px;
+                padding-left: 130px;
+                overflow: hidden;
+                line-height: 24px;
+                & > div > span{
+                    margin-right: 10px;
+                    display: inline-block;
+                }
+                i[class^=ynicon-]{
+                    margin-right: 5px;
+                }
+            }
+            .socialcommerce-detail-action{
+                display: flex;
+                display: -moz-flex;
+                display: -webkit-flex;
+                -webkit-box-align: center;
+                border-bottom: 1px solid $theme_border_color;
+                float: right;
+                min-width: 300px;
+                & > div{
+                    display: block;
+                    flex-grow: 1;
+                    -moz-flex-grow: 1;
+                    -webkit-flex-grow: 1;
+                    width: 60px;
+                    line-height: 80px;
+                    border-left: 1px solid $theme_border_color;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    text-align: center;
+                }
+                > div > a{
+                    background-repeat: no-repeat;
+                    background-position: center center;
+                    color: transparent!important;
+                }
+            }
+
+            .socialcommerce-detail-request,
+            .socialcommerce-detail-setting{
+                position: absolute;
+                background: $theme_body_background_color;
+                top: 81px;
+                right: -1px;
+                z-index: 99;
+                & > div{
+                    display: block;
+                    border-bottom: 1px solid $theme_border_color;
+                    border-left: 1px solid $theme_border_color;
+                    border-right: 1px solid $theme_border_color;
+                    padding: 10px 20px;
+                }
+            }
+            .ynevent-detail-request{
+                right: 121px;
+            }
+        }
+        .info-bottom{
+            line-height: 24px;
+            margin-top: 12px;
+            margin-bottom: 20px;
+            .socialcommerce-detail-contact{
+                float: right;
+                width: 300px;
+                div{
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                }
+                div > span{
+                    width: 20px;
+                    height: 20px;
+                    margin-right: 10px;
+                    display: inline-block;
+                    text-align: center;
+                }
+            }
+            .socialcommerce-detail-more > div > span{
+                width: 20px;
+                height: 20px;
+                margin-right: 10px;
+                display: inline-block;
+                text-align: center;
+            }
+        }
+    }
+}
+
+/*Overview Widget*/
+.layout_socialcommerce_stall_profile_overview{
+	.socialcommerce_edit_stall_button{
+		font-size: 20px;
+		float: right;
+		right: 0;
+		top: -34px;
+		position: relative;
+	}
+	.socialcommerce-profile-fields{
+		line-height: 18px;
+		margin-bottom: 15px;
+
+		&:after{
+			+socialcommerce-clearfix-inline();
+		}
+	}
+
+	.socialcommerce-overview-custom-header{
+		font-weight: bold;
+		margin: 5px 0;
+	}
+
+	.socialcommerce-overview-title{
+		color: $theme_link_color;
+		font-weight: bold;
+		float: left;
+		margin-right: 10px;
+		position: relative;
+		font-size: 1.1em;
+
+		i.ynicon{
+			min-width: 15px;
+			text-align: center;
+			margin-right: 5px;
+		}
+
+		&.socialcommerce-overview-line{
+			float: none;
+			margin: 0 0 10px 0px;
+
+			span.socialcommerce-overview-toggle-button{
+				float: right;
+				background-color: $theme_body_background_color;
+				padding-left: 5px;
+				position: relative;
+				z-index: 1;
+				cursor: pointer;
+
+				&.socialcommerce-overview-content-closed i.ynicon:before{
+					content: "\\e979";
+					+font-ynicon;
+				}
+			}
+
+			span.socialcommerce-overview-title-content{
+				display: inline-block;
+				background-color: $theme_body_background_color;
+				padding-right: 5px;
+				position: relative;
+				z-index: 1;
+			}
+
+			&:after,
+			&:before{
+				content: "";
+				position: absolute;
+				top: 10px;
+				left: 0;
+				width: 100%;
+				border-bottom: 1px dotted $theme_border_color;
+			}
+
+			&:after{
+				top: 12px;
+			}
+
+			& + .socialcommerce-overview-content{
+				margin-top: 5px;
+				margin-left: 20px;
+			}
+		}
+	}
+
+	.socialcommerce-overview-content{
+		overflow: hidden;
+		word-break: break-word;
+		word-wrap: break-word;
+
+		.socialcommerce-overview-listtime li{
+			width: 45%;
+			display: inline-block;
+			margin-right: 3%;
+
+			span:first-child{
+				font-weight: bold;
+				min-width: 40%;
+				display: inline-block;
+			}
+		}
+
+		.socialcommerce-overview-founder li{
+			width: 20%;
+			margin-right: 3%;
+			display: inline-block;
+			+socialcommerce-truncate();
+		}
+
+		.socialcommerce-overview-listmaps{
+			margin-left: -10px;
+		}
+
+		.socialcommerce-overview-listmaps:after{
+			+socialcommerce-clearfix-inline();
+		}
+
+		.socialcommerce-overview-listmaps li{
+			width: 50%;
+			float: left;
+			padding: 0 10px;
+			+socialcommerce-box-sizing();
+			margin-bottom: 10px;
+
+			.socialcommerce-overview-maps-title{
+				height: 20px;
+				font-size: 1.4em;
+				font-weight: bold;
+				margin-bottom: 10px;
+				+socialcommerce-truncate();
+			}
+
+			.socialcommerce-overview-maps-location{
+				margin-bottom: 10px;
+				+socialcommerce-truncate();
+			}
+
+			.ynbusinesspage-location-maps{
+				border: 1px solid $theme_border_color;
+				text-align: center;
+
+				& > a{
+					+socialcommerce-truncate();
+					padding: 5px;
+					display: block;
+				}
+			}
+		}
+
+		.socialcommerce-overview-list-information{
+			& li{
+				position: relative;
+				min-height: 40px;
+				padding-left: 45px;
+				margin-bottom: 5px;
+
+				i.ynicon{
+					font-size: 30px;
+					position: absolute;
+					top: 5px;
+					left: 5px;
+					width: 32px;
+					text-align: center;
+					color: $theme_font_color_light;
+				}
+
+				span{
+					display: block;
+					margin-bottom: 3px;
+					color: $theme_font_color_light;
+				}
+
+				span + span{
+					color: $theme_font_color;
+					display: inline-block;
+					font-size: 1.1em;
+					width: 45%;
+					margin-right: 3%;
+					+socialcommerce-truncate();
+				}
+			}
+
+		}
+	}
+}
+/*End overview widget*/
+
+/*get direction css*/
+.socialcommerce_widget_location_direction_button{
+	margin-top: 5px;
+}
+
+.socialcommerce_widget_location_direction{
+	position: relative;
+
+	label{
+		min-width: 100px;
+		text-align: right;
+		margin-right: 10px;
+		display: inline-block;
+	}
+	#pac-input{
+		padding-right: 30px;
+	}
+
+	.close-btn{
+		display: inline-block;
+		background-color: $theme_link_color;
+		color: $theme_body_background_color;
+		width: 20px;
+		height: 20px;
+		text-align: center;
+		cursor: pointer;
+		margin-left: -29px;
+		vertical-align: 3px;
+	}
+
+	.location{
+		display: inline-block;
+	}
+
+	.location_icon{
+		min-height: 18px;
+		background: url(~/application/modules/Socialcommerce/externals/images/location_pin.png) no-repeat 1px center;
+	}
+
+	img{
+		vertical-align: top;
+	}
+}
+
+.socialcommerce_widget_location_destination{
+	margin-top: 17px;
+}
+/*End get direction*/

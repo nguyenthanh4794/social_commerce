@@ -61,7 +61,7 @@ return array(
     ),
 
     array(
-        'title' => 'Social Commerce - Newest Videos',
+        'title' => 'Social Commerce - Stall Newest Videos',
         'description' => 'Displays Newest Videos of Stall on Stall Detail page',
         'category' => 'Social Commerce',
         'type' => 'widget',
@@ -77,7 +77,7 @@ return array(
     ),
 
     array(
-        'title' => 'Social Commerce - Profile Videos',
+        'title' => 'Social Commerce - Stall Profile Videos',
         'description' => 'Displays Stall Videos on Stall Detail page',
         'category' => 'Social Commerce',
         'type' => 'widget',
@@ -87,6 +87,48 @@ return array(
             'title' => 'Videos',
             'titleCount' => true,
             'itemCountPerPage' => 5
+        ),
+        'requirements' => array(
+            'subject' => 'socialcommerce_stall',
+        ),
+    ),
+
+    array(
+        'title' => 'Social Commerce - Stall Profile Shop',
+        'description' => 'Displays Stall Products on Stall Detail page',
+        'category' => 'Social Commerce',
+        'type' => 'widget',
+        'name' => 'socialcommerce.stall-profile-products',
+        'isPaginated' => true,
+        'defaultParams' => array(
+            'title' => 'Shop',
+            'titleCount' => true,
+            'itemCountPerPage' => 5
+        ),
+        'requirements' => array(
+            'subject' => 'socialcommerce_stall',
+        ),
+    ),
+
+    array(
+        'title' => 'Social Commerce - Stall Profile Cover',
+        'description' => 'Displays a stall cover and information on it\'s profile.',
+        'category' => 'Social Commerce',
+        'type' => 'widget',
+        'name' => 'socialcommerce.stall-profile-cover',
+        'requirements' => array(
+            'subject' => 'advgroup',
+        ),
+    ),
+
+    array(
+        'title' => 'Social Commerce - Stall Profile Overview',
+        'description' => 'Displays Stall Overview on Stall Detail page',
+        'category' => 'Social Commerce',
+        'type' => 'widget',
+        'name' => 'socialcommerce.stall-profile-overview',
+        'defaultParams' => array(
+            'title' => 'Overview',
         ),
         'requirements' => array(
             'subject' => 'socialcommerce_stall',

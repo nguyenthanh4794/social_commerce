@@ -244,4 +244,192 @@ class Socialcommerce_StallController extends Core_Controller_Action_Standard
             ->setEnabled()
         ;
     }
+
+    public function editInfoAction()
+    {
+        if(!Engine_Api::_()->core()->hasSubject())
+        {
+            return $this->_helper->requireSubject()->forward();
+        }
+
+        $this->view-> stall = $stall = Engine_Api::_()->core()->getSubject('socialcommerce_stall');
+
+        $this->view->form = $form = new Socialcommerce_Form_Stall_EditInfo();
+
+        $form -> populate($stall->toArray());
+
+        if( !$this->getRequest()->isPost() ) {
+            return;
+        }
+
+        if( !$form->isValid($this->getRequest()->getPost()) ) {
+            return;
+        }
+
+        $table = Engine_Api::_()->getDbtable('stalls', 'socialcommerce');
+        $db = $table->getAdapter();
+        $db->beginTransaction();
+
+        try {
+            $values = $form->getValues();
+            $stall->setFromArray($values);
+            $stall->modified_date = date('Y-m-d H:i:s');
+            $stall->save();
+
+            // insert new activity if blog is just getting published
+            $action = Engine_Api::_()->getDbtable('actions', 'activity')->getActionsByObject($stall);
+            if( count($action->toArray()) <= 0) {
+                $action = Engine_Api::_()->getDbtable('actions', 'activity')->addActivity($viewer, $stall, 'stall_new');
+                // make sure action exists before attaching the blog to the activity
+                if( $action != null ) {
+                    Engine_Api::_()->getDbtable('actions', 'activity')->attachActivity($action, $stall);
+                }
+            }
+
+            // Rebuild privacy
+            $actionTable = Engine_Api::_()->getDbtable('actions', 'activity');
+            foreach( $actionTable->getActionsByObject($stall) as $action ) {
+                $actionTable->resetActivityBindings($action);
+            }
+
+            $db->commit();
+
+        }
+        catch( Exception $e )
+        {
+            $db->rollBack();
+            throw $e;
+        }
+
+        return $this -> _forward('success', 'utility', 'core', array(
+            'parentRedirect' => Zend_Controller_Front::getInstance() -> getRouter() -> assemble(array(
+                'module' => 'socialcommerce',
+                'controller' => 'stall',
+                'action' => 'profile',
+                'stall_id' => $stall -> getIdentity(),
+                'slug' => $stall->title,
+            ), 'socialcommerce_profile', true),
+            'messages' => array(Zend_Registry::get('Zend_Translate') -> _('Your stall has been successfully updated.'))
+        ));
+    }
+
+    public function addProductAction()
+    {
+        if( isset($_GET['ul']) )
+            return $this->_forward('upload-photo', null, null, array('format' => 'json'));
+
+        if( isset($_FILES['Filedata']) )
+            $_POST['file'] = $this->uploadPhotoAction();
+
+        if(!Engine_Api::_()->core()->hasSubject())
+        {
+            return $this->_helper->requireSubject()->forward();
+        }
+
+        $this->view-> stall = $stall = Engine_Api::_()->core()->getSubject('socialcommerce_stall');
+
+        $this->view->form = $form = new Socialcommerce_Form_Stall_AddProduct();
+
+        if( !$this->getRequest()->isPost() )
+        {
+            return;
+        }
+
+        if( !$form->isValid($this->getRequest()->getPost()) )
+        {
+            return;
+        }
+
+        $db = Engine_Api::_()->getItemTable('album')->getAdapter();
+        $db->beginTransaction();
+
+        try
+        {
+            $product = $form->saveValues();
+
+            $db->commit();
+        }
+        catch( Exception $e )
+        {
+            $db->rollBack();
+            throw $e;
+        }
+
+        $this->_helper->redirector->gotoRoute(array('action' => 'editphotos', 'album_id' => $album->album_id), 'album_specific', true);
+    }
+
+    public function uploadPhotoAction()
+    {
+        if( !$this->_helper->requireAuth()->setAuthParams('album', null, 'create')->isValid() ) return;
+
+        if( !$this->_helper->requireUser()->checkRequire() )
+        {
+            $this->view->status = false;
+            $this->view->error = Zend_Registry::get('Zend_Translate')->_('Max file size limit exceeded (probably).');
+            return;
+        }
+
+        if( !$this->getRequest()->isPost() )
+        {
+            $this->view->status = false;
+            $this->view->error = Zend_Registry::get('Zend_Translate')->_('Invalid request method');
+            return;
+        }
+
+        $values = $this->getRequest()->getPost();
+        if( empty($values['Filename']) && !isset($_FILES['Filedata']))
+        {
+            $this->view->status = false;
+            $this->view->error = Zend_Registry::get('Zend_Translate')->_('No file');
+            return;
+        }
+
+        if( !isset($_FILES['Filedata']) || !is_uploaded_file($_FILES['Filedata']['tmp_name']) )
+        {
+            $this->view->status = false;
+            $this->view->error = Zend_Registry::get('Zend_Translate')->_('Invalid Upload');
+            return;
+        }
+
+        $db = Engine_Api::_()->getDbtable('photos', 'album')->getAdapter();
+        $db->beginTransaction();
+
+        try
+        {
+            $viewer = Engine_Api::_()->user()->getViewer();
+
+            $photoTable = Engine_Api::_()->getDbtable('photos', 'album');
+            $photo = $photoTable->createRow();
+            $photo->setFromArray(array(
+                'owner_type' => 'user',
+                'owner_id' => $viewer->getIdentity()
+            ));
+            $photo->save();
+
+            $photo->order = $photo->photo_id;
+            $photo->setPhoto($_FILES['Filedata']);
+            $photo->save();
+
+            $this->view->status = true;
+            $this->view->name = $_FILES['Filedata']['name'];
+            $this->view->photo_id = $photo->photo_id;
+
+            $db->commit();
+            return $photo->photo_id;
+
+        } catch( Album_Model_Exception $e ) {
+            $db->rollBack();
+            $this->view->status = false;
+            $this->view->error = $this->view->translate($e->getMessage());
+            throw $e;
+            return;
+
+        } catch( Exception $e ) {
+            $db->rollBack();
+            $this->view->status = false;
+            $this->view->error = Zend_Registry::get('Zend_Translate')->_('An error occurred.');
+            throw $e;
+            return;
+        }
+    }
 }

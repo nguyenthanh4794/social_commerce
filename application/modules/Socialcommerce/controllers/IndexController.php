@@ -19,4 +19,11 @@ class Socialcommerce_IndexController extends Core_Controller_Action_Standard
         die;
     }
 
+    public function directionAction()
+    {
+        $this->view->latitude = $lat = $this -> _getParam('lat', 0);
+        $this->view->longitude = $long = $this -> _getParam('long', 0);
+        $this->view->location = $location = $this -> _getParam('location', 0);
+    }
+
 }

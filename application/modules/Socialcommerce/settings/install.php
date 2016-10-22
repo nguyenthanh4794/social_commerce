@@ -403,6 +403,16 @@ class Socialcommerce_Installer extends Engine_Package_Installer_Module
                 'params' => '{"title":"Videos", "titleCount": true}',
             ));
 
+            //Insert profile video widget
+            $db->insert('engine4_core_content', array(
+                'type' => 'widget',
+                'name' => 'socialcommerce.stall-profile-products',
+                'page_id' => $page_id,
+                'parent_content_id' => $main_container_id,
+                'order' => 9,
+                'params' => '{"title":"Shop", "titleCount": true}',
+            ));
+
             //Insert profile quick create link
             $db->insert('engine4_core_content', array(
                 'type' => 'widget',
