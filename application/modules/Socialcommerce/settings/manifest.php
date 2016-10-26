@@ -39,6 +39,7 @@ return array(
         'socialcommerce_category',
         'socialcommerce_stall',
         'socialcommerce_review',
+        'socialcommerce_product',
     ),
 
     // Hooks ---------------------------------------------------------------------
@@ -71,6 +72,18 @@ return array(
             )
         ),
 
+        'socialcommerce_specific' => array(
+            'route' => 'social-commerce/products/:action/*',
+            'defaults' => array(
+                'module' => 'socialcommerce',
+                'controller' => 'products',
+                'action' => 'index',
+            ),
+            'reqs' => array(
+                'action' => '(index|direction|email-to-friends)'
+            )
+        ),
+
         'socialcommerce_general' => array(
             'route' => 'social-commerce/:controller/:action/*',
             'defaults' => array(
@@ -85,7 +98,7 @@ return array(
         ),
 
         'socialcommerce_profile' => array(
-            'route' => $route.'/stall/:stall_id/:slug/*',
+            'route' => $route.'/stall/:id/:slug/*',
             'defaults' => array(
                 'module' => 'socialcommerce',
                 'controller' => 'stall',
@@ -94,6 +107,31 @@ return array(
             ),
             'reqs' => array(
                 'id' => '\d+',
+            )
+        ),
+
+        'socialcommerce_product_profile' => array(
+            'route' => $route.'/product/:product_id/:slug/*',
+            'defaults' => array(
+                'module' => 'socialcommerce',
+                'controller' => 'product',
+                'action' => 'detail',
+                'slug' => '',
+            ),
+            'reqs' => array(
+                'product_id' => '\d+',
+            )
+        ),
+
+        'socialcommerce_review' => array(
+            'route' => 'social-commerce/review/:action/*',
+            'defaults' => array(
+                'module' => 'socialcommerce',
+                'controller' => 'review',
+                'action' => 'index',
+            ),
+            'reqs' => array(
+                'action' => '(index|edit|delete)',
             )
         ),
 

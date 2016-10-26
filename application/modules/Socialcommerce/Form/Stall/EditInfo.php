@@ -84,12 +84,12 @@ class Socialcommerce_Form_Stall_EditInfo extends Engine_Form
             )),
         ));
 
-        $this->addElement('hidden', 'lat', array(
+        $this->addElement('hidden', 'latitude', array(
             'value' => '0',
             'order' => '98'
         ));
 
-        $this->addElement('hidden', 'long', array(
+        $this->addElement('hidden', 'longitude', array(
             'value' => '0',
             'order' => '99'
         ));

@@ -2,7 +2,7 @@
 <ul class="generic_list_widget stall_browse">
     <?php foreach( $this->stalls as $stall ): ?>
     <li>
-        <div class="list-view stall-list-item">
+        <div class="list-view socialcommerce-list-item">
             <div class="stall_photo">
                 <?php $photo_url = ($stall->getPhotoUrl('thumb.profile')) ? $stall->getPhotoUrl('thumb.profile') : "application/modules/Socialcommerce/externals/images/nophoto_stall_thumb_profile.png";?>
                 <div class="stall_photo_main" style="background-image: url(<?php echo $photo_url; ?>);">

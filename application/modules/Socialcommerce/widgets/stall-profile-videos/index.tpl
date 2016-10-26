@@ -68,7 +68,7 @@ en4.core.runonce.add(function()
     });
   });
 </script>
-<ul class="generic_list_widget ynvideo_widget videos_browse ynvideo_frame ynvideo_list" id="socialcommerce_profile_videos" style="padding-bottom:0px;">
+<ul class="generic_list_widget yn-layout-gridview" id="socialcommerce_profile_videos" style="padding-bottom:0px;">
     <?php foreach ($this->paginator as $item): ?>
         <li <?php echo isset($this->marginLeft)?'style="margin-left:' . $this->marginLeft . 'px"':''?>>
             <?php

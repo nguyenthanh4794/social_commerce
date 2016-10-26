@@ -43,7 +43,7 @@ class Socialcommerce_Form_Stall_CreateStepOne extends Engine_Form
         $upload_url = "";
         $user = Engine_Api::_()->user()->getViewer();
         if(Engine_Api::_()->authorization()->isAllowed('album', $user, 'create')){
-            $upload_url = Zend_Controller_Front::getInstance()->getRouter()->assemble(array('action' => 'upload-photo'), 'socialcommerce_stall_general', true);
+            $upload_url = Zend_Controller_Front::getInstance()->getRouter()->assemble(array('action' => 'upload-photo'), 'socialcommerce_general', true);
         }
 
         $editorOptions = array(

@@ -15,7 +15,7 @@ class Socialcommerce_StallController extends Core_Controller_Action_Standard
         if($iStallId) {
             $oStall = Engine_Api::_() -> getItem('socialcommerce_stall', $iStallId);
 
-            if($oStall) {
+            if($oStall && !Engine_Api::_()->core()->hasSubject('socialcommerce_stall')) {
                 Engine_Api::_() -> core() -> setSubject($oStall);
 
                 if (!$this -> _helper -> requireAuth -> setAuthParams($oStall, null, 'view') -> isValid()) {
@@ -134,6 +134,8 @@ class Socialcommerce_StallController extends Core_Controller_Action_Standard
             return;
         }
 
+        $request = $this->getRequest()->getPost();
+
         // Uploading a new photo
         if( $form->Filedata->getValue() !== null ) {
             $db = Engine_Db_Table::getDefaultAdapter();
@@ -141,7 +143,33 @@ class Socialcommerce_StallController extends Core_Controller_Action_Standard
 
             try {
                 $fileElement = $form->Filedata;
-                $oStall->setPhoto($fileElement);
+                $oStall->setPhoto($fileElement, 'photo_id');
+                $oStall->save();
+                $db->commit();
+            }
+
+                // If an exception occurred within the image adapter, it's probably an invalid image
+            catch( Engine_Image_Adapter_Exception $e )
+            {
+                $db->rollBack();
+                $form->addError(Zend_Registry::get('Zend_Translate')->_('The uploaded file is not supported or is corrupt.'));
+            }
+
+                // Otherwise it's probably a problem with the database or the storage system (just throw it)
+            catch( Exception $e )
+            {
+                $db->rollBack();
+                throw $e;
+            }
+        }
+
+        else if( $form->FileCoverdata->getValue() !== null ) {
+            $db = Engine_Db_Table::getDefaultAdapter();
+            $db->beginTransaction();
+
+            try {
+                $fileElement = $form->FileCoverdata;
+                $oStall->setPhoto($fileElement, 'cover_id');
                 $oStall->save();
                 $db->commit();
             }
@@ -185,6 +213,19 @@ class Socialcommerce_StallController extends Core_Controller_Action_Standard
             // Remove temp files
             @unlink($iName);
         }
+
+        else if (isset($request['done'])) {
+            return $this -> _forward('success', 'utility', 'core', array(
+                'parentRedirect' => Zend_Controller_Front::getInstance() -> getRouter() -> assemble(array(
+                    'module' => 'socialcommerce',
+                    'controller' => 'stall',
+                    'action' => 'profile',
+                    'id' => $oStall -> getIdentity(),
+                    'slug' => $oStall->title,
+                ), 'socialcommerce_profile', true),
+                'messages' => array(Zend_Registry::get('Zend_Translate') -> _('Your stall has been successfully created.'))
+            ));
+        }
     }
 
     public function removePhotoAction()
@@ -201,16 +242,17 @@ class Socialcommerce_StallController extends Core_Controller_Action_Standard
         $stall = Engine_Api::_()->core()->getSubject();
         $db = Engine_Db_Table::getDefaultAdapter();
         $stall->photo_id = 0;
+        $stall->cover_id = 0;
         $stall->save();
         $db->commit();
 
         $this->view->status = true;
-        $this->view->message = Zend_Registry::get('Zend_Translate')->_("Your stall's photo has been removed.");
+        $this->view->message = Zend_Registry::get('Zend_Translate')->_("Your stall's photo and cover has been removed.");
 
         $this->_forward('success', 'utility', 'core', array(
             'smoothboxClose' => true,
             'parentRefresh' => true,
-            'messages' => array(Zend_Registry::get('Zend_Translate')->_("Your stall's photo has been removed."))
+            'messages' => array(Zend_Registry::get('Zend_Translate')->_("Your stall's photo and cover has been removed."))
         ));
     }
 
@@ -276,21 +318,22 @@ class Socialcommerce_StallController extends Core_Controller_Action_Standard
             $stall->modified_date = date('Y-m-d H:i:s');
             $stall->save();
 
-            // insert new activity if blog is just getting published
-            $action = Engine_Api::_()->getDbtable('actions', 'activity')->getActionsByObject($stall);
-            if( count($action->toArray()) <= 0) {
-                $action = Engine_Api::_()->getDbtable('actions', 'activity')->addActivity($viewer, $stall, 'stall_new');
-                // make sure action exists before attaching the blog to the activity
-                if( $action != null ) {
-                    Engine_Api::_()->getDbtable('actions', 'activity')->attachActivity($action, $stall);
-                }
-            }
-
-            // Rebuild privacy
-            $actionTable = Engine_Api::_()->getDbtable('actions', 'activity');
-            foreach( $actionTable->getActionsByObject($stall) as $action ) {
-                $actionTable->resetActivityBindings($action);
-            }
+//            // insert new activity if blog is just getting published
+//            $action = Engine_Api::_()->getDbtable('actions', 'activity')->getActionsByObject($stall);
+//            if( count($action->toArray()) <= 0) {
+//                $viewer = Engine_Api::_()->user()->getViewer();
+//                $action = Engine_Api::_()->getDbtable('actions', 'activity')->addActivity($viewer, $stall, 'stall_new');
+//                // make sure action exists before attaching the blog to the activity
+//                if( $action != null ) {
+//                    Engine_Api::_()->getDbtable('actions', 'activity')->attachActivity($action, $stall);
+//                }
+//            }
+//
+//            // Rebuild privacy
+//            $actionTable = Engine_Api::_()->getDbtable('actions', 'activity');
+//            foreach( $actionTable->getActionsByObject($stall) as $action ) {
+//                $actionTable->resetActivityBindings($action);
+//            }
 
             $db->commit();
 
@@ -306,7 +349,7 @@ class Socialcommerce_StallController extends Core_Controller_Action_Standard
                 'module' => 'socialcommerce',
                 'controller' => 'stall',
                 'action' => 'profile',
-                'stall_id' => $stall -> getIdentity(),
+                'id' => $stall -> getIdentity(),
                 'slug' => $stall->title,
             ), 'socialcommerce_profile', true),
             'messages' => array(Zend_Registry::get('Zend_Translate') -> _('Your stall has been successfully updated.'))
@@ -330,6 +373,9 @@ class Socialcommerce_StallController extends Core_Controller_Action_Standard
 
         $this->view->form = $form = new Socialcommerce_Form_Stall_AddProduct();
 
+        $categories = Engine_Api::_()->getDbTable('categories', 'socialcommerce')->getCategoriesAssoc();
+        $form->category->setMultiOptions($categories);
+
         if( !$this->getRequest()->isPost() )
         {
             return;
@@ -340,12 +386,17 @@ class Socialcommerce_StallController extends Core_Controller_Action_Standard
             return;
         }
 
-        $db = Engine_Api::_()->getItemTable('album')->getAdapter();
+        $db = Engine_Api::_()->getItemTable('socialcommerce_product')->getAdapter();
         $db->beginTransaction();
 
         try
         {
             $product = $form->saveValues();
+
+            $product->stall_id = $stall->getIdentity();
+            $product->owner_type = 'user';
+            $product->owner_id = Engine_Api::_()->user()->getViewer()->getIdentity();
+            $product->save();
 
             $db->commit();
         }
@@ -355,7 +406,16 @@ class Socialcommerce_StallController extends Core_Controller_Action_Standard
             throw $e;
         }
 
-        $this->_helper->redirector->gotoRoute(array('action' => 'editphotos', 'album_id' => $album->album_id), 'album_specific', true);
+        return $this -> _forward('success', 'utility', 'core', array(
+            'parentRedirect' => Zend_Controller_Front::getInstance() -> getRouter() -> assemble(array(
+                'module' => 'socialcommerce',
+                'controller' => 'stall',
+                'action' => 'profile',
+                'id' => $stall -> getIdentity(),
+                'slug' => $stall->title,
+            ), 'socialcommerce_profile', true),
+            'messages' => array(Zend_Registry::get('Zend_Translate') -> _('Your product has been successfully added.'))
+        ));
     }
 
     public function uploadPhotoAction()
@@ -397,12 +457,13 @@ class Socialcommerce_StallController extends Core_Controller_Action_Standard
         try
         {
             $viewer = Engine_Api::_()->user()->getViewer();
-
+            $stall = Engine_Api::_()->core()->getSubject('socialcommerce_stall');
             $photoTable = Engine_Api::_()->getDbtable('photos', 'album');
             $photo = $photoTable->createRow();
             $photo->setFromArray(array(
-                'owner_type' => 'user',
-                'owner_id' => $viewer->getIdentity()
+                'owner_type' => 'socialcommerce_product',
+                'owner_id' => $viewer->getIdentity(),
+                'item_id' => $stall->getIdentity()
             ));
             $photo->save();
 

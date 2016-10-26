@@ -1,10 +1,8 @@
 <?php
 $coverPhotoUrl = "";
-if ($this->stall->cover_photo)
+if ($this->stall->cover_id)
 {
-$coverFile = Engine_Api::_()->getDbtable('files', 'storage')->find($this->stall->cover_photo)->current();
-if($coverFile)
-$coverPhotoUrl = $coverFile->map();
+$coverPhotoUrl = $this->stall->getCoverPhotoUrl();
 }
 ?>
 <div class="socialcommerce-widget-profile-cover">
@@ -37,9 +35,8 @@ $coverPhotoUrl = $coverFile->map();
                 'type' => $this->stall -> getType(),
                 'id' => $this->stall -> getIdentity(),
                 'format' => 'smoothbox'),'default', true);?>
-
                 <div class="">
-                    <a href="javascript:void(0);" onclick="checkOpenPopup('<?php echo $url?>')"><i class="ynicon-share" title="<?php echo $this -> translate("Share this stall")?>"></i></a>
+                    <a href="javascript:void(0);" onclick="checkOpenPopup('<?php echo $url?>')"><i class="ynicon-shared" title="<?php echo $this -> translate("Share this stall")?>"></i></a>
                 </div>
                 <?php endif;?>
 

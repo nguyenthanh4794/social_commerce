@@ -8,6 +8,32 @@
  */
 class Socialcommerce_ProductController extends Core_Controller_Action_Standard
 {
+    public function init()
+    {
+        $iProductId = $this -> _getParam('product_id', $this -> _getParam('id', null));
+
+        if($iProductId) {
+            $oProduct = Engine_Api::_() -> getItem('socialcommerce_product', $iProductId);
+
+            if($oProduct && !Engine_Api::_()->core()->hasSubject('socialcommerce_product')) {
+                Engine_Api::_() -> core() -> setSubject($oProduct);
+
+                if (!$this -> _helper -> requireAuth -> setAuthParams($oProduct, null, 'view') -> isValid()) {
+                    return;
+                }
+            }
+        }
+    }
+
+    public function browseAction()
+    {
+        // Render
+        $this->_helper->content
+            //->setNoRender()
+            ->setEnabled()
+        ;
+    }
+
     public function indexAction()
     {
         $this->_helper->content->setEnable();
@@ -102,5 +128,57 @@ class Socialcommerce_ProductController extends Core_Controller_Action_Standard
             // throw $e;
             return;
         }
+    }
+
+    public function detailAction()
+    {
+        if (!$this->_helper->requireAuth()->setAuthParams('socialcommerce_product', null, 'view')->isValid()) {
+            return $this->_helper->requireAuth()->forward();
+        }
+        $viewer = Engine_Api::_()->user()->getViewer();
+
+        if(!Engine_Api::_()->core()->hasSubject())
+        {
+            return $this->_helper->requireSubject()->forward();
+        }
+
+        $this->view->product = $subject = Engine_Api::_()->core()->getSubject();
+
+        if (!$subject) {
+            return $this->_helper->requireSubject()->forward();
+        }
+
+        //get photos
+        $this->view->photos = $photos = Zend_Paginator::factory($subject->getProductPhotoSelect());
+        $photos->setCurrentPageNumber(1);
+        $photos->setItemCountPerPage(100);
+
+        $this->_helper->content->setEnabled();
+        $this->view->product = $subject;
+
+        if (!$viewer->isSelf($subject->getOwner())) {
+            $now = new DateTime();
+            $subject->view_time = $now->format('y-m-d H:i:s');
+            $subject->view_count++;
+            $subject->save();
+        }
+
+        $can_review = true;
+//        if (!$subject->isOwner($viewer)) {
+//            $can_review = $can_rate = $this->_helper->requireAuth()->setAuthParams('socialcommerce_product', null, 'rate')->checkRequire();
+//            if ($can_review) {
+//                $reviewTable = Engine_Api::_()->getItemTable('socialcommerce_review');
+//                $reviewSelect = $reviewTable->select()
+//                    ->where('product_id = ?', $subject->getIdentity())
+//                    ->where('user_id = ?', $viewer->getIdentity());
+//                $my_review = $reviewTable->fetchRow($reviewSelect);
+//                if ($my_review) {
+//                    $this->view->has_review = true;
+//                    $this->view->my_review = $my_review;
+//                    $can_review = false;
+//                }
+//            }
+//        }
+        $this->view->can_review = $can_review;
     }
 }

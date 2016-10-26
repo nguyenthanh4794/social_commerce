@@ -39,6 +39,15 @@ CREATE TABLE IF NOT EXISTS `engine4_socialcommerce_categories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
+CREATE TABLE `engine4_socialcommerce_products` (
+  `product_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `price` float(10,2) NOT NULL DEFAULT '0.00',
+  `description` text,
+  `file` varchar(10),
+  PRIMARY KEY (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 CREATE TABLE `engine4_socialcommerce_stalls` (
   `stall_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`stall_id`)
@@ -214,7 +223,8 @@ INSERT IGNORE INTO `engine4_core_menuitems` (`name`, `module`, `label`, `plugin`
   ('socialcommerce_main_home', 'socialcommerce', 'Home Page', '', '{"route":"socialcommerce_general","action":"index"}', 'socialcommerce_main', '', 1),
   ('socialcommerce_main_browse', 'socialcommerce', 'Products', '', '{"route":"socialcommerce_general","action":"browse"}', 'socialcommerce_main', '', 2),
   ('socialcommerce_main_stall', 'socialcommerce', 'Stalls', 'Socialcommerce_Plugin_Menus::canCreateProduct', '{"route":"socialcommerce_general","controller":"stall","action":"browse"}', 'socialcommerce_main', '', 3),
-  ('socialcommerce_main_manage', 'socialcommerce', 'My Products', 'Socialcommerce_Plugin_Menus::canCreateProduct', '{"route":"socialcommerce_general","action":"manage"}', 'socialcommerce_main', '', 4);
+  ('socialcommerce_main_manage', 'socialcommerce', 'My Products', 'Socialcommerce_Plugin_Menus::canCreateProduct', '{"route":"socialcommerce_general","action":"manage"}', 'socialcommerce_main', '', 4),
+  ('socialcommerce_main_create-stall', 'socialcommerce', 'Create New Stall', 'Socialcommerce_Plugin_Menus::canCreateProduct', '{"route":"socialcommerce_general","controller":"stall","action":"create-step-one"}', 'socialcommerce_main', '', 5);
 
 INSERT IGNORE INTO `engine4_activity_actiontypes` (`type`, `module`, `body`, `enabled`, `displayable`, `attachable`, `commentable`, `shareable`, `is_generated`) VALUES
   ('stall_new', 'socialcommerce', '{item:$subject} created a new stall:', 1, 5, 1, 3, 1, 1),

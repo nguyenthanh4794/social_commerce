@@ -31,5 +31,14 @@ class Socialcommerce_Widget_StallProfileProductsController extends Engine_Conten
 
         $this->view->category = $category;
         $this->view->user = $user = $stall->getOwner();
+        $params['stall_id'] = $subject->getIdentity();
+        $this->view->paginator = $paginator = Engine_Api::_()->getDbTable('products', 'socialcommerce') -> getProductsPaginator($params);
+
+        // Set item count per page and current page number
+        $paginator->setItemCountPerPage($this->_getParam('itemCountPerPage', 5));
+        $paginator->setCurrentPageNumber($this->_getParam('page', 1));
+
+        $this->view->view_mode = 'list';
+        $this -> view -> canCreate = true;
     }
 }

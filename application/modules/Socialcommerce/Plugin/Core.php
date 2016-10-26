@@ -24,44 +24,16 @@ class Socialcommerce_Plugin_Core
         $stall_id = $request -> getParam("stall_id", $request -> getParam("subject_id", null));
         $type = $request -> getParam("parent_type", null);
 
-        if($payload -> getType() == 'activity_action')
-        {
-            $object = $payload -> getObject();
-            if($object)
-            {
-                if(in_array($object -> getType(), array('network')))
-                {
-                    return;
-                }
-
-                if(!in_array($payload -> type, array('post', 'post_self')) || (in_array($payload -> type, array('post', 'post_self')) && $payload -> object_type == 'socialcommerce_stall'))
-                {
-                    $payload -> subject_id = $stall_id;
-                    $payload -> subject_type = 'socialcommerce_stall';
-                    $payload -> save();
-                }
-            }
-        }
-
         $view = Zend_Registry::get('Zend_View');
 
-        if ($stall_id)
+
+        if ($type == 'socialcommerce_stall')
         {
             $owner_id = $stall_id;
             $stall = Engine_Api::_() -> getItem('socialcommerce_stall', $stall_id);
             $owner_type = 'socialcommerce_stall';
             switch ($payload -> getType())
             {
-                case 'activity_action':
-                    $payload -> subject_id = $stall_id;
-                    $payload -> subject_type = 'socialcommerce_stall';
-                    if($payload -> type == 'share')
-                    {
-                        $payload -> object_id = $stall_id;
-                        $payload -> object_type = 'socialcommerce_stall';
-                    }
-                    $payload -> save();
-                    break;
                 case 'event':
                 case 'video':
                     $video = Engine_Api::_()->getItem('video', $payload -> getIdentity());
@@ -91,11 +63,11 @@ class Socialcommerce_Plugin_Core
         $subject = $payload['subject'];
         $object = $payload['object'];
 
-        // Only for object=stall
+        // Only for object=business
         if ($object instanceof Socialcommerce_Model_Stall)
         {
             $event -> addResponse(array(
-                'type' => 'stall',
+                'type' => 'socialcommerce_stall ',
                 'identity' => $object -> getIdentity()
             ));
         }

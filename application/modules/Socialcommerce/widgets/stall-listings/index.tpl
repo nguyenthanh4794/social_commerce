@@ -11,7 +11,7 @@
         </span>
     </div>
 
-    <div id="socialcommerce_list_item_browse_content" class="socialcommerce-tabs-content">
+    <div id="socialcommerce_list_item_browse_content listing_browse" class="socialcommerce-tabs-content">
         <div id="tab_stalls_browse_stalls">
             <?php
 			echo $this->partial('_list_most_item.tpl', 'socialcommerce', array('stalls' => $this->paginator, 'tab' => 'stalls_browse_listing'));

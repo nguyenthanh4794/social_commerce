@@ -29,6 +29,7 @@ class Socialcommerce_Widget_BrowseSearchController extends Engine_Content_Widget
             'type' => 'socialcommerce_listing',
             'location' => $location,
         ));
+        $form->setAttrib('style', 'padding: 0 0 15px 0;');
         $this->view->headScript()->appendFile("https://maps.googleapis.com/maps/api/js?key=". Engine_Api::_() -> getApi('settings', 'core') -> getSetting('yncore.google.api.key', 'AIzaSyB3LowZcG12R1nclRd9NrwRgIxZNxLMjgc')."&v=3.exp&libraries=places");
         $p = Zend_Controller_Front::getInstance()->getRequest()->getParams();
         $form->populate($p);

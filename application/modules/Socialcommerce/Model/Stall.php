@@ -48,9 +48,10 @@ class Socialcommerce_Model_Stall extends Core_Model_Item_Abstract
 
         $rating_sum = $table->select()
             ->from($table->info('name'), new Zend_Db_Expr('SUM(rate_number)'))
-            ->group('stall_id')
-            ->where('stall_id = ?', $this->getIdentity())
+            ->group('item_id')
+            ->where('item_id = ?', $this->getIdentity())
             ->where('user_id <> ?', $this->owner_id)
+            ->where('type = \'stall\'')
             ->query()
             ->fetchColumn(0)
         ;
@@ -68,14 +69,28 @@ class Socialcommerce_Model_Stall extends Core_Model_Item_Abstract
     public function ratingCount() {
         $table = Engine_Api::_()->getItemTable('socialcommerce_review');
         $select = $table->select()
-            ->where('stall_id = ?', $this->getIdentity())
+            ->where('item_id = ?', $this->getIdentity())
             ->where('user_id <> ?', $this->owner_id);
         $row = $table->fetchAll($select);
         $total = count($row);
         return $total;
     }
 
-    public function setPhoto($photo)
+    public function getHref($params = array()) {
+        $slug = $this -> getSlug();
+        $params = array_merge(array(
+            'route' => 'socialcommerce_profile',
+            'id' => $this->getIdentity(),
+            'slug' => $slug,
+        ),
+            $params);
+        $route = $params['route'];
+        unset($params['route']);
+        return Zend_Controller_Front::getInstance()->getRouter()
+            ->assemble($params, $route, true);
+    }
+
+    public function setPhoto($photo, $field)
     {
         if( $photo instanceof Zend_Form_Element_File ) {
             $file = $photo->getFileName();
@@ -174,9 +189,28 @@ class Socialcommerce_Model_Stall extends Core_Model_Item_Abstract
 
         // Update row
         $this->modified_date = date('Y-m-d H:i:s');
-        $this->photo_id = $iMain->file_id;
+        if ($field == 'cover_id') {
+            $this->cover_id = $iMain->file_id;
+        } else {
+            $this->photo_id = $iMain->file_id;
+        }
         $this->save();
 
         return $this;
+    }
+
+    public function getCoverPhotoUrl($type = null)
+    {
+        if( empty($this->cover_id) || $this->cover_id == 0) {
+            return null;
+        }
+
+        $file = Engine_Api::_()->getItemTable('storage_file')->getFile($this->cover_id, $type);
+
+        if( !$file ) {
+            return null;
+        }
+
+        return $file->map();
     }
 }

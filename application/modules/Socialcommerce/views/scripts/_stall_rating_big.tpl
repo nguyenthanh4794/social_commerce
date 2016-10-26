@@ -1,12 +1,12 @@
-<div class="stalls_block">
+<div class="yn-rating yn-rating-normal">
     <?php $rating = $this->stall->getRating(); ?>
     <?php for ($x = 1; $x <= 5; $x++): ?>
         <?php if ($x < $rating): ?>
-            <span class="ynicon yn-star"></span>
+            <i class="ynicon yn-star"></i>
         <?php elseif (($x - 1) < $rating && ($x - 1) > 0): ?>
-            <span class="ynicon yn-star-half-o"></span>
+            <i class="ynicon yn-star-half-o"></i>
         <?php else: ?>
-            <span class="ynicon yn-star-o"></span>
+            <i class="ynicon yn-star-o"></i>
         <?php endif; ?>
     <?php endfor; ?>
 </div>

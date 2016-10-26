@@ -1,4 +1,4 @@
-<h3><?php echo $this->translate('About the stall'); ?></h3>
+<h3><?php echo $this->translate('About the ').$this->stall->title; ?></h3>
 <?php if ($this->viewer() -> getIdentity()):
 $url = $this -> url(array(
 'module' => 'socialcommerce',
@@ -11,7 +11,7 @@ $url = $this -> url(array(
     <a href="javascript:void(0);" onclick="checkOpenPopup('<?php echo $url?>')"><i class="ynicon yn-pencil-square-o" title="<?php echo $this -> translate("Edit this stall")?>"></i></a>
 </div>
 <?php endif;?>
-<div class="socialcommerce-profile-fields">
+<div class="socialcommerce-profile-fields" style="clear: both">
     <div class="socialcommerce-overview-title socialcommerce-overview-line">
         <span class="socialcommerce-overview-toggle-button"><i class="ynicon yn-arr-down"></i></span>
         <span class="socialcommerce-overview-title-content"><i class="ynicon yn-building"></i> <?php echo $this->translate('Address');?></span>

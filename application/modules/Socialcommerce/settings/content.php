@@ -111,6 +111,20 @@ return array(
     ),
 
     array(
+        'title' => 'Social Commerce - Product Listing',
+        'description' => 'Displays Products on Browse page',
+        'category' => 'Social Commerce',
+        'type' => 'widget',
+        'name' => 'socialcommerce.products-listing',
+        'isPaginated' => true,
+        'defaultParams' => array(
+            'title' => 'All Listing',
+            'titleCount' => true,
+            'itemCountPerPage' => 5
+        ),
+    ),
+
+    array(
         'title' => 'Social Commerce - Stall Profile Cover',
         'description' => 'Displays a stall cover and information on it\'s profile.',
         'category' => 'Social Commerce',

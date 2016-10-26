@@ -74,7 +74,7 @@ $this->headTranslate(array(
     <div class="socialcommerce_widget_location_direction socialcommerce_widget_location_destination">
         <label for="destination" style="float: left;"><?php echo $this->translate("Destination");?></label>
         <div style="overflow: hidden">
-            <img src="application/modules/Ynbusinesspages/externals/images/location_pin.png" />
+            <img src="application/modules/Socialcommerce/externals/images/location_pin.png" />
             <div class="location" style="display: inline;"><?php echo $this->location;?></div>
         </div>
     </div>

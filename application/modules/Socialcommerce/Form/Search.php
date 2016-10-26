@@ -67,7 +67,7 @@ class Socialcommerce_Form_Search extends Fields_Form_Search
     public function getDisplayNameElement()
     {
         $this->addElement('Text', 'displayname', array(
-            'label' => 'Name',
+            'label' => 'Keyword',
             'order' => -1000000,
             //'onkeypress' => 'return submitEnter(event)',
         ));

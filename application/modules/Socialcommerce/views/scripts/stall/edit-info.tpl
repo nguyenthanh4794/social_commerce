@@ -14,8 +14,8 @@
                 return;
             }
 
-            document.getElementById('lat').value = place.geometry.location.lat();
-            document.getElementById('long').value = place.geometry.location.lng();
+            document.getElementById('latitude').value = place.geometry.location.lat();
+            document.getElementById('longitude').value = place.geometry.location.lng();
         });
     }
 
@@ -40,8 +40,8 @@
                             if(json.status == 'OK')
                             {
                                 document.getElementById('location').value = json.results[0].formatted_address;
-                                document.getElementById('lat').value = json.results[0].geometry.location.lat;
-                                document.getElementById('long').value = json.results[0].geometry.location.lng;
+                                document.getElementById('latitude').value = json.results[0].geometry.location.lat;
+                                document.getElementById('longitude').value = json.results[0].geometry.location.lng;
                             }
                             else{
                                 handleNoGeolocation(true);
