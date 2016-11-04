@@ -37,6 +37,56 @@ class Socialcommerce_AdminCategoriesController extends Core_Controller_Action_Ad
         $this -> view -> category = $node;
     }
 
+    public function editCategoryAction() {
+
+        // Must have an id
+        if (!($id = $this -> _getParam('id'))) {
+            throw new Zend_Exception('No identifier specified');
+        }
+        // Generate and assign form
+        $this->view->category = $category = Engine_Api::_() -> getItem('socialcommerce_category', $id);
+
+        // In smoothbox
+        $this -> _helper -> layout -> setLayout('admin-simple');
+        $form = $this -> view -> form = new Socialcommerce_Form_Admin_Category( array('category' => $category));
+        $form -> setAction($this -> getFrontController() -> getRouter() -> assemble(array()));
+
+        $isSub = false;
+        if ($category -> parent_id != '1') {
+            $form -> removeElement('themes');
+            $form -> removeElement('photo');
+            $isSub = true;
+        }
+
+        // Check post
+        if ($this -> getRequest() -> isPost() && $form -> isValid($this -> getRequest() -> getPost())) {
+            // Ok, we're good to add field
+            $values = $form -> getValues();
+
+            $db = Engine_Db_Table::getDefaultAdapter();
+            $db -> beginTransaction();
+
+            try {
+                // edit category in the database
+                // Transaction
+                $row = Engine_Api::_() -> getItem('socialcommerce_category', $values["id"]);
+                $row -> title = $values["label"];
+                $row -> themes = json_encode($values['themes']);
+                $row -> save();
+                $db -> commit();
+            } catch( Exception $e ) {
+                $db -> rollBack();
+                throw $e;
+            }
+            $this -> _forward('success', 'utility', 'core', array('smoothboxClose' => 10, 'parentRefresh' => 10, 'messages' => array('')));
+        }
+
+        $form -> setField($category, $isSub);
+
+        // Output
+        $this -> renderScript('admin-categories/form.tpl');
+    }
+
     public function addCategoryAction() {
         // In smoothbox
         $this -> _helper -> layout -> setLayout('admin-simple');
@@ -60,7 +110,7 @@ class Socialcommerce_AdminCategoriesController extends Core_Controller_Action_Ad
             // we will add the category
             $values = $form -> getValues();
             $user = Engine_Api::_() -> user() -> getViewer();
-            $data = array('user_id' => $user -> getIdentity(), 'title' => $values["label"], 'themes' => $values["themes"]);
+            $data = array('user_id' => $user -> getIdentity(), 'title' => $values["label"], 'themes' => json_encode($values["themes"]));
             if (!empty($values['photo'])) {
                 $data['photo'] = $form -> photo;
             }

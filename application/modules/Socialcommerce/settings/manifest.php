@@ -40,6 +40,7 @@ return array(
         'socialcommerce_stall',
         'socialcommerce_review',
         'socialcommerce_product',
+        'socialcommerce_account',
     ),
 
     // Hooks ---------------------------------------------------------------------

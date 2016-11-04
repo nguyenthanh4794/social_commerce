@@ -50,15 +50,56 @@ CREATE TABLE `engine4_socialcommerce_products` (
 
 CREATE TABLE `engine4_socialcommerce_stalls` (
   `stall_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `title` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `description` text COLLATE utf8_unicode_ci,
+  `category` int(10) NOT NULL,
+  `photo_id` int(10) DEFAULT '0',
+  `owner_type` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `owner_id` int(10) NOT NULL,
+  `creation_date` datetime NOT NULL,
+  `modified_date` datetime NOT NULL,
+  `cover_photo` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `location` text COLLATE utf8_unicode_ci NOT NULL,
+  `short_description` text COLLATE utf8_unicode_ci NOT NULL,
+  `address` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `longitude` varchar(36) COLLATE utf8_unicode_ci NOT NULL,
+  `latitude` varchar(36) COLLATE utf8_unicode_ci NOT NULL,
+  `phone` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `web_address` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `price_range` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`stall_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
+  CREATE TABLE `engine4_socialcommerce_products` (
+    `product_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `stall_id` int(10) UNSIGNED NOT NULL,
+    `owner_id` int(10) NOT NULL,
+    `owner_type` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+    `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+    `price` float(10,2) NOT NULL DEFAULT '0.00',
+    `featured` tinyint(1) NOT NULL DEFAULT '0',
+    `description` text COLLATE utf8_unicode_ci,
+    `short_description` text COLLATE utf8_unicode_ci NOT NULL,
+    `file` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
+    `photo_id` int(10) DEFAULT '0',
+    `view_count` int(10) NOT NULL DEFAULT '0',
+    `like_count` int(10) NOT NULL DEFAULT '0',
+    `view_time` datetime NOT NULL,
+    `comment_count` int(10) NOT NULL DEFAULT '0',
+    `creation_date` datetime NOT NULL,
+    `modified_date` datetime NOT NULL,
+    PRIMARY KEY (`product_id`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS `engine4_socialcommerce_reviews` (
-  `review_id` int(11) NOT NULL AUTO_INCREMENT,
-  `stall_id` int(11) NOT NULL,
+  `review_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `item_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `body` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `rate_number` smallint(5) unsigned NOT NULL,
+  `rate_number` smallint(5) UNSIGNED NOT NULL,
+  `type` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `creation_date` datetime NOT NULL,
   `modified_date` datetime NOT NULL,
   PRIMARY KEY (`review_id`),
@@ -192,11 +233,53 @@ CREATE TABLE IF NOT EXISTS `engine4_socialcommerce_listing_fields_values` (
   PRIMARY KEY (`item_id`,`field_id`,`index`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
+CREATE TABLE `engine4_product_photos` (
+  `photo_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `album_id` int(11) UNSIGNED NOT NULL,
+  `product_id` int(11) UNSIGNED NOT NULL,
+  `user_id` int(11) UNSIGNED NOT NULL,
+  `title` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `collection_id` int(11) UNSIGNED NOT NULL,
+  `file_id` int(11) UNSIGNED NOT NULL,
+  `creation_date` datetime NOT NULL,
+  `modified_date` datetime NOT NULL,
+  `view_count` int(11) UNSIGNED NOT NULL DEFAULT '0',
+  `comment_count` int(11) UNSIGNED NOT NULL DEFAULT '0',
+  PRIMARY KEY (`photo_id`),
+  KEY `album_id` (`album_id`),
+  KEY `product_id` (`product_id`),
+  KEY `collection_id` (`collection_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+CREATE TABLE `engine4_socialcommerce_accounts` (
+  `account_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) UNSIGNED NOT NULL,
+  `address` varchar(255) COLLATE utf8_unicode_ci,
+  `city` varchar(255) COLLATE utf8_unicode_ci,
+  `web_address` varchar(255) COLLATE utf8_unicode_ci,
+  `country` varchar(2),
+  `business_name` varchar(128),
+  `zip_code` varchar(10),
+  `mobile` varchar(20),
+  `creation_date` datetime NOT NULL,
+  `modified_date` datetime NOT NULL,
+  PRIMARY KEY (`account_id`),
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+
+
+
 --
 -- Insert back-end menu items
 --
 
 INSERT IGNORE INTO `engine4_core_menus` (`name`, `type`, `title`, `order`) VALUES
+  ('socialcommerce_buyer', 'standard', 'Social Commerce Buyer Menu', 997),
+  ('socialcommerce_seller', 'standard', 'Social Commerce Seller Menu', 997),
   ('socialcommerce_link', 'standard', 'Social Commerce Quick Links Menu', 998),
   ('socialcommerce_main', 'standard', 'Social Commerce Main Navigation Menu', 999);
 
@@ -213,18 +296,29 @@ INSERT IGNORE INTO `engine4_core_menuitems` (`name`, `module`, `label`, `plugin`
   ('socialcommerce_admin_main_accounts', 'socialcommerce', 'Manage Accounts', '', '{"route":"admin_default","module":"socialcommerce","controller":"accounts", "action":"index"}', 'socialcommerce_admin_main', '', 9),
   ('socialcommerce_admin_main_faqs', 'socialcommerce', 'Manage FAQs', '', '{"route":"admin_default","module":"socialcommerce","controller":"faqs", "action":"index"}', 'socialcommerce_admin_main', '', 10),
 
-  ('socialcommerce_link_home', 'user', 'Trader Club', 'Socialcommerce_Plugin_Menus', '{"route":"socialcommerce_general","controller":"stall","action":"browse","icon":"application/modules/Socialcommerce/externals/images/links/trader.png"}', 'socialcommerce_link', '', 1),
-  ('socialcommerce_link_my-bag', 'user', 'My Bag', 'Socialcommerce_Plugin_Menus', '{"route":"socialcommerce_general","controller":"stall","action":"browse","icon":"application/modules/Socialcommerce/externals/images/links/bag.png"}', 'socialcommerce_link', '', 2),
-  ('socialcommerce_link_seller-account', 'user', 'Stalls', 'Socialcommerce_Plugin_Menus', '{"route":"socialcommerce_general","controller":"stall","action":"browse","icon":"application/modules/Socialcommerce/externals/images/links/seller.png"}', 'socialcommerce_link', '', 3),
-  ('socialcommerce_link_item-to-buy', 'user', 'Item to buy', 'Socialcommerce_Plugin_Menus', '{"route":"socialcommerce_general","controller":"stall","action":"browse","icon":"application/modules/Socialcommerce/externals/images/links/item.png"}', 'socialcommerce_link', '', 4),
-  ('socialcommerce_link_create-stall', 'user', 'Create Stall', 'Socialcommerce_Plugin_Menus', '{"route":"socialcommerce_general","controller":"stall","action":"create-step-one","icon":"application/modules/Socialcommerce/externals/images/links/plus.png"}', 'socialcommerce_link', '', 5),
+  ('socialcommerce_link_home', 'user', 'Trader Club', '', '{"route":"socialcommerce_general","controller":"stall","action":"browse","icon":"application/modules/Socialcommerce/externals/images/links/trader.png"}', 'socialcommerce_link', '', 1),
+  ('socialcommerce_link_my-bag', 'user', 'My Bag', '', '{"route":"socialcommerce_general","controller":"stall","action":"browse","icon":"application/modules/Socialcommerce/externals/images/links/bag.png"}', 'socialcommerce_link', '', 2),
+  ('socialcommerce_link_seller-account', 'user', 'Stalls', '', '{"route":"socialcommerce_general","controller":"stall","action":"browse","icon":"application/modules/Socialcommerce/externals/images/links/seller.png"}', 'socialcommerce_link', '', 3),
+  ('socialcommerce_link_item-to-buy', 'user', 'Item to buy', '', '{"route":"socialcommerce_general","controller":"stall","action":"browse","icon":"application/modules/Socialcommerce/externals/images/links/item.png"}', 'socialcommerce_link', '', 4),
+  ('socialcommerce_link_create-stall', 'user', 'Create Stall', '', '{"route":"socialcommerce_general","controller":"stall","action":"create-step-one","icon":"application/modules/Socialcommerce/externals/images/links/plus.png"}', 'socialcommerce_link', '', 5),
+
+  ('socialcommerce_seller_info', 'socialcommerce', 'Seller Information', '', '{"route":"socialcommerce_general","controller":"seller","action":"info","icon":"application/modules/Socialcommerce/externals/images/links/trader.png"}', 'socialcommerce_seller', '', 1),
+  ('socialcommerce_seller_payment', 'socialcommerce', 'Setting For Payment', '', '{"route":"socialcommerce_general","controller":"seller","action":"payment","icon":"application/modules/Socialcommerce/externals/images/links/bag.png"}', 'socialcommerce_seller', '', 2),
+  ('socialcommerce_seller_listings', 'socialcommerce', 'My Listings', '', '{"route":"socialcommerce_general","controller":"seller","action":"manage-listings","icon":"application/modules/Socialcommerce/externals/images/links/seller.png"}', 'socialcommerce_seller', '', 3),
+  ('socialcommerce_seller_stalls', 'socialcommerce', 'My Stalls', '', '{"route":"socialcommerce_general","controller":"seller","action":"manage-stalls","icon":"application/modules/Socialcommerce/externals/images/links/item.png"}', 'socialcommerce_seller', '', 4),
+  ('socialcommerce_seller_transaction', 'socialcommerce', 'Transaction', '', '{"route":"socialcommerce_general","controller":"seller","action":"transaction","icon":"application/modules/Socialcommerce/externals/images/links/plus.png"}', 'socialcommerce_seller', '', 5),
+
+  ('socialcommerce_buyer_bags', 'socialcommerce', 'My Bag', '', '{"route":"socialcommerce_general","controller":"buyer","action":"my-bags","icon":"application/modules/Socialcommerce/externals/images/links/trader.png"}', 'socialcommerce_buyer', '', 1),
+  ('socialcommerce_buyer_payment', 'socialcommerce', 'Setting For Payment', '', '{"route":"socialcommerce_general","controller":"buyer","action":"payment","icon":"application/modules/Socialcommerce/externals/images/links/bag.png"}', 'socialcommerce_buyer', '', 2),
+  ('socialcommerce_buyer_history', 'socialcommerce', 'My Buying History', '', '{"route":"socialcommerce_general","controller":"buyer","action":"my-historys","icon":"application/modules/Socialcommerce/externals/images/links/seller.png"}', 'socialcommerce_buyer', '', 3),
+  ('socialcommerce_buyer_transaction', 'socialcommerce', 'Transaction', '', '{"route":"socialcommerce_general","controller":"buyer","action":"transaction","icon":"application/modules/Socialcommerce/externals/images/links/seller.png"}', 'socialcommerce_buyer', '', 4),
 
   ('core_main_socialcommerce', 'socialcommerce', 'Social Commerce', '', '{"route":"socialcommerce_general"}', 'core_main', '', 999),
   ('socialcommerce_main_home', 'socialcommerce', 'Home Page', '', '{"route":"socialcommerce_general","action":"index"}', 'socialcommerce_main', '', 1),
-  ('socialcommerce_main_browse', 'socialcommerce', 'Products', '', '{"route":"socialcommerce_general","action":"browse"}', 'socialcommerce_main', '', 2),
-  ('socialcommerce_main_stall', 'socialcommerce', 'Stalls', 'Socialcommerce_Plugin_Menus::canCreateProduct', '{"route":"socialcommerce_general","controller":"stall","action":"browse"}', 'socialcommerce_main', '', 3),
-  ('socialcommerce_main_manage', 'socialcommerce', 'My Products', 'Socialcommerce_Plugin_Menus::canCreateProduct', '{"route":"socialcommerce_general","action":"manage"}', 'socialcommerce_main', '', 4),
-  ('socialcommerce_main_create-stall', 'socialcommerce', 'Create New Stall', 'Socialcommerce_Plugin_Menus::canCreateProduct', '{"route":"socialcommerce_general","controller":"stall","action":"create-step-one"}', 'socialcommerce_main', '', 5);
+  ('socialcommerce_main_browse', 'socialcommerce', 'Products', 'Socialcommerce_Plugin_Menus::canCreateListing', '{"route":"socialcommerce_general","controller":"product","action":"browse"}', 'socialcommerce_main', '', 2),
+  ('socialcommerce_main_stall', 'socialcommerce', 'Stalls', 'Socialcommerce_Plugin_Menus::canCreateStall', '{"route":"socialcommerce_general","controller":"stall","action":"browse"}', 'socialcommerce_main', '', 3),
+  ('socialcommerce_main_manage', 'socialcommerce', 'My Account', '', '{"route":"socialcommerce_general","controller":"seller","action":"info"}', 'socialcommerce_main', '', 4),
+  ('socialcommerce_main_create-stall', 'socialcommerce', 'Create New Stall', 'Socialcommerce_Plugin_Menus::canCreateStall', '{"route":"socialcommerce_general","controller":"stall","action":"create-step-one"}', 'socialcommerce_main', '', 5);
 
 INSERT IGNORE INTO `engine4_activity_actiontypes` (`type`, `module`, `body`, `enabled`, `displayable`, `attachable`, `commentable`, `shareable`, `is_generated`) VALUES
   ('stall_new', 'socialcommerce', '{item:$subject} created a new stall:', 1, 5, 1, 3, 1, 1),

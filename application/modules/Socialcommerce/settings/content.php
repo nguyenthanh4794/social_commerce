@@ -39,6 +39,18 @@ return array(
     ),
 
     array(
+        'title' => 'Social Commerce - Featured Stalls',
+        'description' => 'Displays a featured stalls in the home page.',
+        'category' => 'Social Commerce',
+        'type' => 'widget',
+        'name' => 'socialcommerce.featured-stalls',
+        'defaultParams' => array(
+            'title' => 'Categories',
+            'itemCountPerPage' => 10,
+        ),
+    ),
+
+    array(
         'title' => 'Social Commerce - Browse Search',
         'description' => 'Displays a search form in the stall/product browse page.',
         'category' => 'Social Commerce',
@@ -55,6 +67,17 @@ return array(
         'category' => 'Social Commerce',
         'type' => 'widget',
         'name' => 'socialcommerce.home-links',
+        'requirements' => array(
+            'viewer',
+        ),
+    ),
+
+    array(
+        'title' => 'Social Commerce - Seller Menu',
+        'description' => 'Displays a list of seller menu links.',
+        'category' => 'Social Commerce',
+        'type' => 'widget',
+        'name' => 'socialcommerce.seller-menu',
         'requirements' => array(
             'viewer',
         ),

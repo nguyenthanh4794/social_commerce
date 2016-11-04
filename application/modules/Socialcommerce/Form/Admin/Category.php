@@ -100,7 +100,7 @@ class Socialcommerce_Form_Admin_Category extends Engine_Form
         $this->id->setValue($category->category_id);
         if(!$isSub)
         {
-            $this->themes->setValue($category->themes);
+            $this->themes->setValue(json_decode($category->themes));
         }
         $this->submit->setLabel('Edit Category');
 

@@ -12,4 +12,14 @@ class Socialcommerce_Plugin_Menus
     {
         return true;
     }
+
+    public function canCreateStall()
+    {
+        return true;
+    }
+
+    public function canCreateListing()
+    {
+        return true;
+    }
 }

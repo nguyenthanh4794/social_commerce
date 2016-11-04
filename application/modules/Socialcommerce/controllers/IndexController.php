@@ -4,7 +4,6 @@ class Socialcommerce_IndexController extends Core_Controller_Action_Standard
 {
     public function indexAction()
     {
-        $this->view->someVar = 'someVal';
         $this->_helper->content
             //->setNoRender()
             ->setEnabled();

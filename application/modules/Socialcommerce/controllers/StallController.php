@@ -373,7 +373,7 @@ class Socialcommerce_StallController extends Core_Controller_Action_Standard
 
         $this->view->form = $form = new Socialcommerce_Form_Stall_AddProduct();
 
-        $categories = Engine_Api::_()->getDbTable('categories', 'socialcommerce')->getCategoriesAssoc();
+        $categories = Engine_Api::_()->getDbTable('categories', 'socialcommerce')->getCategoriesAssoc(2);
         $form->category->setMultiOptions($categories);
 
         if( !$this->getRequest()->isPost() )

@@ -1,0 +1,8 @@
+body[id^=global_page_socialcommerce-admin] {
+    .tabs ul li {
+        padding: 7px;
+    }
+    .settings .form-element .description, .settings .form-description {
+        max-width: 100%!important;
+    }
+}

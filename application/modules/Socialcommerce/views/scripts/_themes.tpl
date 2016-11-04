@@ -19,8 +19,8 @@
 </div>
 <script type='text/javascript'>
     <?php if($this->category):?>
-    <?php foreach($this->category->themes as $item) :?>
-    var id = 'category_' + '<?php echo $item;?>';
+    <?php foreach(json_decode($this->category->themes) as $item) :?>
+    var id = 'category_theme' + '<?php echo $item;?>';
     $(id).setProperty('checked', 'true');
     <?php endforeach ;?>
     <?php endif;?>

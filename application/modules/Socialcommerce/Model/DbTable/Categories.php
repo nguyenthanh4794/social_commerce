@@ -10,12 +10,20 @@ class Socialcommerce_Model_DbTable_Categories extends Socialcommerce_Model_DbTab
 {
     protected $_rowClass = 'Socialcommerce_Model_Category';
 
-    public function getCategoriesAssoc()
+    public function getCategoriesAssoc($level = 0)
     {
-        $stmt = $this->select()
-            ->from($this, array('category_id', 'title'))
-            ->order('order ASC')
-            ->query();
+        if ($level) {
+            $stmt = $this->select()
+                ->from($this, array('category_id', 'title'))
+                ->where('level = ?', $level)
+                ->order('order ASC')
+                ->query();
+        } else {
+            $stmt = $this->select()
+                ->from($this, array('category_id', 'title'))
+                ->order('order ASC')
+                ->query();
+        }
 
         $data = array();
         foreach( $stmt->fetchAll() as $category ) {
