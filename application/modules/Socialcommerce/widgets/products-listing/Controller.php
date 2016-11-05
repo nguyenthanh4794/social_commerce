@@ -12,6 +12,20 @@ class Socialcommerce_Widget_ProductsListingController extends Engine_Content_Wid
     {
         $viewer = Engine_Api::_()->user()->getViewer();
 
+        $request = Zend_Controller_Front::getInstance()->getRequest();
+        $controller = $request->getControllerName();
+        $action = $request->getActionName();
+
+        $inHomePage = false;
+
+        if ($controller == 'index' && $action == 'index')
+        {
+            $inHomePage = true;
+            $categoryTable = Engine_Api::_()->getDbTable('categories', 'socialcommerce');
+            $categories = $categoryTable->getAllCategoriesByParent();
+
+            $this->view->categories = $categories;
+        }
         $this->view->paginator = $paginator = Engine_Api::_()->getDbTable('products', 'socialcommerce') -> getProductsPaginator(array());
 
         // Set item count per page and current page number
@@ -19,5 +33,6 @@ class Socialcommerce_Widget_ProductsListingController extends Engine_Content_Wid
         $paginator->setCurrentPageNumber($this->_getParam('page', 1));
 
         $this -> view -> canCreate = true;
+        $this -> view -> inHomePage = $inHomePage;
     }
 }
