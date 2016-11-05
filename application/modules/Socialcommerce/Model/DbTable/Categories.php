@@ -33,7 +33,51 @@ class Socialcommerce_Model_DbTable_Categories extends Socialcommerce_Model_DbTab
         return $data;
     }
 
-    public function getCategoryByOptionId($option_id)
+    public function getAllCategoriesByParent($parent_id = 1)
+    {
+        $aCategories = $this->select()
+            ->from($this, array('category_id', 'title'))
+            ->where('parent_id = ?', $parent_id)
+            ->order('order ASC')
+            ->query()->fetchAll();
+
+        foreach( $aCategories as $iKey => $category ) {
+            $aCategories[$iKey]['link'] = $this->getHref($category['category_id'], $category['title']);
+            $aCategories[$iKey]['sub_categories'] = $this->getAllCategoriesByParent($category['category_id']);
+            $class_category_item = str_replace(' ', '_', strtolower($aCategories[$iKey]['title']));
+            $aCategories[$iKey]['class_category_item'] = $class_category_item;
+        }
+
+        return $aCategories;
+    }
+
+    public function getHref($iCategoryId, $sTitle) {
+
+        $params = array(
+            'route' => 'socialcommerce_category',
+            'controller' => 'index',
+            'action' => 'listings',
+            'category_id' => $iCategoryId,
+            'slug' => $this->seoUrl($sTitle),
+        );
+
+        $route = $params['route'];
+        unset($params['route']);
+        unset($params['type']);
+        return Zend_Controller_Front::getInstance()->getRouter()
+            ->assemble($params, $route, true);
+    }
+
+    function seoUrl($string)
+    {
+        $string = strtolower($string);
+        $string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
+        $string = preg_replace("/[\s-]+/", " ", $string);
+        $string = preg_replace("/[\s_]/", "-", $string);
+        return $string;
+    }
+
+        public function getCategoryByOptionId($option_id)
     {
         $select = $this->select();
         $select -> where('option_id = ?', $option_id);

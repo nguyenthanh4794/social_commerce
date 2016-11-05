@@ -1437,3 +1437,214 @@ img.item_cover_photo_preview {
     }
 }
 /*End*/
+
+/*----------  CATEGORIES  ----------*/
+/*----------  CATEGORIES  ----------*/
+#js_block_border_ynsocialstore_category {
+    padding-bottom: 0 !important;
+}
+#js_block_border_ynsocialstore_category .content {
+    padding: 0 !important;
+}
+#ynsocialstore_category_menus a {
+    -webkit-transition: all 300ms linear;
+    -o-transition: all 300ms linear;
+    transition: all 300ms linear;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item {
+    position: relative;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item.active > a > span {
+    color: #02baf2;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item > a {
+    position: relative;
+    border: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item > a:hover span {
+    color: #02baf2;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item > a:after {
+    content: " ";
+    display: block;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item > a img {
+    width: 20px;
+    margin-right: 10px;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item > a > span {
+    line-height: 50px;
+    color: #364347;
+    overflow: hidden;
+    white-space: nowrap;
+    word-break: break-word;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+    display: inline-block;
+    padding-right: 10px;
+    -webkit-transition: all 300ms linear;
+    -o-transition: all 300ms linear;
+    transition: all 300ms linear;
+    max-width: 190px;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item > a > span.main_menu_icon {
+    background-position: center;
+    background-size: contain;
+    display: inline-block;
+    width: 14px;
+    height: 22px;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item > a > span.main_menu_icon + span {
+    padding-left: 4px;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item span.toggle {
+    position: absolute;
+    right: 0px;
+    top: 0;
+    color: #e0e0e0;
+    padding: 0;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item div.ynsocialstore_sub_category_items {
+    right: 100%;
+    left: auto;
+    z-index: 999;
+    position: absolute;
+    left: 100%;
+    margin-left: 0px;
+    top: 0px;
+    background-color: #FFF;
+    padding: 0px;
+    width: 580px;
+    max-width: 580px;
+    -webkit-box-shadow: 0 0 50px 0 rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 50px 0 rgba(0, 0, 0, 0.4);
+}
+@media (max-width: 768px) {
+    #ynsocialstore_category_menus .ynstore-main-category-item div.ynsocialstore_sub_category_items {
+        display: none !important;
+    }
+}
+#ynsocialstore_category_menus .ynstore-main-category-item div.ynsocialstore_sub_category_items .view_all_sub_categories a {
+    border: 0;
+    font-size: 100%;
+    color: #333;
+    padding: 10px;
+    text-decoration: none;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item.active {
+    div.ynsocialstore_sub_category_items {
+        display: block !important;
+    }
+}
+
+#ynsocialstore_category_menus .ynstore-main-category-item div.ynsocialstore_sub_category_items .view_all_sub_categories a:hover {
+    color: white;
+    background-color: #02baf2;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item div.ynsocialstore_sub_category_items > ul {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: block;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item div.ynsocialstore_sub_category_items > ul:after {
+    content: " ";
+    display: block;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item div.ynsocialstore_sub_category_items > ul > li {
+    list-style: none none outside;
+    display: block;
+    width: 50%;
+    text-align: left;
+    float: left;
+    padding: 15px;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item div.ynsocialstore_sub_category_items > ul > li:after {
+    content: " ";
+    display: table;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item div.ynsocialstore_sub_category_items > ul > li > a {
+    font-weight: 500;
+    display: block;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item div.ynsocialstore_sub_category_items > ul > li > a .ynmenu-text {
+    padding-bottom: 5px;
+    font-size: 13px;
+    text-transform: uppercase;
+    border-bottom: 1px solid #02baf2;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item div.ynsocialstore_sub_category_items > ul > li span.ynmenu-text {
+    overflow: hidden;
+    white-space: nowrap;
+    word-break: break-word;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+    display: block;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item div.ynsocialstore_sub_category_items > ul > li span.ynmenu-text:hover {
+    text-decoration: none;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item div.ynsocialstore_sub_category_items > ul ul.ynsocialstore_sub_sub_category_items {
+    margin: 0;
+    padding: 10px 0;
+    position: relative;
+    display: block;
+    padding: 0;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item div.ynsocialstore_sub_category_items > ul ul.ynsocialstore_sub_sub_category_items > li {
+    list-style: none none outside;
+    position: relative;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item div.ynsocialstore_sub_category_items > ul ul.ynsocialstore_sub_sub_category_items > li:nth-child(even) a {
+    background-color: #eee;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item div.ynsocialstore_sub_category_items > ul ul.ynsocialstore_sub_sub_category_items > li:nth-child(odd) a {
+    background-color: #f8f8f8;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item div.ynsocialstore_sub_category_items > ul ul.ynsocialstore_sub_sub_category_items > li > a {
+    border: 0;
+    font-size: 100%;
+    color: #364347;
+    padding: 10px;
+    display: block;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item div.ynsocialstore_sub_category_items > ul ul.ynsocialstore_sub_sub_category_items > li > a:hover {
+    color: white;
+    background-color: #02baf2;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item.all_category_item {
+    border-bottom: 0;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item.all_category_item .ynicon {
+    margin-right: 10px;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item.all_category_item span {
+    padding-left: 5px;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item .view_all_categories {
+    clear: both;
+    background-color: #ECECEC;
+    display: block;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item .view_all_categories a {
+    line-height: 40px;
+    color: #999999;
+    font-size: 12px;
+    font-weight: 500;
+    display: block;
+    text-align: center;
+    text-transform: uppercase;
+    -webkit-transition: all 300ms linear;
+    -o-transition: all 300ms linear;
+    transition: all 300ms linear;
+}
+#ynsocialstore_category_menus .ynstore-main-category-item .view_all_categories a:hover {
+    color: #FFF;
+    background-color: #02baf2;
+}

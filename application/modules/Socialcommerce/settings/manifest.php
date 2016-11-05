@@ -85,6 +85,15 @@ return array(
             )
         ),
 
+        'socialcommerce_category' => array(
+            'route' => 'social-commerce/category/:category_id/:slug',
+            'defaults' => array(
+                'module' => 'socialcommerce',
+                'controller' => 'index',
+                'action' => 'listings',
+            ),
+        ),
+
         'socialcommerce_general' => array(
             'route' => 'social-commerce/:controller/:action/*',
             'defaults' => array(
