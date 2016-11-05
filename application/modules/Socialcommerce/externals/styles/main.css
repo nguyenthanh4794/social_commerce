@@ -1439,7 +1439,6 @@ img.item_cover_photo_preview {
 /*End*/
 
 /*----------  CATEGORIES  ----------*/
-/*----------  CATEGORIES  ----------*/
 #js_block_border_ynsocialstore_category {
     padding-bottom: 0 !important;
 }
@@ -1455,7 +1454,7 @@ img.item_cover_photo_preview {
     position: relative;
 }
 #ynsocialstore_category_menus .ynstore-main-category-item.active > a > span {
-    color: #02baf2;
+    color: $theme_link_color_hover;
 }
 #ynsocialstore_category_menus .ynstore-main-category-item > a {
     position: relative;
@@ -1465,7 +1464,7 @@ img.item_cover_photo_preview {
     align-items: center;
 }
 #ynsocialstore_category_menus .ynstore-main-category-item > a:hover span {
-    color: #02baf2;
+    color: $theme_link_color_hover;
 }
 #ynsocialstore_category_menus .ynstore-main-category-item > a:after {
     content: " ";
@@ -1544,7 +1543,7 @@ img.item_cover_photo_preview {
 
 #ynsocialstore_category_menus .ynstore-main-category-item div.ynsocialstore_sub_category_items .view_all_sub_categories a:hover {
     color: white;
-    background-color: #02baf2;
+    background-color: $theme_link_color_hover;
 }
 #ynsocialstore_category_menus .ynstore-main-category-item div.ynsocialstore_sub_category_items > ul {
     position: relative;
@@ -1577,7 +1576,7 @@ img.item_cover_photo_preview {
     padding-bottom: 5px;
     font-size: 13px;
     text-transform: uppercase;
-    border-bottom: 1px solid #02baf2;
+    border-bottom: 1px solid $theme_link_color_hover;
 }
 #ynsocialstore_category_menus .ynstore-main-category-item div.ynsocialstore_sub_category_items > ul > li span.ynmenu-text {
     overflow: hidden;
@@ -1616,7 +1615,7 @@ img.item_cover_photo_preview {
 }
 #ynsocialstore_category_menus .ynstore-main-category-item div.ynsocialstore_sub_category_items > ul ul.ynsocialstore_sub_sub_category_items > li > a:hover {
     color: white;
-    background-color: #02baf2;
+    background-color: $theme_link_color_hover;
 }
 #ynsocialstore_category_menus .ynstore-main-category-item.all_category_item {
     border-bottom: 0;
@@ -1646,5 +1645,5 @@ img.item_cover_photo_preview {
 }
 #ynsocialstore_category_menus .ynstore-main-category-item .view_all_categories a:hover {
     color: #FFF;
-    background-color: #02baf2;
+    background-color: $theme_link_color_hover;
 }

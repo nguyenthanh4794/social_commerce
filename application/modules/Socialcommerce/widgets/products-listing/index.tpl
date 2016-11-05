@@ -17,7 +17,7 @@
                                 </a>
                                 <?php if (!empty($aSubCategory['sub_categories'])): ?>
                                     <ul class="ynsocialstore_sub_sub_category_items">
-                                        <?php foreach($aSubCategory->sub_categories as $aSubSubCategory): ?>
+                                        <?php foreach($aSubCategory['sub_categories'] as $aSubSubCategory): ?>
                                             <li class="main_sub_category_item">
                                                 <a href="<?php echo $aCategory['link'] ?>">
                                                     <span class="ynmenu-text have-child"><?php echo $aSubSubCategory['title'] ?></span>
@@ -49,7 +49,7 @@
     })
 </script>
 <?php endif; ?>
-<div id="yn-view-modes-block-<?php echo $this -> identity; ?>">
+<div id="yn-view-modes-block-<?php echo $this -> identity; ?>" class="yn-viewmode-simple">
     <div class="yn-view-modes clearfix">
         <span data-mode="simple" class="yn-view-mode" title="<?php echo $this->translate('Grid View')?>">
             <i class="ynicon yn-grid-view"></i>
@@ -73,6 +73,7 @@
 
 <script type="text/javascript">
     window.addEvent('domready', function() {
+        jQuery.noConflict();
         ynSetModeView('<?php echo $this -> identity; ?>', '<?php echo $this -> view_mode; ?>');
     });
 </script>
