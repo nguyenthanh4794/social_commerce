@@ -135,7 +135,7 @@ class Socialcommerce_Model_Stall extends Core_Model_Item_Abstract
         $image = Engine_Image::factory();
         $image->open($file)
             ->autoRotate()
-            ->resize(720, 720)
+            ->resize(1200, 1600)
             ->write($mainPath)
             ->destroy();
 
