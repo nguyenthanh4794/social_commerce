@@ -8,9 +8,11 @@
  */
 class Socialcommerce_Model_Product extends Core_Model_Item_Abstract
 {
+    protected $_qty = 0;
     protected $_type = 'socialcommerce_product';
 
-    public function isNew() {
+    public function isNew()
+    {
         $now = new DateTime();
         $creation_date = new DateTime($this->creation_date);
         $new_days = Engine_Api::_()->getApi('settings', 'core')->getSetting('products_new_days', 1);
@@ -20,8 +22,9 @@ class Socialcommerce_Model_Product extends Core_Model_Item_Abstract
         return false;
     }
 
-    public function getHref($params = array()) {
-        $slug = $this -> getSlug();
+    public function getHref($params = array())
+    {
+        $slug = $this->getSlug();
         $params = array_merge(array(
             'route' => 'socialcommerce_product_profile',
             'product_id' => $this->getIdentity(),
@@ -40,7 +43,8 @@ class Socialcommerce_Model_Product extends Core_Model_Item_Abstract
         return $table->select()->where('album_id = 0 AND owner_type = \'socialcommerce_product\' AND item_id = ?', $this->getIdentity());
     }
 
-    public function getRating() {
+    public function getRating()
+    {
         $table = Engine_Api::_()->getItemTable('socialcommerce_review');
         $rating_sum = $table->select()
             ->from($table->info('name'), new Zend_Db_Expr('SUM(rate_number)'))
@@ -49,8 +53,7 @@ class Socialcommerce_Model_Product extends Core_Model_Item_Abstract
             ->where('user_id <> ?', $this->owner_id)
             ->where('type = \'product\'')
             ->query()
-            ->fetchColumn(0)
-        ;
+            ->fetchColumn(0);
 
         $total = $this->ratingCount();
         if ($total)
@@ -61,7 +64,18 @@ class Socialcommerce_Model_Product extends Core_Model_Item_Abstract
         return $rating;
     }
 
-    public function ratingCount() {
+    public function getPretaxPrice()
+    {
+        return $this->price;
+    }
+
+    public function getCurrency()
+    {
+        return Engine_Api::_()->getApi('settings', 'core')->getSetting('payment.currency', 'USD');
+    }
+
+    public function ratingCount()
+    {
         $table = Engine_Api::_()->getItemTable('socialcommerce_review');
         $select = $table->select()
             ->where('item_id = ?', $this->getIdentity())
@@ -69,6 +83,70 @@ class Socialcommerce_Model_Product extends Core_Model_Item_Abstract
         $row = $table->fetchAll($select);
         $total = count($row);
         return $total;
+    }
+
+    public function getCurrentAvailable()
+    {
+        if ($this->available_quantity == 0) {
+            if ($this->max_qty_purchase == 0) {
+                $str = 'unlimited';
+                return $str;
+            } else {
+                return $this->max_qty_purchase;
+            }
+        } else {
+            $quantity = $this->available_quantity - $this->sold_qty;
+            if ($this->max_qty_purchase == 0) {
+                return $quantity;
+            } else {
+                if ($quantity >= $this->max_qty_purchase) {
+                    return $this->max_qty_purchase;
+                } else {
+                    return $quantity;
+                }
+            }
+        }
+    }
+
+    public function setQuantity($qty)
+    {
+        $this->_qty += $qty;
+        return $this;
+    }
+
+    public function getTotalAmount()
+    {
+        return $this->getPrice() * $this->_qty;
+    }
+
+    public function getItemTaxAmount()
+    {
+        $pretax_price = $this->getPretaxPrice();
+        $item_tax_amount = round(($pretax_price * $this->getTaxPercentage()) / 100, 2);
+        return $item_tax_amount;
+    }
+
+    public function getTaxPercentage()
+    {
+        return Engine_Api::_()->getApi('settings', 'core')->getSetting('tax', 0);
+    }
+
+    public function getStall()
+    {
+        return Engine_Api::_()->getItem('socialcommerce_stall', $this->stall_id);
+    }
+
+    public function getPrice()
+    {
+//        $pretax_price = $this->getPretaxPrice();
+//        $item_tax_amount =  round( ($pretax_price * $this->tax_percentage)/100,2);
+//        $price = $item_tax_amount + $pretax_price;
+        return $this->price;
+    }
+
+    public function getQuantity()
+    {
+        return $this->_qty;
     }
 
     public function isEditable()
@@ -81,7 +159,8 @@ class Socialcommerce_Model_Product extends Core_Model_Item_Abstract
      *
      * @return Engine_ProxyObject
      * */
-    public function comments() {
+    public function comments()
+    {
         return new Engine_ProxyObject($this, Engine_Api::_()->getDbtable('comments', 'core'));
     }
 
@@ -90,7 +169,8 @@ class Socialcommerce_Model_Product extends Core_Model_Item_Abstract
      *
      * @return Engine_ProxyObject
      * */
-    public function likes() {
+    public function likes()
+    {
         return new Engine_ProxyObject($this, Engine_Api::_()->getDbtable('likes', 'core'));
     }
 }

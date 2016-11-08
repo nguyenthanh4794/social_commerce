@@ -1,3 +1,5 @@
+<?php $this->headScript()
+     ->appendFile($this->baseUrl().'/application/modules/Socialcommerce/externals/scripts/core.js'); ?>
 <?php if(count($this->products) > 0):?>
 <div class="socialcommerce-tabs-content ynclearfix">
     <div id="tab_products_recent" class="tabcontent" style="display: block;">
@@ -46,8 +48,8 @@
                                     <?php echo $this->htmlLink($product->getHref(), $this->translate('View more <span class="fa fa-arrow-right"></span> ') );?>
                                 </div>
 
-                                <div class="product_add_cart">
-                                    <?php echo $this->htmlLink($product->getHref(), $this->translate('Add to Cart <span class="fa fa-cart-plus"></span> ') );?>
+                                <div class="product_add_cart" id="product_add_cart_<?php echo $product->getIdentity() ?>">
+                                    <a href="javascript:en4.store.cart.addProductBox(<?php echo $product->getIdentity() ?>)"><?php echo $this->translate('Add to Cart <span class="fa fa-cart-plus"></span> ')?></a>
                                 </div>
 
                                 <div class="short_description">

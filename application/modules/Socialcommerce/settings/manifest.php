@@ -41,6 +41,7 @@ return array(
         'socialcommerce_review',
         'socialcommerce_product',
         'socialcommerce_account',
+        'socialcommerce_order',
     ),
 
     // Hooks ---------------------------------------------------------------------
@@ -157,6 +158,17 @@ return array(
                 'action' => '\D+',
             )
         ),
+
+        'socialcommerce_cart' =>
+            array(
+                'route' => $route . '/my-cart/:action/*',
+                'defaults' =>
+                    array(
+                        'module' => 'socialcommerce',
+                        'controller' => 'my-cart',
+                        'action' => 'index',
+                    ),
+            ),
     )
 
 ); ?>

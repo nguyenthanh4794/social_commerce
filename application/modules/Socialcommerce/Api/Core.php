@@ -23,4 +23,27 @@ class Socialcommerce_Api_Core extends Core_Api_Abstract
 
         return $option -> option_id;
     }
+
+    public function getItemTable($type)
+    {
+        if ($type == 'socialcommerce_stall') {
+            return Engine_Loader::getInstance()->load('Socialcommerce_Model_DbTable_Stalls');
+        } else
+            if ($type == 'socialcommerce_category') {
+                return Engine_Loader::getInstance()->load('Socialcommerce_Model_DbTable_Categories');
+            } else {
+                $class = Engine_Api::_()->getItemTableClass($type);
+                return Engine_Api::_()->loadClass($class);
+            }
+    }
+
+    public function getStallById($stall_id)
+    {
+        return Engine_Api::_()->getItem('socialcommerce_stall', $stall_id);
+    }
+
+    public function isSandboxMode()
+    {
+        return true;
+    }
 }
