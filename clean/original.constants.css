@@ -1,3 +1,4 @@
+
 /* $Id: constants.css 7306 2010-09-07 07:33:09Z john $ */
 
 
@@ -23,22 +24,22 @@ DEFAULT STYLES FOR THIS THEME
   theme_topbar_logo_width: 100%;
   theme_topbar_menu_width: auto;
   theme_footer_width: 1100px;
-  theme_content_width: 100%;
-  theme_content_columns_left_width: 15%;
-  theme_content_columns_right_width: 25%;
-  theme_body_background_color: #ffffff;
+  theme_content_width: 1100px;
+  theme_content_columns_left_width: 220px;
+  theme_content_columns_right_width: 220px;
+  theme_body_background_color: #fff;
 
   /* 
   HEADER AND FOOTER COLORS
   These values are only used to style the site-wide header and footer.
   */
-  theme_topbar_background_color: #3e5062;
-  theme_topbar_menu_background_color: #3e5062;
+  theme_topbar_background_color: #fff;
+  theme_topbar_menu_background_color: #464646;
   theme_topbar_menu_background_color_hover: transparent;
-  theme_topbar_menu_link_color: rgba(255, 255, 255, 0.6);
+  theme_topbar_menu_link_color: #ddd;
   theme_topbar_menu_link_decoration: none;
-  theme_topbar_menu_link_hover_color: #ffffff;
-  theme_topbar_menu_link_hover_decoration: none;
+  theme_topbar_menu_link_hover_color: #fff;
+  theme_topbar_menu_link_hover_decoration: underline;
   theme_topbar_menu_link_size: 1em;
   theme_topbar_menu_link_background_color: transparent;
   theme_topbar_menu_link_background_color_hover: transparent;
@@ -56,18 +57,18 @@ DEFAULT STYLES FOR THIS THEME
   TEXT & LINKS
   These values affect the size and colors of your text and links throughout your layout.
   */
-  theme_font_family: Arial, sans;
-  theme_font_size: 14px;
-  theme_font_color: #444;
+  theme_font_family: tahoma, arial, verdana, sans-serif;
+  theme_font_size: 10pt;
+  theme_font_color: #555;
   theme_font_color_light: #999;
   theme_text_align: left;
-  theme_link_color: #0066c0;
-  theme_link_color_hover: #e47911;
+  theme_link_color: #5f93b4;
+  theme_link_color_hover: #4e81a1;
   theme_link_decoration: none;
-  theme_link_decoration_hover: none;
-  theme_headline_color: #444;
-  theme_headline_size_large: 2.0em;
-  theme_headline_size_medium: 1.6em;
+  theme_link_decoration_hover: underline;
+  theme_headline_color: #555;
+  theme_headline_size_large: 1.8em;
+  theme_headline_size_medium: 1.2em;
 
   /* 
   BORDER COLORS
@@ -82,16 +83,16 @@ DEFAULT STYLES FOR THIS THEME
   These colors are applied to borders around or within boxes that have a background color,
   like widgets.
   */
-  theme_foreground_border_color: #fff;
-  theme_foreground_border_color_light: #fff;
-  theme_foreground_background_color: #fff;
+  theme_foreground_border_color: transparent;
+  theme_foreground_border_color_light: transparent;
+  theme_foreground_background_color: transparent;
 
   /*
   INPUT FIELDS AND BUTTONS
   These values style input fields and buttons that appear throughout the layout.
   */
   theme_input_background_color: #fff;
-  theme_input_font_color: #444;
+  theme_input_font_color: #555;
   theme_input_border_colors: #999 #ccc #ccc #999;
   theme_button_background_color: #619dbe;
   theme_button_background_color_hover: #7eb6d5;
@@ -119,7 +120,7 @@ DEFAULT STYLES FOR THIS THEME
   These colors are applied to the button-style tab menus which are often shown
   on browse pages.
   */
-  theme_buttontabs_font_color: rgba(0, 0, 0, 0.5);
+  theme_buttontabs_font_color: #999;
   theme_buttontabs_font_color_hover: #444;
   theme_buttontabs_font_color_active: #444;
   theme_buttontabs_background_color: transparent;
@@ -200,14 +201,12 @@ img.thumb_icon
 }
 img.main,
 img.thumb_normal,
+img.thumb_profile,
 img.thumb_icon
 {
   border: 1px solid $theme_photo_border_color;
 }
 
-img.thumb_profile {
-    border: none;
-}
 
 
 
