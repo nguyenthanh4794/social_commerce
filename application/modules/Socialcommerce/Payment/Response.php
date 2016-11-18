@@ -8,7 +8,7 @@
  */
 class Socialcommerce_Payment_Response implements Socialcommerce_Payment_Response_Interface
 {
-    const STATUS_APPROVED   = 'completed';
+    const STATUS_APPROVED   = 'approved';
     const STATUS_DECLINED   = 'declined';
     const STATUS_PENDING    = 'pending';
     const STATUS_ERROR      = 'error';

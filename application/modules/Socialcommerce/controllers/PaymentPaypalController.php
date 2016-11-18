@@ -12,7 +12,7 @@ class Socialcommerce_PaymentPaypalController extends Core_Controller_Action_Stan
     /**
      * @return Zend_Log
      */
-    public function getLog($filename = 'socialcommerce.notify.log')
+    public function getLog($filename = 'store.notify.log')
     {
         $writer = new Zend_Log_Writer_Stream(APPLICATION_PATH . '/temporary/log/' . $filename);
         return new Zend_Log($writer);
@@ -80,12 +80,11 @@ class Socialcommerce_PaymentPaypalController extends Core_Controller_Action_Stan
         $return_url = $router->assemble(array('module' => 'socialcommerce', 'controller' => 'payment-paypal', 'action' => 'review', 'id' => $order_id, 'gateway' => $gateway), 'default', true);
         $notify_url = $router->assemble(array('module' => 'socialcommerce', 'controller' => 'payment-paypal', 'action' => 'notify', 'id' => $order_id, 'gateway' => $gateway), 'default', true);
         $cancel_url = $router->assemble(array('module' => 'socialcommerce', 'controller' => 'payment-paypal', 'action' => 'cancel', 'id' => $order_id, 'gateway' => $gateway), 'default', true);
-        $baseUrl = $this->getBaseUrl();
-        if (!$baseUrl) $baseUrl = 'http://35.161.60.158';
+
         $options = array(
-            'return_url' => $baseUrl . $return_url,
-            'notify_url' => $baseUrl . $notify_url,
-            'cancel_url' => $baseUrl . $cancel_url,
+            'return_url' => $this->getBaseUrl() . $return_url,
+            'notify_url' => $this->getBaseUrl() . $notify_url,
+            'cancel_url' => $this->getBaseUrl() . $cancel_url,
             'no_shipping' => '1',
         );
 
@@ -186,7 +185,6 @@ class Socialcommerce_PaymentPaypalController extends Core_Controller_Action_Stan
         $this->view->moreInfos = $moreInfo;
 
         $baseUrl = $this->getBaseUrl();
-        if (!$baseUrl) $baseUrl = 'http://35.161.60.158';
         $allParams = $this->_getAllParams();
 
         if ($this->_request->isGet()) {
@@ -221,8 +219,8 @@ class Socialcommerce_PaymentPaypalController extends Core_Controller_Action_Stan
                 // process request.
                 $response = $payment->process($request);
                 // log response result.
-                $response_options = $response->getOptions();
-                $this->getLog('socialcommerce.response.log')->log(var_export($response_options,true), Zend_Log::DEBUG);
+                //$response_options = $response->getOptions();
+                //$this->getLog('store.response.log')->log(var_export($response_options,true), Zend_Log::DEBUG);
 
                 /**
                  * add transaction
@@ -231,7 +229,7 @@ class Socialcommerce_PaymentPaypalController extends Core_Controller_Action_Stan
                 // get payment status
                 $status = $response->getOption('payment_status');
                 $status = strtolower($status);
-                $this->getLog('socialcommerce.status.log')->log(var_export($status,true), Zend_Log::DEBUG);
+
                 // cucess result
                 if ($response->isSuccess()) {
                     // process plugin.

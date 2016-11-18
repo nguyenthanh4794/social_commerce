@@ -6,7 +6,7 @@
  * Date: 11/8/2016
  * Time: 8:09 PM
  */
-class Socialcommerce_Form_Payment_Shipping extends Engine_Form_Email
+class Socialcommerce_Form_Payment_Shipping extends Engine_Form
 {
     public function init()
     {
@@ -21,25 +21,6 @@ class Socialcommerce_Form_Payment_Shipping extends Engine_Form_Email
             'required' => true,
             'filters' => array('StringTrim'),
         ));
-
-        $emailElement = $this->addEmailElement(array(
-            'label' => 'Email Address',
-            'required' => true,
-            'allowEmpty' => false,
-            'validators' => array(
-                array('NotEmpty', true),
-                array('EmailAddress', true),
-            ),
-            'filters' => array(
-                'StringTrim'
-            ),
-            // fancy stuff
-            'inputType' => 'email',
-            'autofocus' => 'autofocus',
-        ));
-        $emailElement->getDecorator('Description')->setOptions(array('placement' => 'APPEND'));
-        $emailElement->getValidator('NotEmpty')->setMessage('Please enter a valid email address.', 'isEmpty');
-        $emailElement->getValidator('EmailAddress')->getHostnameValidator()->setValidateTld(false);
 
         $this->addElement('text', 'street', array(
             'label' => 'Address Line 1',
@@ -172,7 +153,6 @@ class Socialcommerce_Form_Payment_Shipping extends Engine_Form_Email
     {
         $viewer = Engine_Api::_()->user()->getViewer();
         $params = $this->getValues();
-        unset($params['email_field']);
 
         $table = Engine_Api::_()->getDbTable('shippingaddresses', 'socialcommerce');
         $address = $table->createRow();

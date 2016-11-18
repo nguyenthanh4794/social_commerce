@@ -109,7 +109,7 @@ class Socialcommerce_PaymentController extends Core_Controller_Action_Standard
         }
 
         // Process
-        $table = new Socialcommerce_Model_DbTable_ShippingAddresses;
+        $table = Engine_Api::_()->getDbTable('shippingaddresses', 'socialcommerce');
         $db = $table->getAdapter();
         $db->beginTransaction();
 
