@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl()?>/application/modules/Socialcommerce/externals/styles/aleofont.css" />
 <?php
 $coverPhotoUrl = "";
 if ($this->stall->cover_id)
@@ -11,7 +12,15 @@ $coverPhotoUrl = $this->stall->getCoverPhotoUrl();
     ? ($this->stall->getPhotoUrl())
     : $this->layout()->staticBaseUrl . 'application/modules/Socialcommerce/externals/images/nophoto_stall_thumb_profile.png';
     ?>
-
+    <div class="profile_cover_avata_title">
+        <div class="profile-cover-avatar">
+            <span style="background-image: url(<?php echo $stallPhotoUrl; ?>);"></span>
+        </div>
+        <div class="profile-cover-title">
+            <span class="socialcommerce_stall_profile_name" title="Group Name"><?php echo $this->translate($this->stall->title) ?></span>
+        </div>
+        <div class="pu_clearfix"></div>
+    </div>
     <?php if ($coverPhotoUrl!="") : ?>
     <div class="profile-cover-picture">
         <span class="profile-cover-picture-span" style="background-image: url(<?php echo $coverPhotoUrl; ?>);"></span>
@@ -21,11 +30,16 @@ $coverPhotoUrl = $this->stall->getCoverPhotoUrl();
         <span class="profile-cover-picture-span" style="background-image: url('application/modules/Socialcommerce/externals/images/socialcommerce_default_cover.jpg');"></span>
     </div>
     <?php endif; ?>
-    <div class="profile-cover-avatar">
-        <span style="background-image: url(<?php echo $stallPhotoUrl; ?>);"></span>
-    </div>
     <div class="socialcommerce-detail-info">
-        <div class="info-top ynclearfix">
+        <div class="info-middle ynclearfix">
+            <div class="socialcommerce_details_owner" title="Group Owner">
+                <img src="http://i.ebayimg.com/00/s/MzAwWDMwMA==/z/~wMAAOxyA7tSYa~H/$(KGrHqMOKpwFJgF3B3h)BSY,+Ghrw!~~60_7.JPG" alt="ebaydealseditor" class="long" style="display: inline;">
+                <?php echo $this->translate($this->stall->getOwner()) ?>
+            </div>
+            <div class="socialcommerce-detail-more">
+                <!-- Add-This Button -->
+                <div class="addthis_sharing_toolbox"></div>
+            </div>
             <div class="socialcommerce-detail-action">
                 <?php if ($this->viewer() -> getIdentity()):
                 $url = $this -> url(array(
@@ -35,15 +49,17 @@ $coverPhotoUrl = $this->stall->getCoverPhotoUrl();
                 'type' => $this->stall -> getType(),
                 'id' => $this->stall -> getIdentity(),
                 'format' => 'smoothbox'),'default', true);?>
-                <div class="">
-                    <a href="javascript:void(0);" onclick="checkOpenPopup('<?php echo $url?>')"><i class="ynicon-shared" title="<?php echo $this -> translate("Share this stall")?>"></i></a>
+                <div>
+                    <a href="javascript:void(0);" onclick="checkOpenPopup('<?php echo $url?>')">
+                        Share
+                    </a> |
+                    <a href="">
+                        Follow
+                    </a>
                 </div>
                 <?php endif;?>
-
                 <?php if ($this->viewer()->getIdentity()): ?>
                 <?php if($this->aReportButton):?>
-
-
                 <div class="">
                     <a href="<?php echo $this->url($this->aReportButton['params'],
 		                	$this->aReportButton['route'], array());?>"
@@ -53,43 +69,8 @@ $coverPhotoUrl = $this->stall->getCoverPhotoUrl();
                         report
                     </a>
                 </div>
-
                 <?php endif;?>
                 <?php endif;?>
-
-                <?php if ($this->viewer()->getIdentity()): ?>
-                <div id="socialcommerce_widget_cover_settings"><i class="ynicon-setting" title="<?php echo $this -> translate("Group options")?>"></i></div>
-                <?php endif;?>
-            </div>
-            <div class="socialcommerce-detail-main">
-                <div>
-                    <strong title="Group Name"><?php echo $this->translate($this->stall->title) ?></strong>
-                    by
-                    <strong title="Group Owner">
-                        <a href=""><?php echo $this->translate($this->stall->getOwner()) ?></a>
-                    </strong>
-                </div>
-                <div>
-					<span>
-						<i class="ynicon yn-alarm" title="Time create"></i>
-                        <?php echo $this->timestamp(strtotime($this->stall->creation_date)); ?>
-					</span>
-                </div>
-                <?php if($this->stall->location != ""):?>
-                <div class="location-info">
-					<span title="<?php echo $this->stall->location; ?>">
-						<i class="ynicon yn-location" title="Location"></i>
-                        <?php echo $this->stall->location; ?>
-					</span>
-                </div>
-                <?php endif;?>
-            </div>
-        </div>
-
-        <div class="info-bottom ynclearfix">
-            <div class="socialcommerce-detail-more">
-                <!-- Add-This Button -->
-                <div class="addthis_sharing_toolbox"></div>
             </div>
         </div>
     </div>

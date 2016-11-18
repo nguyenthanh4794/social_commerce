@@ -95,27 +95,19 @@ to a signed-in member such as 'view my profile',
 visible on plugin browse pages to prompt members
 to create new content.
 */
-
-.layout_user_home_links, .layout_core_statistics
-{
-  overflow: hidden;
-    border-bottom: solid 1px #eee;
-}
 .quicklinks
 {
   +foreground;
   +rounded;
   overflow: hidden;
-    width: 200px;
+  width: 100%;
 }
 .quicklinks li
 {
-  padding: 6px;
+  padding: 5px;
 }
 .quicklinks li + li
 {
-  border-color: $theme_foreground_border_color;
-  border-top-width: 1px;
   padding-top: 6px;
 }
 form + .quicklinks
@@ -313,7 +305,7 @@ on the main home page.
 }
 .layout_user_list_signups .newestmembers_date
 {
-  font-size: .8em;
+  font-size: .9em;
   color: $theme_font_color_light;
 }
 
@@ -937,7 +929,6 @@ html[dir="rtl"] ul.profile_friends .profile_friends_options div
   float: right;
   overflow: hidden;
   font-weight: bold;
-  text-transform: uppercase;
 }
 html[dir="rtl"] .profile_friends_lists li > span
 {
@@ -1162,7 +1153,7 @@ Part of the signup process.
 
 
 
-/* ACTION TYPE ICONS */
+/* ACTION TYPE ICONS *//*
 .activity_icon_status,
 .activity_icon_post,
 .activity_icon_post_self
@@ -1187,7 +1178,7 @@ body .activity_icon_tagged
 {
   background-image: url(~/application/modules/User/externals/images/types/tag.png);
 }
-
+*/
 
 
 

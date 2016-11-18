@@ -19,7 +19,7 @@
     				'action' => 'create',
     				'parent_type' =>'socialcommerce_stall',
     				'subject_id' =>  $this->stall->stall_id,
-    			), '<i class="ynicon yn-plus-circle"></i>'.$this->translate('Create New Video'), array(
+    			), ''.$this->translate('+ Add Video'), array(
     			'class' => 'buttonlink'
     			)) ;
     	?>

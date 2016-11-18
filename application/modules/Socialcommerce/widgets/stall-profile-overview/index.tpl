@@ -1,4 +1,4 @@
-<h3><?php echo $this->translate('About the ').$this->stall->title; ?></h3>
+<h3><?php echo $this->translate('About ').$this->stall->title; ?></h3>
 <?php if ($this->viewer() -> getIdentity()):
 $url = $this -> url(array(
 'module' => 'socialcommerce',
@@ -89,7 +89,7 @@ $url = $this -> url(array(
     </div>
     <div class="socialcommerce-overview-content">
         <div class="socialcommerce-description rich_content_body">
-            <a href="<?php $this -> stall -> web_address ?>"><?php echo $this -> stall -> web_address?></a>
+            <a target="_blank" href="<?php echo $this -> stall -> web_address ?>"><?php echo $this -> stall -> web_address?></a>
         </div>
     </div>
 </div>

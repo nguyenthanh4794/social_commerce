@@ -5,7 +5,7 @@ return array(
         array(
             'type' => 'module',
             'name' => 'socialcommerce',
-            'version' => '4.0.1',
+            'version' => '4.01p1',
             'path' => 'application/modules/Socialcommerce',
             'title' => 'Social - Commerce',
             'description' => '',
@@ -41,6 +41,7 @@ return array(
         'socialcommerce_review',
         'socialcommerce_product',
         'socialcommerce_account',
+        'socialcommerce_order',
     ),
 
     // Hooks ---------------------------------------------------------------------
@@ -157,6 +158,17 @@ return array(
                 'action' => '\D+',
             )
         ),
+
+        'socialcommerce_cart' =>
+            array(
+                'route' => $route . '/my-cart/:action/*',
+                'defaults' =>
+                    array(
+                        'module' => 'socialcommerce',
+                        'controller' => 'my-cart',
+                        'action' => 'index',
+                    ),
+            ),
     )
 
 ); ?>

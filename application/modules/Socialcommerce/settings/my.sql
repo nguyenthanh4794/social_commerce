@@ -72,6 +72,33 @@ CREATE TABLE `engine4_socialcommerce_stalls` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
+CREATE TABLE IF NOT EXISTS `engine4_socialcommerce_cartitems` (
+  `cartitem_id` bigint(20) unsigned NOT NULL auto_increment,
+  `cart_id` bigint(20) unsigned NOT NULL default '0',
+  `owner_id` int(11) unsigned NOT NULL default '0',
+  `item_id` bigint(20) unsigned NOT NULL default '0',
+  `item_qty` int(11) unsigned NOT NULL default '0',
+  `guest_id` int(11) unsigned NOT NULL default '0',
+  `creation_date` datetime NOT NULL,
+  PRIMARY KEY  (`cartitem_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `engine4_socialcommerce_carts`
+--
+
+CREATE TABLE IF NOT EXISTS `engine4_socialcommerce_carts` (
+  `cart_id` bigint(20) unsigned NOT NULL auto_increment,
+  `owner_id` int(11) unsigned NOT NULL default '0',
+  `guest_id` int(11) unsigned NOT NULL default '0',
+  `creation_date` datetime NOT NULL,
+  PRIMARY KEY  (`cart_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
   CREATE TABLE `engine4_socialcommerce_products` (
     `product_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
     `stall_id` int(10) UNSIGNED NOT NULL,
@@ -120,6 +147,34 @@ CREATE TABLE `engine4_socialcommerce_packages` (
   PRIMARY KEY (`package_id`),
   KEY `title` (`title`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `engine4_socialcommerce_orderitems` (
+  `orderitem_id` bigint(20) unsigned NOT NULL auto_increment,
+  `stall_id` bigint(20) unsigned NOT NULL default '0',
+  `order_id` varchar(20) NOT NULL,
+  `object_id` int(11) unsigned NOT NULL,
+  `object_type` varchar(32) default NULL,
+  `pretax_price` decimal(16,2) NOT NULL,
+  `price` decimal(16,2) NOT NULL,
+  `sku` varchar(256) NOT NULL,
+  `quantity` int(11) NOT NULL default '1',
+  `item_tax_amount` decimal(16,2) NOT NULL default '0.00',
+  `item_commission_amount` decimal(16,2) NOT NULL default '0.00',
+  `tax_amount` decimal(16,2) NOT NULL default '0.00',
+  `shipping_amount` decimal(16,2) NOT NULL default '0.00',
+  `handling_amount` decimal(16,2) NOT NULL default '0.00',
+  `discount_amount` decimal(16,2) NOT NULL default '0.00',
+  `commission_amount` decimal(16,2) NOT NULL default '0.00',
+  `sub_amount` decimal(16,2) NOT NULL default '0.00',
+  `delivery_status` enum('processing','shipping','delivered') NOT NULL default 'processing',
+  `payment_status` varchar(50) NOT NULL default 'processing',
+  `total_amount` decimal(16,2) NOT NULL,
+  `currency` varchar(3) NOT NULL,
+  `name` varchar(128) NOT NULL,
+  `description` varchar(128) NOT NULL,
+  `refund_status` tinyint(1) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`orderitem_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `engine4_socialcommerce_categories`

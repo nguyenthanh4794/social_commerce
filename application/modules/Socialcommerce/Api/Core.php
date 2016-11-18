@@ -23,4 +23,14 @@ class Socialcommerce_Api_Core extends Core_Api_Abstract
 
         return $option -> option_id;
     }
+
+    public function getStallById($stall_id)
+    {
+        return Engine_Api::_()->getItem('socialcommerce_stall', $stall_id);
+    }
+
+    public function isSandboxMode()
+    {
+        return true;
+    }
 }
