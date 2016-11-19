@@ -32,7 +32,7 @@ class Socialcommerce_Form_Payment_Review extends Engine_Form
             'label' => 'cancel',
             'link' => true,
             'prependText' => ' or ',
-            'href' => Zend_Controller_Front::getInstance()->getRouter()->assemble(array(), 'socialstore_general', true),
+            'href' => Zend_Controller_Front::getInstance()->getRouter()->assemble(array(), 'socialcommerce_general', true),
             'onclick' => '',
             'decorators' => array(
                 'ViewHelper'

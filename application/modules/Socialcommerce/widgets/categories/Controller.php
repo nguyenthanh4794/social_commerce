@@ -1,12 +1,4 @@
 <?php
-
-/**
- * YouNet Company
- *
- * @category   Application_Extensions
- * @package    Yndynamicform
- * @author     YouNet Company
- */
 class Socialcommerce_Widget_CategoriesController extends Engine_Content_Widget_Abstract
 {
     public function indexAction()

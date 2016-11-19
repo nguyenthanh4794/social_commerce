@@ -6,7 +6,7 @@
  * Date: 11/8/2016
  * Time: 8:09 PM
  */
-class Socialcommerce_Form_Payment_Shipping extends Engine_Form
+class Socialcommerce_Form_Payment_Shipping extends Engine_Form_Email
 {
     public function init()
     {
@@ -21,6 +21,25 @@ class Socialcommerce_Form_Payment_Shipping extends Engine_Form
             'required' => true,
             'filters' => array('StringTrim'),
         ));
+
+        $emailElement = $this->addEmailElement(array(
+            'label' => 'Email Address',
+            'required' => true,
+            'allowEmpty' => false,
+            'validators' => array(
+                array('NotEmpty', true),
+                array('EmailAddress', true),
+            ),
+            'filters' => array(
+                'StringTrim'
+            ),
+            // fancy stuff
+            'inputType' => 'email',
+            'autofocus' => 'autofocus',
+        ));
+        $emailElement->getDecorator('Description')->setOptions(array('placement' => 'APPEND'));
+        $emailElement->getValidator('NotEmpty')->setMessage('Please enter a valid email address.', 'isEmpty');
+        $emailElement->getValidator('EmailAddress')->getHostnameValidator()->setValidateTld(false);
 
         $this->addElement('text', 'street', array(
             'label' => 'Address Line 1',
@@ -117,7 +136,7 @@ class Socialcommerce_Form_Payment_Shipping extends Engine_Form
         $this->addElement('Button', 'addshippingaddress', array(
             'label' => 'Add Another Address',
             'type' => 'button',
-            'onclick' => "javascript:en4.socialstore.shipping.addAnotherBox('" . $order_id . "')",
+            'onclick' => "javascript:en4.socialcommerce.shipping.addAnotherBox('" . $order_id . "')",
             'ignore' => true,
             'decorators' => array(
                 'ViewHelper',
@@ -153,6 +172,7 @@ class Socialcommerce_Form_Payment_Shipping extends Engine_Form
     {
         $viewer = Engine_Api::_()->user()->getViewer();
         $params = $this->getValues();
+        unset($params['email_field']);
 
         $table = Engine_Api::_()->getDbTable('shippingaddresses', 'socialcommerce');
         $address = $table->createRow();

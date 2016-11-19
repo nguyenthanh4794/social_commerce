@@ -1,4 +1,4 @@
-<h2><?php echo $this->translate("YouNet Social Commerce Plugin") ?></h2>
+<h2><?php echo $this->translate("Social Commerce Plugin") ?></h2>
 <?php if( count($this->navigation) ): ?>
 <div class='tabs'>
     <?php
@@ -55,8 +55,6 @@
                             <?php echo $this->htmlLink(array('route' => 'admin_default', 'module' => 'socialcommerce', 'controller' => 'categories', 'action' => 'delete-category', 'id' =>$category->category_id), $this->translate('delete'), array(
                             'class' => 'smoothbox',
                             )) ?>
-                            |
-                            <a href='<?php echo $this->baseUrl();?>/admin/socialcommerce/categories-fields?option_id=<?php echo $category->option_id ?>&id=<?php echo $category->category_id ?>'><?php echo $this->translate('manage custom fields') ?></a>
                             <?php if($category->level <= 2) :?>
                             |
                             <?php echo $this->htmlLink(array('route' => 'admin_default', 'module' => 'socialcommerce', 'controller' => 'categories', 'action' => 'add-category', 'parent_id' =>$category->category_id), $this->translate('add sub-category'), array(

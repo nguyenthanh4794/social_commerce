@@ -1,5 +1,5 @@
 <!-- render my widget -->
-<?php echo $this->content()->renderWidget('socialstore.main-menu') ?>
+<?php echo $this->content()->renderWidget('socialcommerce.main-menu') ?>
 <h2>
 <?php echo $this->translate('There has been an error in your transaction.');?>
 </h2>

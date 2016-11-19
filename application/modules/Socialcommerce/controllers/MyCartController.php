@@ -17,6 +17,7 @@ class Socialcommerce_MyCartController extends Core_Controller_Action_Standard
         if (!$this -> _helper -> requireUser() -> isValid()) {
             return;
         }
+
         $cart = Socialcommerce_Api_Cart::getInstance();
         $count = $cart -> countAllQty();
         if ($count < 1) {
@@ -127,5 +128,9 @@ class Socialcommerce_MyCartController extends Core_Controller_Action_Standard
         $id = $this -> _getParam('cartitem-id');
         $cart = Socialcommerce_Api_Cart::getInstance() -> removeCartItem($id);
         $this -> _forward('success', 'utility', 'core', array('smoothboxClose' => true, 'parentRedirect' => $this -> getFrontController() -> getRouter() -> assemble(array('module' => 'socialcommerce', 'controller' => 'my-cart', 'action' => 'index'), 'default', true), 'format' => 'smoothbox', 'messages' => array(Zend_Registry::get('Zend_Translate') -> _('Remove item successfully.'))));
+    }
+
+    public function emptyCartAction() {
+
     }
 }

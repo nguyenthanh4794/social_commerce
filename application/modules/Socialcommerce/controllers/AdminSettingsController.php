@@ -19,48 +19,29 @@ class Socialcommerce_AdminSettingsController extends Core_Controller_Action_Admi
             $params = $this->getRequest()->getPost();
         }
 
-        $this->view->form = $form = new Socialcommerce_Form_Admin_Settings_Global(array('params' => $params));
+        $this->view->form = $setting_form = new Socialcommerce_Form_Admin_Settings_Global(array('params' => $params));
 
-        if (!$this->getRequest()->isPost()){
-            return;
-        }
-        $p_valid = $this->getRequest()->getPost();
-        $colorSettings = array(
-            'menu_backgroundcolor',
-            'menu_hovercolor',
-            'menu_textcolor',
-            'menu_backgroundbar'
-        );
-        $formValues  = $form->getValues();
-        foreach ($colorSettings as $setting) {
-            $p_valid['socialcommerce_'.$setting] = $formValues['socialcommerce_'.$setting];
-        }
-        if($form->isValid($p_valid)) {
-            $p_post = $this->getRequest()->getPost();
-            $values = $form->getValues();
-            foreach ($colorSettings as $setting) {
-                $values['socialcommerce_'.$setting] = $p_post[$setting];
-            }
-            unset($values['image']);
+        if ($this->getRequest()->isPost() && $setting_form->isValid($this->_getAllParams())) {
+            $values = $setting_form->getValues();
             foreach ($values as $key => $value) {
                 $settings->setSetting($key, $value);
             }
-            $form->addNotice('Your changes have been saved.');
+            $setting_form->addNotice(Zend_Registry::get('Zend_Translate')->_('Your changes have been saved.'));
         }
     }
 
-    public function levelAction() {
+    public function levelAction()
+    {
         $this->view->navigation = $navigation = Engine_Api::_()->getApi('menus', 'core')
             ->getNavigation('socialcommerce_admin_main', array(), 'socialcommerce_admin_settings_level');
 
         if (null !== ($id = $this->_getParam('level_id'))) {
             $level = Engine_Api::_()->getItem('authorization_level', $id);
-        }
-        else {
+        } else {
             $level = Engine_Api::_()->getItemTable('authorization_level')->getDefaultLevel();
         }
 
-        if(!$level instanceof Authorization_Model_Level) {
+        if (!$level instanceof Authorization_Model_Level) {
             throw new Engine_Exception('missing level');
         }
 
@@ -68,72 +49,76 @@ class Socialcommerce_AdminSettingsController extends Core_Controller_Action_Admi
 
         // Make form
         $this->view->form = $form = new Socialcommerce_Form_Admin_Settings_Level(array(
-            'public' => ( in_array($level->type, array('public')) ),
-            'moderator' => ( in_array($level->type, array('admin', 'moderator')) ),
+            'public' => (in_array($level->type, array('public'))),
+            'moderator' => (in_array($level->type, array('admin', 'moderator'))),
         ));
-        $settings = Engine_Api::_()->getApi('settings', 'core');
         $form->level_id->setValue($id);
 
+        // Populate values
+        $formSettingValues = $form->getSettingsValues();
         $permissionsTable = Engine_Api::_()->getDbtable('permissions', 'authorization');
-        $form->populate($permissionsTable->getAllowed('socialcommerce_listing', $id, array_keys($form->getValues())));
 
-        if ($level->type != 'public') {
-            $numberFieldArr = Array('max_listing');
-            foreach ($numberFieldArr as $numberField) {
-                if ($permissionsTable->getAllowed('socialcommerce_listing', $id, $numberField) == null) {
-                    $row = $permissionsTable->fetchRow($permissionsTable->select()
-                        ->where('level_id = ?', $id)
-                        ->where('type = ?', 'socialcommerce_listing')
-                        ->where('name = ?', $numberField));
-                    if ($row) {
-                        $form->$numberField->setValue($row->value);
-                    }
-                }
-            }
+        $valuesKeyListings = $permissionsTable->getAllowed('socialcommerce_listing', $id, array_keys($formSettingValues['listing']));
+        $valuesListings = array();
+        foreach ($valuesKeyListings as $key => $value)
+        {
+            $valuesListings['listing_'.$key] = $value;
         }
 
+        $valuesKeyStalls = $permissionsTable->getAllowed('socialcommerce_stall', $id, array_keys($formSettingValues['stall']));
+        $valuesStalls = array();
+        foreach ($valuesKeyStalls as $key => $value)
+        {
+            $valuesStalls['stall_'.$key] = $value;
+        }
+
+        $form->populate(array_merge($valuesStalls, $valuesListings));
+
         // Check post
-        if(!$this->getRequest()->isPost()) {
+        if (!$this->getRequest()->isPost()) {
             return;
         }
 
         // Check validitiy
-        if(!$form->isValid($this->getRequest()->getPost())) {
+        if (!$form->isValid($this->getRequest()->getPost())) {
             return;
         }
 
+        // Process
         $values = $form->getValues();
+        $settingValues = $form->getSettingsValues();
         $db = $permissionsTable->getAdapter();
         $db->beginTransaction();
         // Process
         if ($level->type != 'public') {
 
-            $checkArr = array('auth_view', 'auth_comment', 'auth_share', 'auth_photo', 'auth_video', 'auth_discussion');
+            $checkArr = array('auth_view', 'auth_photo', 'auth_video', 'auth_comment');
             foreach ($checkArr as $check) {
-                if(empty($values[$check])) {
-                    unset($values[$check]);
-                    $form->$check->setValue($permissionsTable->getAllowed('socialcommerce_listing', $id, $check));
+                if (empty($values['listing_'.$check])) {
+                    unset($values['listing_'.$check]);
+                    $form->$check->setValue($permissionsTable->getAllowed('socialcommerce_listing', $id, 'auth_'.$check));
+                }
+
+                if (empty($values['stall_'.$check])) {
+                    unset($values['stall_'.$check]);
+                    $form->$check->setValue($permissionsTable->getAllowed('socialcommerce_stall', $id, 'auth_'.$check));
                 }
             }
             try {
-                $permissionValues = $values;
-                $permissionsTable->setAllowed('socialcommerce_listing', $id, $permissionValues);
+                $permissionsTable->setAllowed('socialcommerce_listing', $id, $settingValues['listing']);
+                $permissionsTable->setAllowed('socialcommerce_stall', $id, $settingValues['stall']);
                 // Commit
                 $db->commit();
-            }
-
-            catch(Exception $e) {
+            } catch (Exception $e) {
                 $db->rollBack();
                 throw $e;
             }
-        }
-        else {
+        } else {
             try {
-                $permissionsTable->setAllowed('socialcommerce_listing', $id, $values);
+                $permissionsTable->setAllowed('socialcommerce_listing', $id, $values['listing_view']);
+                $permissionsTable->setAllowed('socialcommerce_stall', $id, $values['stall_view']);
                 $db->commit();
-            }
-
-            catch(Exception $e) {
+            } catch (Exception $e) {
                 $db->rollBack();
                 throw $e;
             }

@@ -36,37 +36,6 @@ class Socialcommerce_Form_Admin_Category extends Engine_Form
 
         $this -> addElement('File', 'photo', array('label' => 'Icon', 'required'  => true, 'allowEmpty'=> false));
         $this -> photo -> addValidator('Extension', false, 'jpg,png,gif,jpeg');
-        if(!empty($this -> _category))
-        {
-            $this -> addElement('dummy', 'themes', array(
-                'label'     => 'Select Themes',
-                'required'  => true,
-                'allowEmpty'=> false,
-                'decorators' => array( array(
-                    'ViewScript',
-                    array(
-                        'viewScript' => '_themes.tpl',
-                        'category' =>  $this -> _category,
-                        'class' => 'form element',
-                    )
-                )),
-            ));
-        }
-        else
-        {
-            $this -> addElement('dummy', 'themes', array(
-                'label'     => 'Select Themes',
-                'required'  => true,
-                'allowEmpty'=> false,
-                'decorators' => array( array(
-                    'ViewScript',
-                    array(
-                        'viewScript' => '_themes.tpl',
-                        'class' => 'form element',
-                    )
-                )),
-            ));
-        }
 
         // Buttons
         $this->addElement('Button', 'submit', array(
@@ -87,7 +56,6 @@ class Socialcommerce_Form_Admin_Category extends Engine_Form
             )
         ));
         $this->addDisplayGroup(array('submit', 'cancel'), 'buttons');
-        $button_group = $this->getDisplayGroup('buttons');
     }
 
     public function setField($category, $isSub = true)

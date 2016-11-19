@@ -130,7 +130,7 @@ class Socialcommerce_Form_Stall_AddProduct extends Engine_Form
                 $product->save();
                 $set_cover = false;
             }
-
+            $photo->item_id = $product->getIdentity();
             $photo->order    = $photo_id;
             $photo->save();
 

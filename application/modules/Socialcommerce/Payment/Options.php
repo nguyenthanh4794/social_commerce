@@ -28,7 +28,7 @@ class Socialcommerce_Payment_Options
      *
      * @param string $key
      * @param string $value
-     * @return Socialstore_Payment_Info
+     * @return Socialcommerce_Payment_Info
      */
     public function set($key, $value)
     {

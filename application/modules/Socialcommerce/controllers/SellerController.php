@@ -65,7 +65,7 @@ class Socialcommerce_SellerController extends Core_Controller_Action_Standard
             'parentRedirect' => Zend_Controller_Front::getInstance() -> getRouter() -> assemble(array(
                 'module' => 'socialcommerce',
                 'controller' => 'seller',
-                'action' => 'info',
+                'action' => 'dashboard',
                 'account_id' => $account -> getIdentity(),
             ), 'socialcommerce_general', true),
             'messages' => array(Zend_Registry::get('Zend_Translate') -> _('Your account has been successfully created.'))
@@ -128,5 +128,16 @@ class Socialcommerce_SellerController extends Core_Controller_Action_Standard
         }
 
         $this -> view -> form = $form = new Socialcommerce_Form_Seller_Search();
+    }
+
+    public function dashboardAction()
+    {
+        $this->_helper->content
+            ->setEnabled()
+        ;
+
+        if (!$this -> _helper -> requireUser -> isValid())
+            return;
+        Zend_Registry::set('SELLERMENU_ACTIVE','dashboard');
     }
 }

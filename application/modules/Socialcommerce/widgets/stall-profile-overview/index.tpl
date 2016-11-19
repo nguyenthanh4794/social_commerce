@@ -89,7 +89,7 @@ $url = $this -> url(array(
     </div>
     <div class="socialcommerce-overview-content">
         <div class="socialcommerce-description rich_content_body">
-            <a href="<?php $this -> stall -> web_address ?>"><?php echo $this -> stall -> web_address?></a>
+            <a target="_blank" href="<?php echo $this -> stall -> web_address ?>"><?php echo $this -> stall -> web_address?></a>
         </div>
     </div>
 </div>

@@ -17,6 +17,6 @@
 </div>
 <script type="text/javascript">
     $('level_id').addEvent('change', function(){
-        window.location.href = en4.core.baseUrl + 'admin/ynmultilisting/settings/level/level_id/'+this.get('value');
+        window.location.href = en4.core.baseUrl + 'admin/socialcommerce/settings/level/level_id/'+this.get('value');
     });
 </script>

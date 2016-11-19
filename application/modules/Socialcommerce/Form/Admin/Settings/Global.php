@@ -8,24 +8,12 @@
  */
 class Socialcommerce_Form_Admin_Settings_Global extends Engine_Form
 {
-    protected $_params = array();
-
-    public function getParams() {
-        return $this -> _params;
-    }
-
-    public function setParams($params) {
-        $this -> _params = $params;
-    }
-
     public function init() {
         $this
             ->setTitle('Global Settings')
             ->setDescription('SOCIALCOMMERCE_SETTINGS_GLOBAL_DESCRIPTION');
 
-        $translate = Zend_Registry::get('Zend_Translate');
         $settings = Engine_Api::_()->getApi('settings', 'core');
-        $params = $this->getParams();
 
         $this -> addElement('Text', 'socialcommerce_addthis_pubid', array(
             'label' => 'Addthis - Profile ID',

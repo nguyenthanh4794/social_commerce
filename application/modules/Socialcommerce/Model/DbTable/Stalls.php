@@ -98,6 +98,10 @@ class Socialcommerce_Model_DbTable_Stalls extends Engine_Db_Table
             $select->where('stall.is_featured = ?', $params['featured']);
         }
 
+        if (isset($params['owner_id'])) {
+            $select->where('stall.owner_id = ?', $params['owner_id']);
+        }
+
 //        if (isset($params['user_id'])) {
 //            $select->where('stall.user_id = ?', $params['user_id']);
 //        } else {

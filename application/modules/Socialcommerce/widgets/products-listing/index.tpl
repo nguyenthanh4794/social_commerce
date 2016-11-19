@@ -34,6 +34,10 @@
         </li>
     <?php endforeach; ?>
     </ul>
+    <?php echo $this->paginationControl($this->paginator, null, null, array(
+    'pageAsQuery' => true,
+    'query' => $this->formValues,
+    )); ?>
 </div>
 <script type="text/javascript">
     window.addEvent('domready', function () {

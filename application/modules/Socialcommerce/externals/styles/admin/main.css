@@ -1,8 +1,218 @@
+=socialcommerce-box-sizing{
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+=socialcommerce-transition{
+     -webkit-transition: all 300ms;
+     -moz-transition: all 300ms;
+     transition: all 300ms;
+ }
 body[id^=global_page_socialcommerce-admin] {
     .tabs ul li {
         padding: 7px;
     }
     .settings .form-element .description, .settings .form-description {
         max-width: 100%!important;
+    }
+}
+.socialcommerce_manage_form_admin_search,
+#socialcommerce_manage_form_table {
+    input[type="text"], textarea, select{
+        max-height: none;
+        max-width: 100%;
+        min-height: initial;
+        min-width: initial;
+        +socialcommerce-box-sizing;
+        border-radius: 3px;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        height: 36px;
+    }
+    a{
+        display: inline-block;
+        font-weight: normal;
+        +socialcommerce-transition;
+        &:hover{
+            text-decoration: none;
+        }
+    }
+}
+/*----- manage form admin -----*/
+.socialcommerce_manage_form_admin_search{
+    .search{
+        padding: 0;
+        width: 100%;
+        +socialcommerce-box-sizing;
+        #filter_form{
+            .buttons{
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+            & > div:last-of-type{
+                margin-left: 5px;
+                margin-top: 17px;
+                button{
+                    height: 35px;
+                }
+            }
+            .form-wrapper{
+                width: 20%;
+                padding: 5px 5px 0 5px;
+                +socialcommerce-box-sizing;
+                margin: 0;
+                .form-label{
+                }
+                input[type="text"],
+                select{
+                    padding: 8px;
+                    margin: 0;
+                    width: 100%;
+                }
+                .form-element{
+                    position: relative;
+                    span.ui-datepicker-trigger{
+                        font-size: 16px;
+                        position: absolute;
+                        right: 1px;
+                        top: 1px;
+                        padding: 9px 9px;
+                        background-color: #eee;
+                        +socialcommerce-box-sizing;
+                        border-left: 1px solid #999;
+                        -webkit-border-top-right-radius: 3px;
+                        -moz-border-top-right-radius: 3px;
+                        border-top-right-radius: 3px;
+                        border-bottom-right-radius: 3px;
+                        -moz-border-bottom-right-radius: 3px;
+                        -webkit-border-bottom-right-radius: 3px;
+                        cursor: pointer;
+                    }
+                }
+            }
+            #status-wrapper{
+                width: 11%;
+            }
+        }
+    }
+}
+
+#socialcommerce_manage_form_table{
+    button{
+        height: 35px;
+    }
+    button#delete{
+        background-color: #d12f2f;
+        border-color: #b72c2d;
+        text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+        box-shadow: 0 1px 0 #f07676 inset;
+        &:hover{
+            background-color: #d95252;
+        }
+    }
+    .admin_table{
+        padding-top: 10px;
+        margin-bottom: 10px;
+        thead{
+            tr{
+                th{
+                    background-color: #fff;
+                    a{
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+        tbody tr td{
+            padding: 15px 10px;
+            &:nth-of-type(2){
+                max-width: 128px;
+            }
+            &:last-child{
+                padding: 0;
+                padding-right: 5px;
+                vertical-align: middle;
+                +socialcommerce-box-sizing;
+                & > div{
+                    background-color: #fff;
+                    border: 1px solid $theme_border_medium_color;
+                    +socialcommerce-box-sizing;
+                    border-radius: 3px;
+                    -moz-border-radius: 3px;
+                    -webkit-border-radius: 3px;
+                    display: flex;
+                    display: -moz-flex;
+                    display: -webkit-flex;
+                    border-right: 1px solid $theme_border_color;
+                    .socialcommerce_option_btn{
+                        display: inline-block;
+                        padding: 0;
+                        cursor: pointer;
+                        position: relative;
+                        &.socialcommerce_show{
+                            background-color: $theme_border_color;
+                        }
+                        span.ynicon{
+                            padding: 10px 8px;
+                            font-size: 8px;
+                            display: inline-block;
+                        }
+                        .socialcommerce_option_items{
+                            display: none;
+                            position: absolute;
+                            background: #fff;
+                            min-width: 90px;
+                            right: 0;
+                            border-radius: 3px;
+                            -webkit-border-radius: 3px;
+                            -moz-border-radius: 3px;
+                            z-index: 1;
+                            top: 28px;
+                            border: 1px solid $theme_border_medium_color;
+                            border-top: 0;
+                            li{
+                                a{
+                                    margin: 0;
+                                    padding: 0 7px;
+                                    text-align: left;
+                                    height: 32px;
+                                    display: block;
+                                    line-height: 32px;
+                                    font-size: 12px;
+                                    color: $theme_font_color;
+                                    border-top: 1px solid $theme_border_color;
+                                    &:hover{
+                                        background-color: #f8f8f8;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    & > div{
+                        padding: 4px 10px;
+                        text-align: center;
+                        flex-grow: 1;
+                        -moz-flex-grow: 1;
+                        -webkit-flex-grow: 1;
+                        border-left: 1px solid $theme_border_medium_color;
+                        &:first-of-type{
+                            border-left: 0;
+                        }
+                        a{
+                            padding: 4px 0;
+                            +socialcommerce-transition;
+                            color: $theme_font_color;
+                            font-size: 11px;
+                            font-weight: normal;
+                            text-align: center;
+                            &:hover{
+                                text-decoration: none;
+                                color: $theme_link_color_hover;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

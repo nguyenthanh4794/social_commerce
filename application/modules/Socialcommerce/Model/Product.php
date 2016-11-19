@@ -74,6 +74,14 @@ class Socialcommerce_Model_Product extends Core_Model_Item_Abstract
         return Engine_Api::_()->getApi('settings', 'core')->getSetting('payment.currency', 'USD');
     }
 
+    public function getCategory()
+    {
+        $category = Engine_Api::_()->getItem('socialcommerce_category', $this->category);
+        if ($category) {
+            return $category;
+        }
+    }
+
     public function ratingCount()
     {
         $table = Engine_Api::_()->getItemTable('socialcommerce_review');
@@ -142,6 +150,38 @@ class Socialcommerce_Model_Product extends Core_Model_Item_Abstract
 //        $item_tax_amount =  round( ($pretax_price * $this->tax_percentage)/100,2);
 //        $price = $item_tax_amount + $pretax_price;
         return $this->price;
+    }
+
+    public function approve()
+    {
+        if ($this->approve_status == 'waiting') {
+            $this->approve_status = 'approved';
+            $this->save();
+        }
+        return $this;
+    }
+
+    public function deny()
+    {
+        if ($this->approve_status == 'waiting') {
+            $this->approve_status = 'denied';
+            $this->save();
+        }
+        return $this;
+    }
+
+    public function feature()
+    {
+        $this->featured = 1;
+        $this->save();
+        return $this;
+    }
+
+    public function unfeature()
+    {
+        $this->featured = 0;
+        $this->save();
+        return $this;
     }
 
     public function getQuantity()

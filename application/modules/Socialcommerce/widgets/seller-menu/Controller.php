@@ -16,9 +16,29 @@ class Socialcommerce_Widget_SellerMenuController extends Engine_Content_Widget_A
             return $this->setNoRender();
         }
 
-        $this->view->navigation = Engine_Api::_()
+        $request = Zend_Controller_Front::getInstance()->getRequest();
+        switch ($request->getActionName())
+        {
+            case 'dashboard':
+                $active_menu = 'socialcommerce_seller_dashboard';
+                break;
+            case 'account':
+                $active_menu = 'socialcommerce_seller_account';
+                break;
+            case 'info':
+                $active_menu = 'socialcommerce_seller_info';
+                break;
+            case 'payment':
+                $active_menu = 'socialcommerce_seller_payment';
+                break;
+            default:
+                $active_menu = 'socialcommerce_seller_info';
+                break;
+        }
+
+        $this->view->navigation = $navigation = Engine_Api::_()
             ->getApi('menus', 'core')
-            ->getNavigation('socialcommerce_seller');
+            ->getNavigation('socialcommerce_seller', array(), $active_menu);
     }
 
     public function getCacheKey()

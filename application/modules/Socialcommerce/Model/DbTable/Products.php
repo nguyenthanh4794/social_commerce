@@ -30,4 +30,22 @@ class Socialcommerce_Model_DbTable_Products extends Engine_Db_Table
         return $select;
 
     }
+
+    public function getAllChildrenProductsByCategory($node)
+    {
+        $return_arr = array();
+        $cur_arr = array();
+        $list_categories = array();
+        Engine_Api::_() -> getItemTable('socialcommerce_category') -> appendChildToTree($node, $list_categories);
+        foreach($list_categories as $category)
+        {
+            $select = $this -> select() -> where('category = ?', $category -> category_id);
+            $cur_arr = $this -> fetchAll($select);
+            if(count($cur_arr) > 0)
+            {
+                $return_arr[] = $cur_arr;
+            }
+        }
+        return $return_arr;
+    }
 }

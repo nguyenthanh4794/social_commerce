@@ -1,11 +1,4 @@
 <?php
-/**
- * YouNet Company
- *
- * @category   Application_Extensions
- * @package    Yndynamicform
- * @author     YouNet Company
- */
 $session = new Zend_Session_Namespace('mobile');
 ?>
 

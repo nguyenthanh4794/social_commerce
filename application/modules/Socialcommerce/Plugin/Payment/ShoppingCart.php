@@ -51,9 +51,9 @@ class Socialcommerce_Plugin_Payment_ShoppingCart extends Socialcommerce_Plugin_P
         $transactionModel = new Socialcommerce_Model_DbTable_PayTrans;
         $transelect = $transactionModel->select()->where('order_id = ?', $order->order_id);
         $transactionId = $transactionModel->fetchRow($transelect)->transaction_id;
-        $modelBilling = new Socialcommerce_Model_DbTable_BillingAddresses;
-        $select = $modelBilling->select()->where("order_id = ?", $order->order_id);
-        $result = $modelBilling -> fetchRow($select);
+        $modelShipping = new Socialcommerce_Model_DbTable_ShippingAddresses;
+        $select = $modelShipping->select()->where("order_id = ?", $order->order_id);
+        $result = $modelShipping -> fetchRow($select);
         $params = array();
         $result = (array)Zend_Json::decode($result->value);
         $params['stall_orderid'] = $order->order_id;
@@ -77,11 +77,14 @@ class Socialcommerce_Plugin_Payment_ShoppingCart extends Socialcommerce_Plugin_P
             $stall->save();
             // Send Email to Seller of each products
 
+            $url = $this->selfURL();
+            if (!$url) $url = 'http://35.161.60.158';
+
             $sendTo = Engine_Api::_()->getItem('user', $product->owner_id)->email;
             $params['product_title'] = $product->title;
             $params['stall_title'] = $stall->title;
-            $params['stall_link'] = $this->selfURL().$stall->getHref();
-            $params['product_link'] = $this->selfURL().$product->getHref();
+            $params['stall_link'] = $url.$stall->getHref();
+            $params['product_link'] = $url.$product->getHref();
             $params['product_quantity'] = $item->quantity;
             $params['product_price'] = $item->price;
             $params['product_total'] = $item->total_amount;

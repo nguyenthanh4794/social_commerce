@@ -5,7 +5,7 @@ return array(
         array(
             'type' => 'module',
             'name' => 'socialcommerce',
-            'version' => '4.0.1',
+            'version' => '4.01p2',
             'path' => 'application/modules/Socialcommerce',
             'title' => 'Social - Commerce',
             'description' => '',
@@ -42,6 +42,7 @@ return array(
         'socialcommerce_product',
         'socialcommerce_account',
         'socialcommerce_order',
+        'socialcommerce_faq',
     ),
 
     // Hooks ---------------------------------------------------------------------

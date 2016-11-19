@@ -148,13 +148,41 @@ return array(
     ),
 
     array(
+        'title' => 'Social Commerce - Seller Manage Stall',
+        'description' => 'Displays Stalls of seller on Seller Section page',
+        'category' => 'Social Commerce',
+        'type' => 'widget',
+        'name' => 'socialcommerce.seller-manage-stalls',
+        'isPaginated' => true,
+        'defaultParams' => array(
+            'title' => 'My Stalls',
+            'titleCount' => true,
+            'itemCountPerPage' => 10
+        ),
+    ),
+
+    array(
+        'title' => 'Social Commerce - Seller Information',
+        'description' => 'Displays all information of seller in Seller Section page.',
+        'category' => 'Social Commerce',
+        'type' => 'widget',
+        'name' => 'socialcommerce.seller-information',
+        'defaultParams' => array(
+            'title' => 'Seller Information',
+        ),
+        'requirements' => array(
+            'subject' => 'socialcommerce_account',
+        ),
+    ),
+
+    array(
         'title' => 'Social Commerce - Stall Profile Cover',
         'description' => 'Displays a stall cover and information on it\'s profile.',
         'category' => 'Social Commerce',
         'type' => 'widget',
         'name' => 'socialcommerce.stall-profile-cover',
         'requirements' => array(
-            'subject' => 'advgroup',
+            'subject' => 'socialcommerce_product',
         ),
     ),
 

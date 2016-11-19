@@ -395,14 +395,15 @@ class Socialcommerce_Api_Mail extends Core_Api_Abstract
 
             // if($use_mail_queue == false){
             // Send
-            $mail = $this->create()
+            $mailAPI = Engine_Api::_() -> getApi('mail', 'core');
+            $mail = $mailAPI->create()
                 ->addTo($recipientEmail, $recipientName)
                 ->setFrom($fromAddress, $fromName)
                 ->setSubject($subjectTemplate)
                 ->setBodyHtml($bodyHtmlTemplate)
                 ->setBodyText($bodyTextTemplate);
 
-            $this->sendRaw($mail);
+            $mailAPI->sendRaw($mail);
             // }
         }
 
