@@ -10,7 +10,6 @@ class Socialcommerce_MyCartController extends Core_Controller_Action_Standard
 {
     public function init() {
         Zend_Registry::set('active_menu', 'socialcommerce_main_bags');
-
     }
 
     public function indexAction() {

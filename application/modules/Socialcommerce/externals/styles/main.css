@@ -2103,52 +2103,126 @@ ul.socialcommerce_seller_menu{
 
 /*STATUS*/
 .scstall-status-block{
-		position: absolute;
-		left: 10px;
-		top: 10px;
-		z-index: 1;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    z-index: 1;
 
-		.scstall-status{
-			font-weight: 700;
-			font-size: 12px;
-			border: 1px solid;
-			padding: 3px 10px;
-			border-radius: 4px;
+    .scstall-status{
+        font-weight: 700;
+        font-size: 12px;
+        border: 1px solid;
+        padding: 3px 10px;
+        border-radius: 4px;
 
-			&.scstall_pending{
-                 background-color: #d9edf7;
-                 color: #2ea9ce;
-                 border-color: #2ea9ce;
-            }
-			&.scstall_public{
-                 background-color: #25b35a;
-                 color: #fff;
-                 border-color: #078034;
-             }
-			&.scstall_upcoming{
-                 background-color: #36a5ec;
-                 color: #fff;
-                 border-color: #1574b2;
-             }
-			&.scstall_expired{
-                 background-color: #575757;
-                 color: #fff;
-                 border-color: #333;
-             }
-			&.scstall_denied{
-                 background-color: #f9e4e4;
-                 color: #cd1c1c;
-                 border-color: #cd1c1c;
-             }
-			&.scstall_draft{
-                 background-color: #fff;
-                 color: #333;
-                 border-color: #333;
-             }
-			&.scstall_pause{
-                 background-color: #cccccc;
-                 color: #333;
-                 border-color: #333;
-             }
-		}
-	}
+        &.scstall_pending{
+             background-color: #d9edf7;
+             color: #2ea9ce;
+             border-color: #2ea9ce;
+        }
+        &.scstall_public{
+             background-color: #25b35a;
+             color: #fff;
+             border-color: #078034;
+         }
+        &.scstall_upcoming{
+             background-color: #36a5ec;
+             color: #fff;
+             border-color: #1574b2;
+         }
+        &.scstall_expired{
+             background-color: #575757;
+             color: #fff;
+             border-color: #333;
+         }
+        &.scstall_denied{
+             background-color: #f9e4e4;
+             color: #cd1c1c;
+             border-color: #cd1c1c;
+         }
+        &.scstall_draft{
+             background-color: #fff;
+             color: #333;
+             border-color: #333;
+         }
+        &.scstall_pause{
+             background-color: #cccccc;
+             color: #333;
+             border-color: #333;
+         }
+    }
+}
+
+/*--- faq page ---*/
+.socialcommerce_title{
+   font-size: 13px;
+   font-weight: bold;
+   color: $theme_font_color_light;
+   padding: 10px 0;
+   border-bottom: 1px solid #eeeeee;
+   display: block;
+}
+.socialcommerce_faq_items{
+   border-bottom: 1px solid #eeeeee;
+   border-right: 1px solid transparent;
+   border-left: 1px solid transparent;
+   cursor: pointer;
+   background-color: #fff;
+   +yn-transition(all, 0.3s, ease-in-out);
+
+   .socialcommerce_faq_question{
+      color: $theme_link_color;
+      font-size: 13px;
+      padding: 15px;
+      +yn-transition(all, 0.3s, ease-in-out);
+
+      .socialcommerce_faq_question_text{
+         margin-left: 10px;
+      }
+      .ynicon{
+         +yn-transition(transform, 0.2s, ease-in-out);
+
+         &.yn-arr-down{
+            color: $yn_muted_color;
+         }
+         &.yn-float-left{
+            margin-top: 3px;
+         }
+      }
+   }
+   .socialcommerce_faq_answer{
+      font-size: 13px;
+      color: $theme_font_color;
+      line-height: 18px;
+      height: 0;
+      +yn-transition(height, 0.3s, ease-in-out);
+      overflow: hidden;
+
+      .socialcommerce_faq_answer_content {
+         margin-bottom: 0;
+         padding: 15px;
+      }
+   }
+   &:hover{
+      background-color: $yn_background_light;
+      border-right: 1px solid #eeeeee;
+      border-left: 1px solid #eeeeee;
+   }
+   &.socialcommerce_faq_show{
+      background-color: #fff;
+      border-color: $theme_link_color;
+      margin-bottom: 15px;
+
+      .socialcommerce_faq_question{
+         background-color: $theme_link_color;
+         color: #fff;
+
+         .yn-arr-down{
+            color: #fff;
+            transform: rotate(180deg);
+            -moz-transform: rotate(180deg);
+            -webkit-transform: rotate(180deg);
+         }
+      }
+   }
+}
