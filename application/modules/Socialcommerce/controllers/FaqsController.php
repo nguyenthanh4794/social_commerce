@@ -10,6 +10,6 @@ class Socialcommerce_FaqsController extends Core_Controller_Action_Standard
 {
     public function indexAction()
     {
-        
+
     }
 }

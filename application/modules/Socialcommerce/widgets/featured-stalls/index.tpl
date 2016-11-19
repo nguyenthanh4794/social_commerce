@@ -32,7 +32,6 @@ $this->headLink()->appendStylesheet($this->baseUrl() . '/application/modules/Soc
                     <?php echo strip_tags($stall->description)?>
                 </div>
             </div>
-
         </div>
     </div>
     <?php endforeach; ?>
