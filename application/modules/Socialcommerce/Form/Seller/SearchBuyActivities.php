@@ -13,7 +13,7 @@ class Socialcommerce_Form_Seller_SearchBuyActivities extends Engine_Form
         $view = Zend_Registry::get('Zend_View');
         $this->setMethod('get');
         $this->addElement('Text', 'text', array(
-            'label' => 'Product Name or Tag',
+            'label' => 'Product Name',
         ));
 
         // Element Categories

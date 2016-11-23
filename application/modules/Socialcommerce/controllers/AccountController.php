@@ -94,6 +94,10 @@ class Socialcommerce_AccountController extends Core_Controller_Action_Standard
 
 
         $info_user = Socialcommerce_Api_Account::getCurrentInfo($user_id);
+
+        if (empty($info_user['account_id']))
+            return $this->_forward('info', 'seller', 'socialcommerce');
+
         $info_account = Socialcommerce_Api_Account::getCurrentAccount($user_id);
 
         //$total_sold = Socialcommerce_Api_Account::getTotalSold($user_id);
