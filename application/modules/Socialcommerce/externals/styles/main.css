@@ -2584,7 +2584,7 @@ ul.socialcommerce_seller_menu{
       }
    }
 }
-#global_page_socialcommerce-account-index {
+#global_page_socialcommerce-account-index, #global_page_socialcommerce-seller-buying-activities {
     .form-elements {
         width: auto;
     }
