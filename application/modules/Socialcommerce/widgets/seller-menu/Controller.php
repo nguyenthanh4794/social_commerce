@@ -22,18 +22,17 @@ class Socialcommerce_Widget_SellerMenuController extends Engine_Content_Widget_A
             case 'dashboard':
                 $active_menu = 'socialcommerce_seller_dashboard';
                 break;
-            case 'account':
-                $active_menu = 'socialcommerce_seller_account';
-                break;
             case 'info':
                 $active_menu = 'socialcommerce_seller_info';
                 break;
             case 'payment':
                 $active_menu = 'socialcommerce_seller_payment';
                 break;
-            default:
-                $active_menu = 'socialcommerce_seller_info';
-                break;
+        }
+
+        if ($request->getControllerName() == 'account')
+        {
+            $active_menu = 'socialcommerce_seller_account';
         }
 
         $this->view->navigation = $navigation = Engine_Api::_()

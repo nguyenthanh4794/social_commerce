@@ -2226,3 +2226,370 @@ ul.socialcommerce_seller_menu{
       }
    }
 }
+
+/*--- my account ---*/
+.socialcommerce_my_account{
+   & > div{
+      .socialcommerce_my_account_title{
+         font-size: 13px;
+         line-height: 16px;
+         font-weight: bold;
+         color: $theme_font_color_light;
+         text-transform: uppercase;
+         border-bottom: 1px solid $theme_border_color;
+         padding-bottom: 13px;
+         margin-bottom: 15px;
+      }
+      .socialcommerce_my_account_info_block{
+         margin-bottom: 30px;
+
+         .socialcommerce_my_account_block_title{
+            text-transform: uppercase;
+            font-size: 14px;
+            line-height: 16px;
+            font-weight: bold;
+            color: $theme_font_color;
+            margin-bottom: 16px;
+         }
+         .socialcommerce_my_account_block_account{
+            ul{
+               position: relative;
+               min-width: 390px;
+               position: relative;
+               display: inline-block;
+               margin-bottom: 0;
+
+               & > li{
+                  border-bottom: 1px solid $theme_border_color;
+                  min-height: 40px;
+                  line-height: 39px;
+                  padding-right: 75px;
+
+                  span{
+                     font-size: 14px;
+                     line-height: 16px;
+                     font-weight: normal;
+                     color: $theme_font_color;
+                     text-transform: capitalize;
+                     display: inline-block;
+
+                     &:last-of-type{
+                        font-weight: bold;
+                     }
+                     &:first-of-type{
+                        min-width: 150px;
+                     }
+                  }
+                  &:last-of-type{
+                     span:last-of-type{
+                        text-transform: lowercase;
+                     }
+                  }
+               }
+               a{
+                  font-size: 14px;
+                  position: absolute;
+                  right: 12px;
+                  bottom: 12px;
+               }
+            }
+         }
+      }
+      .socialcommerce_my_account_price_block{
+         ul{
+            margin-bottom: 14px;
+            margin: 0 -10px;
+
+            & > li{
+               display: inline-block;
+               float: left;
+               padding: 0 10px;
+               width: 50%;
+               margin-bottom: 20px;
+
+               & > div{
+                  min-height: 100px;
+                  border: 1px solid $theme_border_color;
+                  padding: 10px;
+                  +yn-flex(flex, initial, initial);
+
+                  & > div{
+                     +yn-flex(inline-flex, center, initial);
+
+                     &:first-of-type{
+                        min-width: 128px;
+                        font-size: 24px;
+                        font-weight: bold;
+                        color: $theme_font_color;
+                        justify-content: center;
+                        -moz-justify-content: center;
+                        -webkit-justify-content: center;
+                        border-right: 1px solid $theme_border_color;
+                     }
+                     &:last-of-type{
+                        flex-direction: column;
+                        -moz-flex-direction: column;
+                        -webkit-flex-direction: column;
+                        align-items: flex-start;
+                        -moz-align-items: flex-start;
+                        -webkit-align-items: flex-start;
+                        padding-left: 20px;
+
+                        div{
+                           font-size: 12px;
+                           font-weight: normal;
+                           color: $theme_font_color_light;
+                           line-height: 16px;
+                           display: block;
+
+                           &:first-of-type{
+                              margin-bottom: 6px;
+                              font-weight: bold;
+                              font-size: 14px;
+                              line-height: 18px;
+                              color: $theme_font_color;
+                              margin-top: -3px;
+                           }
+                           &.socialcommerce_account_limit{
+                              +yn-text-clamp(12px, 16px, 3);
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      }
+      .socialcommerce_my_account_request_block{
+         margin-bottom: 12px;
+
+         .socialcommerce_my_account_request_title{
+            margin-bottom: 15px;
+
+            & > span{
+               float: left;
+
+               span{
+                  display: block;
+
+                  &:first-of-type{
+                     font-weight: bold;
+                     font-size: 16px;
+                     line-height: 18px;
+                     text-transform: uppercase;
+                     color: $theme_font_color;
+                     margin-bottom: 3px;
+                  }
+                  &:last-of-type{
+                     font-size: 12px;
+                     font-weight: normal;
+                     color: $theme_font_color_light;
+                     line-height: 16px;
+                  }
+               }
+            }
+            a{
+               float: right;
+
+               button{
+                  +yn-transition(all, 0.3s, ease-in-out);
+                  font-weight: bold;
+                  font-size: 14px;
+                  color: #fff;
+
+                  .ynicon{
+                     font-size: 10px;
+                     font-weight: bold;
+                  }
+               }
+            }
+         }
+         .socialcommerce_my_account_request_search{
+            .global_form{
+               & > div{
+                  padding: 0;
+                  border: 0;
+                  width: 100%;
+               }
+               .form-elements{
+                  padding: 20px;
+                  border: 1px solid $theme_border_color;
+                  +yn-flex(flex, initial, initial);
+                  width: 100%;
+
+                  .form-wrapper{
+                     +yn-flex(inline-flex, initial, initial);
+                     flex-direction: column;
+                     -moz-flex-direction: column;
+                     -webkit-flex-direction: column;
+                     width: 20%;
+                     padding: 0 5px;
+                     justify-content: flex-end;
+                     -moz-justify-content: flex-end;
+                     -webkit-justify-content: flex-end;
+
+                     &:first-of-type{
+                        padding-left: 0;
+                     }
+                     &:last-of-type{
+                        padding-right: 0;
+                     }
+                     .form-label{
+                        width: 100%;
+                        text-align: left;
+                        padding: 0;
+                        margin-bottom: 8px;
+                        font-size: 13px;
+                        font-weight: bold;
+                        color: $theme_font_color;
+                     }
+                     .form-element{
+                        position: relative;
+                        margin-bottom: 0;
+                        width: 100%;
+                        max-width: none;
+                        min-width: auto;
+
+                        select, input[type="text"]{
+                           width: 100%;
+                           min-width: auto;
+                           padding: 8px;
+                        }
+                        button{
+                           +yn-transition(all, 0.3s, ease-in-out);
+                           margin-right: 0;
+                           min-height: 34px;
+                           width: 100%;
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      }
+      .socialcommerce_manage_requests_table_parent{
+         overflow-y: auto;
+      }
+      .socialcommerce_manage_requests_table{
+         width: 100%;
+
+         thead, tbody{
+            tr{
+               width: 100%;
+               +yn-flex(flex, initial, initial);
+
+               td, th{
+                  flex: 1;
+                  padding: 16px 10px;
+                  white-space: nowrap;
+               }
+               td:before{
+                  display: none;
+               }
+            }
+         }
+         thead tr{
+            th{
+               background-color: #888;
+               color: #fff;
+               font-size: 13px;
+               font-weight: bold;
+               line-height: 18px;
+
+               & + th{
+                  border-left: 1px solid #ddd;
+               }
+            }
+         }
+         tbody{
+            border: 1px solid #ddd;
+            border-top: 0;
+
+            tr{
+               border-bottom: 1px solid $theme_border_color;
+
+               td{
+                  & + td{
+                     border-left: 1px solid #ddd;
+                  }
+               }
+               &:nth-of-type(even){
+                  background-color: #f8f8f8;
+               }
+            }
+         }
+      }
+   }
+}
+#global_page_socialcommerce-account-threshold{
+   .global_form_popup{
+      & > div{
+         background-color: #fff9df;
+         margin-top: 15px;
+         +yn-flex(flex, initial, initial);
+         padding: 16px;
+         border: 1px solid #ccc;
+         margin-bottom: 12px;
+
+         & > div{
+            flex: 1;
+
+            .socialcommerce_account_request_label{
+               font-size: 14px;
+               font-weight: normal;
+               line-height: 18px;
+               color: $theme_font_color;
+               margin-bottom: 5px;
+            }
+            .socialcommerce_account_request_number{
+               font-size: 18px;
+               font-weight: bold;
+               line-height: 22px;
+               color: $theme_font_color;
+            }
+         }
+      }
+   }
+   .global_form{
+      padding: 0;
+
+      .form-elements{
+         padding: 0;
+
+         .form-wrapper{
+            .form-label{
+               margin-bottom: 5px;
+               font-weight: bold;
+               font-size: 14px;
+               line-height: 18px;
+               float: none;
+               text-align: left;
+               clear: both;
+               width: auto;
+               max-width: none;
+               min-width: auto;
+               padding: 0;
+            }
+         }
+      }
+      #buttons-label{
+         display: none;
+      }
+   }
+}
+#global_page_socialcommerce-account-load-message{
+   .global_form_popup{
+      & > p{
+         padding: 10px;
+      }
+   }
+}
+#global_page_socialcommerce-account-index {
+    .form-elements {
+        width: auto;
+    }
+    span.ui-datepicker-trigger {
+        height: 31px !important;
+        right: -4.5px !important;
+    }
+}

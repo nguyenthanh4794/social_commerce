@@ -19,6 +19,9 @@ class Socialcommerce_SellerController extends Core_Controller_Action_Standard
         if($account && !Engine_Api::_()->core()->hasSubject('socialcommerce_account')) {
             Engine_Api::_() -> core() -> setSubject($account);
         }
+
+        $this->view->navigation = $navigation = Engine_Api::_()->getApi('menus', 'core')
+            ->getNavigation('socialcommerce_main', array(), 'socialcommerce_main_account');
     }
 
     public function infoAction()
@@ -139,5 +142,26 @@ class Socialcommerce_SellerController extends Core_Controller_Action_Standard
         if (!$this -> _helper -> requireUser -> isValid())
             return;
         Zend_Registry::set('SELLERMENU_ACTIVE','dashboard');
+    }
+
+    public function buyingActivitiesAction()
+    {
+        if (!$this->_helper->requireUser()->isValid())
+            return;
+        $this->view->viewer = $viewer = Engine_Api::_()->user()->getViewer();
+
+        $this->view->form = $form = new Socialcommerce_Form_Seller_SearchBuyActivities();
+        $page = $this->_getParam('page', 1);
+
+        $values = $this->getRequest()->getParams();
+
+        if (!$form->isValid($values))
+            return;
+        $values = $form->getValues();
+        $values['limit'] = Engine_Api::_()->getApi('settings', 'core')->getSetting('store.page', 10);
+        $values['page'] = $page;
+        $this->view->paginator = $paginator = Engine_Api::_()->getDbTable('orderitems', 'socialcommerce')->getOrderItemsPaginator($values);
+        $this->view->params = $values;
+        Zend_Registry::set('SELLERMENU_ACTIVE', 'buying-activities');
     }
 }

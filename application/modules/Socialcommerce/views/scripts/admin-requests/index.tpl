@@ -81,8 +81,8 @@
         </td>
         <td>
             <?php if($item->isWaitingToProcess()): ?>
-            <a href="<?php echo $this->url(array('action'=>'accept','id'=>$item->getIdentity(), 'owner-id'=>$item->owner_id,'stall-id'=>$item->stall_id)) ?>"><?php echo $this->translate('Accept')?></a>|
-            <a href="<?php echo $this->url(array('action'=>'deny','owner-id'=>$item->owner_id,'id'=>$item->getIdentity(),'stall-id'=>$item->stall_id)) ?>" class="smoothbox"><?php echo $this->translate('Deny')?></a>
+            <a href="<?php echo $this->url(array('action'=>'request-payment','id'=>$item->getIdentity(), 'status'=>1)) ?>"><?php echo $this->translate('Accept')?></a>|
+            <a href="<?php echo $this->url(array('action'=>'request-payment','id'=>$item->getIdentity(),'status'=>0)) ?>"><?php echo $this->translate('Deny')?></a>
             <?php else: ?>
             <?php echo $this->translate('N/A')?>
             <?php endif; ?>

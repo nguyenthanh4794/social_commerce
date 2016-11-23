@@ -37,4 +37,61 @@ class Socialcommerce_Model_DbTable_OrderItems extends Engine_Db_Table
         }
         return $return;
     }
+
+    public function getOrderItemsPaginator($params = array())
+    {
+        $paginator = Zend_Paginator::factory($this->getOrderItemsSelect($params));
+
+        if( !empty($params['page']) )
+        {
+            $paginator->setCurrentPageNumber($params['page']);
+        }
+        if( !empty($params['limit']) )
+        {
+            $paginator->setItemCountPerPage($params['limit']);
+        }
+        return $paginator;
+    }
+
+    public function getOrderItemsSelect($params = array())
+    {
+        $table = $this;
+        $rName = $table->info('name');
+        $orderTable = Engine_Api::_()->getDbTable('orders', 'socialcommerce');
+        $orderName = $orderTable->info('name');
+        $select = $table->select()->from($rName)->setIntegrityCheck(false);
+        $select->joinLeft($orderName, "$rName.order_id = $orderName.order_id")->where("$orderName.owner_id = ?", Engine_Api::_()->user()->getViewer()->getIdentity());
+
+
+        $select->where("$orderName.payment_status <> 'initial' AND $rName.object_type = 'shopping-cart'");
+
+        // by search
+
+        if( isset($params['order_id']) && $params['order_id'] != '')
+        {
+            $select->where($rName.".order_id LIKE ? ",'%'.$params['order_id'].'%');
+        }
+
+        if(isset($params['status']) && $params['status'] != ''){
+            $select->where("$rName.delivery_status = ?", $params['status']);
+        }
+
+        if(isset($params['orderby']) && $params['orderby']) {
+            $select->order($params['orderby'].' DESC');
+        }
+        elseif (!empty($params['order'])) {
+            $select->order($params['order'].' '.$params['direction']);
+        }
+        else
+        {
+            $select->order("$orderName.creation_date DESC");
+        }
+
+        if(getenv('DEVMODE') == 'localdev'){
+            print_r($params);
+            echo $select;
+        }
+
+        return $select;
+    }
 }

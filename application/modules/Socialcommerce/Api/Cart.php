@@ -330,4 +330,37 @@ class Socialcommerce_Api_Cart {
 		$session->order_id =  null;
 		$this->_order = null;
 	}
+
+    public function getFinanceAccount($user_id = null, $gateway_id = null)
+    {
+        $table  = Engine_Api::_()->getDbtable('accounts', 'socialcommerce');
+        $select = $table->select();
+
+        if($user_id != null)
+        {
+            $select->where('user_id = ?',$user_id);
+        }
+
+        if($gateway_id != null)
+        {
+            $select->where('gateway_id = ?',$gateway_id);
+        }
+        $accounts =   $table->fetchAll($select)->toArray();
+        return $accounts[0];
+    }
+
+    /**
+     * Get Security Code  for transcation
+     *
+     */
+    public function getSecurityCode()
+    {
+        $sid = 'abcdefghiklmnopqstvxuyz0123456789ABCDEFGHIKLMNOPQSTVXUYZ';
+        $max =  strlen($sid) - 1;
+        $res = "";
+        for($i = 0; $i<16; ++$i){
+            $res .=  $sid[mt_rand(0, $max)];
+        }
+        return $res;
+    }
 }

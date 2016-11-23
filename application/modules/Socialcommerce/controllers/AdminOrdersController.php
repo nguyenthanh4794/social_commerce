@@ -27,7 +27,7 @@ class Socialcommerce_AdminOrdersController extends Core_Controller_Action_Admin
             $values = $form->getValues();
 
         }
-        $limit = Engine_Api::_()->getApi('settings', 'core')->getSetting('store.page', 10);
+        $limit = Engine_Api::_()->getApi('settings', 'core')->getSetting('socialcommerce.page', 10);
         $values['limit'] = $limit;
         $values['paytype_id'] = 'shopping-cart';
         $this->view->paginator = Engine_Api::_()->getDbTable('orders', 'socialcommerce')->getOrdersPaginator($values);

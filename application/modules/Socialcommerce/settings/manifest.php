@@ -43,6 +43,7 @@ return array(
         'socialcommerce_account',
         'socialcommerce_order',
         'socialcommerce_faq',
+        'socialcommerce_request',
     ),
 
     // Hooks ---------------------------------------------------------------------
@@ -170,6 +171,25 @@ return array(
                         'action' => 'index',
                     ),
             ),
+
+        'socialcommerce_account' =>
+            array(
+                'route' => 'social-commerce/account/:action/*',
+                'defaults' => array(
+                    'module' => 'socialcommerce',
+                    'controller' => 'account',
+                    'action' => 'index',
+                ),
+            ),
+
+        'socialcommerce_payment_threshold' => array(
+            'route' => 'social-commerce/account/threshold/*',
+            'defaults' => array(
+                'module' => 'socialcommerce',
+                'controller' => 'account',
+                'action' => 'threshold',
+            ),
+        ),
     )
 
 ); ?>
