@@ -199,6 +199,7 @@ i[class^=ynicon-],
             -moz-border-radius: 50%;
             border-radius: 50%;
             margin: 0 auto;
+            background-size: contain;
         }
     }
     .socialcommerce-detail-info{
@@ -329,23 +330,20 @@ i[class^=ynicon-],
 	}
 
 	.socialcommerce-overview-title{
-		color: $theme_link_color;
-		font-weight: bold;
+		color: $theme_font_color;
 		float: left;
 		margin-right: 10px;
 		position: relative;
 		font-size: 1.1em;
-
 		i.ynicon{
 			min-width: 15px;
 			text-align: center;
-			margin-right: 5px;
+			margin-right: 8px;
+            color: $theme_font_color_light;
 		}
 
 		&.socialcommerce-overview-line{
 			float: none;
-			margin: 0 0 10px 0px;
-
 			span.socialcommerce-overview-toggle-button{
 				float: right;
 				background-color: $theme_body_background_color;
@@ -375,7 +373,6 @@ i[class^=ynicon-],
 				top: 10px;
 				left: 0;
 				width: 100%;
-				border-bottom: 1px dotted $theme_border_color;
 			}
 
 			&:after{
@@ -388,7 +385,10 @@ i[class^=ynicon-],
 		overflow: hidden;
 		word-break: break-word;
 		word-wrap: break-word;
-
+        display: none;
+        border-top: solid 1px $theme_border_color;
+        padding-top: .5em;
+        margin-top: 1em;    
 		.socialcommerce-overview-listtime li{
 			width: 45%;
 			display: inline-block;
@@ -480,7 +480,6 @@ i[class^=ynicon-],
 	}
 }
 /*End overview widget*/
-
 /*get direction css*/
 .socialcommerce_widget_location_direction_button{
 	margin-top: 5px;
@@ -533,23 +532,15 @@ i[class^=ynicon-],
 
 /*Pruduct Listing*/
 .socialcommerce-grid-item {
-	border: 1px solid $theme_border_color;
-	padding: 10px;
 	margin-bottom: 20px;
 	position: relative;
-
 	.item-background {
 		height: 240px;
 		background-color: $theme_border_color;
 		background-repeat: no-repeat;
 		background-size: cover;
 		background-position: center;
-
-		-webkit-border-radius: 5px;
-		-moz-border-radius: 5px;
-		border-radius: 5px;
 		position: relative;
-
 		.socialcommerce-item-rating {
 			padding: 5px 0;
 			background-color: rgba(0, 0, 0, 0.5);
@@ -580,19 +571,16 @@ i[class^=ynicon-],
 	.item-front-info {
 		.product_title {
 			font-weight: normal;
-			text-align: center;
 			margin: 5px 0;
-
 			text-overflow: ellipsis;
 			overflow: hidden;
 			white-space: nowrap;
 		}
 
 		.product_price {
-			text-align: center;
-			font-size: 18px;
+			font-size: 14px;
 			font-weight: bold;
-			color: #ff8a00;
+			color: #b12704;
 		}
 	}
 
@@ -602,19 +590,11 @@ i[class^=ynicon-],
 		top: 0;
 		left: 0;
 		width: 100%;
-		height: 100%;
-
-
 		.socialcommerce-grid-item-hover-background {
-			margin: 10px;
-			padding: 10px;
-			background-color: rgba(0, 0, 0, 0.8);
 			position: absolute;
-			bottom: 0;
-			top: 0;
 			right: 0;
 			left: 0;
-
+            height: 50%;
 			text-align: center;
 		}
 
@@ -635,18 +615,19 @@ i[class^=ynicon-],
 		}
 
         .product_add_cart {
-			margin-top: 30px;
-			text-align: center;
-
+			margin-top: 2px;
+            margin-right: 2px;
+			text-align: right;
 			a {
 				padding: 5px 10px;
 				display: inline-block;
-				font-size: 11px;
-				background-color: #ffa800;
-				color: $theme_body_background_color;
-				-webkit-border-radius: 3px;
-				-moz-border-radius: 3px;
-				border-radius: 3px;
+				font-size: 14px;
+				background-color: $theme_button_background_color;
+				color: $theme_link_color;
+                border: solid 1px $theme_link_color;
+                -webkit-border-radius: 2px;
+                -moz-border-radius: 2px;
+                border-radius: 2px;
 			}
 		}
 
@@ -691,7 +672,6 @@ i[class^=ynicon-],
 			}
 		}
 	}
-
 	&:hover .socialcommerce-grid-item-hover {
 		display: block;
 	}
@@ -838,6 +818,7 @@ i[class^=ynicon-],
 	.product_title {
 		font-size: 28px;
 		color: $theme_link_color;
+        z-index: 10;
 	}
 
 	.product_review {
@@ -991,7 +972,6 @@ i[class^=ynicon-],
 	.grid-view {
 		display: none !important;
 	}
-
 	ul.generic_list_widget > li {
 		float: none;
 		clear: none;
@@ -999,8 +979,6 @@ i[class^=ynicon-],
 		padding: 0;
 	}
 }
-
-
 .socialcommerce-list-item {
 	/*padding: 20px 0;*/
 	border-top: 1px solid $theme_body_background_color;
@@ -1756,6 +1734,8 @@ span.ui-datepicker-trigger{
     border-radius: 3px;
     -webkit-border-radius: 3px;
     /*border: solid 1px $theme_border_medium_color;*/
+}
+.layout_page_socialcommerce_stall_profile > .layout_main > .layout_middle {
 }
 
 /*----------  MY STORES  ----------*/
@@ -2589,4 +2569,6 @@ ul.socialcommerce_seller_menu{
     .form-elements {
         width: auto;
     }
+}
+    margin-left: 15px;
 }

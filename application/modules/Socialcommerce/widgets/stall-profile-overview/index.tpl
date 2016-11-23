@@ -13,10 +13,9 @@ $url = $this -> url(array(
 <?php endif;?>
 <div class="socialcommerce-profile-fields" style="clear: both">
     <div class="socialcommerce-overview-title socialcommerce-overview-line">
-        <span class="socialcommerce-overview-toggle-button"><i class="ynicon yn-arr-down"></i></span>
         <span class="socialcommerce-overview-title-content"><i class="ynicon yn-building"></i> <?php echo $this->translate('Address');?></span>
     </div>
-    <div class="socialcommerce-overview-content">
+    <div class="socialcommerce-overview-content" style="display: block;">
         <ul class="socialcommerce-overview-listmaps">
             <li>
                 <div class="socialcommerce-overview-maps-title"><?php echo $this-> stall -> location ?></div>
@@ -45,7 +44,6 @@ $url = $this -> url(array(
         </div>
     </div>
 </div>
-
 <div class="socialcommerce-profile-fields">
     <div class="socialcommerce-overview-title socialcommerce-overview-line">
         <span class="socialcommerce-overview-toggle-button"><i class="ynicon yn-arr-down"></i></span>
@@ -96,8 +94,8 @@ $url = $this -> url(array(
 
 <script type="text/javascript">
     $$('.socialcommerce-overview-toggle-button').addEvent('click', function(){
-        this.toggleClass('socialcommerce-overview-content-closed');
         this.getParent('.socialcommerce-profile-fields').getElement('.socialcommerce-overview-content').toggle();
+        this.toggleClass('socialcommerce-overview-content-closed');
     });
     function checkOpenPopup(url)
     {
