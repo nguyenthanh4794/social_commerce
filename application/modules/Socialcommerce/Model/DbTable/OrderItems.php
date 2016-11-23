@@ -59,11 +59,11 @@ class Socialcommerce_Model_DbTable_OrderItems extends Engine_Db_Table
         $rName = $table->info('name');
         $orderTable = Engine_Api::_()->getDbTable('orders', 'socialcommerce');
         $orderName = $orderTable->info('name');
-        $select = $table->select()->from($rName)->setIntegrityCheck(false);
-        $select->joinLeft($orderName, "$rName.order_id = $orderName.order_id")->where("$orderName.owner_id = ?", Engine_Api::_()->user()->getViewer()->getIdentity());
+        $select = $table->select("$rName.*")->from($rName)->setIntegrityCheck(false);
+        $select->join($orderName, "$rName.order_id = $orderName.order_id")->where("$orderName.owner_id = ?", Engine_Api::_()->user()->getViewer()->getIdentity());
 
-
-        $select->where("$orderName.payment_status <> 'initial' AND $rName.object_type = 'shopping-cart'");
+//        $select->where("$orderName.payment_status <> 'initial'");
+        $select->where("$rName.object_type = 'shopping-cart'");
 
         // by search
 
@@ -86,6 +86,8 @@ class Socialcommerce_Model_DbTable_OrderItems extends Engine_Db_Table
         {
             $select->order("$orderName.creation_date DESC");
         }
+
+        $select->group("$orderName.order_id");
 
         if(getenv('DEVMODE') == 'localdev'){
             print_r($params);

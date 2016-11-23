@@ -271,6 +271,7 @@ class Socialcommerce_Api_Cart {
 		$items = $order->getItems();
 		foreach ($items as $item) {
 			if ($item->pretax_price <= 0) {
+                die(print_r($item->toArray()));
 				$string = "invalid";
 				return $string;
 			}

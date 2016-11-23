@@ -279,7 +279,7 @@ class Socialcommerce_Model_Order extends Core_Model_Item_Abstract
     }
 
     public function getProducts() {
-        $tblOrderItems = Engine_Api::_()->getDbTable('orderitems', 'socialcommerce');
+        $tblOrderItems = Engine_Api::_()->getDbTable('orderItems', 'socialcommerce');
         $tName = $tblOrderItems -> info('name');
 
         $product_ids = $tblOrderItems->select()
