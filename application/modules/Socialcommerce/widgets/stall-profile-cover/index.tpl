@@ -36,10 +36,6 @@ $coverPhotoUrl = $this->stall->getCoverPhotoUrl();
                 <img src="http://i.ebayimg.com/00/s/MzAwWDMwMA==/z/~wMAAOxyA7tSYa~H/$(KGrHqMOKpwFJgF3B3h)BSY,+Ghrw!~~60_7.JPG" alt="ebaydealseditor" class="long" style="display: inline;">
                 <?php echo $this->translate($this->stall->getOwner()) ?>
             </div>
-            <div class="socialcommerce-detail-more">
-                <!-- Add-This Button -->
-                <div class="addthis_sharing_toolbox"></div>
-            </div>
             <div class="socialcommerce-detail-action">
                 <?php if ($this->viewer() -> getIdentity()):
                 $url = $this -> url(array(

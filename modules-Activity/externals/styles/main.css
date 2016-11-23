@@ -152,8 +152,8 @@ ul.feed > li
 }
 ul.feed > li + li
 {
-  padding-top: 10px;
-  border-top-width: 1px;
+/*  padding-top: 10px;
+  border-top-width: 1px;*/
 }
 ul.feed .feed_item_generated
 {
@@ -166,6 +166,7 @@ ul.feed .feed_item_photo
   margin-right: 7px;
   line-height: 0px;
   font-size: 0px;
+
 }
 html[dir="rtl"] ul.feed .feed_item_photo
 {
@@ -180,6 +181,14 @@ ul.feed .feed_item_photo > a
 ul.feed .feed_item_photo > a > img
 {
   display: block;
+}
+ul.feed .feed_item_photo > a > img.item_photo_user
+{
+  width: 40px;
+  height: 40px;
+  margin: 5px;
+  border: none;
+  border-radius: 3px;
 }
 ul.feed .feed_item_body
 {
@@ -341,6 +350,11 @@ ul.feed span.view_more .view_less_link
   padding-left: 10px;
   margin-left: 7px;
 }
+ul.feed .feed_item_posted 
+{
+  line-height: 40px;
+  margin: 5px 5px 5px 0;
+}
 ul.feed .feed_item_posted .view_more_link,
 ul.feed .feed_item_posted .view_less_link
 {
@@ -501,3 +515,52 @@ html[dir="rtl"] .sharebox_photo
   float: left;
   max-height: 350px;
 }
+
+/*PU_FEED_GRIDVIEW*/
+
+  =pu_feed_layout_gridview($gutter = '25px'){
+    margin-right: calc($gutter / -2)px;
+    margin-left: calc($gutter / -2)px;
+
+    & > li{
+      width: 48%;
+      padding: 0 calc($gutter / 2)px;
+      margin-bottom: $gutter;
+      float: left;
+      min-height: 100px;
+      margin: 0 2% 2% 0;
+      background-color: $theme_body_background_color;
+      border: none !important;
+    }
+  }
+
+  =pu_feed_layout_gridview_tablet{
+    & > li{
+      width: 47%;
+      margin: 1% 1% 1% 1%;
+      background-color: $theme_body_background_color;
+    }
+  } 
+
+  =pu_feed_layout_gridview_mobile{
+    & > li{
+      width: 100%;
+    }
+  }
+
+  .pu_feed_layout_gridview{
+    +pu_feed_layout_gridview;
+    padding-left: 1%;
+  }
+
+  @media screen and (max-width: 991px){
+    .pu_feed_layout_gridview{
+      +pu_feed_layout_gridview_tablet;
+    }
+  }
+
+  @media screen and (max-width: 480px){
+    .pu_feed_layout_gridview{
+      +pu_feed_layout_gridview_mobile;
+    }
+  }
