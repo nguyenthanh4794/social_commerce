@@ -1,3 +1,13 @@
+<?php
+      $baseUrl = $this->layout()->staticBaseUrl;
+$this->headLink()->appendStylesheet($baseUrl . 'application/modules/Socialcommerce/externals/styles/ui-redmond/jquery-ui-1.8.18.custom.css');
+
+$this->headScript()
+->appendFile($baseUrl .'application/modules/Socialcommerce/externals/scripts/jquery-1.10.2.min.js')
+->appendFile($baseUrl .'application/modules/Socialcommerce/externals/scripts/jquery-ui-1.11.4.min.js')
+
+?>
+
 <div class="generic_layout_container layout_top">
     <div class="headline">
         <h2>
@@ -71,7 +81,7 @@
                                 <?php if($order->order_status != 'completed'): ?>
                                 <a href="<?php echo $this->url(array('controller'=>'account', 'action'=>'load-message', 'request_id'=>$order->getIdentity(), 'type'=>'request'), 'socialcommerce_account') ?>" class="smoothbox"><?php echo $this->translate('Received') ?></a> |
                                 <?php endif; ?>
-                                <a href="<?php echo $this->url(array('controller'=>'account', 'action'=>'load-message', 'request_id'=>$order->getIdentity(), 'type'=>'request'), 'socialcommerce_account') ?>" class="smoothbox"><?php echo $this->translate('Report') ?></a>
+                                <?php echo $this->htmlLink(Array('module'=> 'core', 'controller' => 'report', 'action' => 'create', 'route' => 'default', 'subject' => $product->getGuid(), 'format' => 'smoothbox'), '<i class="ynicon yn-warning-triangle"></i>'.$this->translate("Report this Product"), array('class' => 'smoothbox')); ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -83,3 +93,24 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    jQuery(document).ready(function(){
+        jQuery('#start_date').datepicker({
+            firstDay: 1,
+            showOn: "button",
+            buttonImageOnly: true,
+            buttonText: '<?php echo $this -> translate("Select date")?>',
+            dateFormat: 'yy-mm-dd'
+        });
+
+        jQuery('#to_date').datepicker({
+            firstDay: 1,
+            showOn: "button",
+            buttonImageOnly: true,
+            buttonText: '<?php echo $this -> translate("Select date")?>',
+            dateFormat: 'yy-mm-dd'
+        });
+    });
+</script>

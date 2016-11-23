@@ -160,7 +160,7 @@ class Socialcommerce_SellerController extends Core_Controller_Action_Standard
         $values = $form->getValues();
         $values['limit'] = Engine_Api::_()->getApi('settings', 'core')->getSetting('store.page', 10);
         $values['page'] = $page;
-        $this->view->paginator = $paginator = Engine_Api::_()->getDbTable('orderitems', 'socialcommerce')->getOrderItemsPaginator($values);
+        $this->view->paginator = $paginator = Engine_Api::_()->getDbTable('orderItems', 'socialcommerce')->getOrderItemsPaginator($values);
         $this->view->params = $values;
         Zend_Registry::set('SELLERMENU_ACTIVE', 'buying-activities');
     }
