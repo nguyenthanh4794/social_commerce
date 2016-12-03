@@ -57,8 +57,8 @@ $this->headScript()
                     <td>
                         <?php if($order->order_status != 'deliveried'): ?>
                         <a href="<?php echo $this->url(array('controller'=>'seller', 'action'=>'received', 'order_id' => $order->order_id), 'socialcommerce_general') ?>" class="smoothbox"><?php echo $this->translate('Received') ?></a> |
-                        <?php echo $this->htmlLink(Array('module'=> 'core', 'controller' => 'report', 'action' => 'create', 'route' => 'default', 'subject' => $product->getGuid(), 'format' => 'smoothbox'), '<i class="ynicon yn-warning-triangle"></i>'.$this->translate("Report this Product"), array('class' => 'smoothbox')); ?>
                         <?php endif; ?>
+                        <?php echo $this->htmlLink(Array('module'=> 'core', 'controller' => 'report', 'action' => 'create', 'route' => 'default', 'subject' => $product->getGuid(), 'format' => 'smoothbox'), '<i class="ynicon yn-warning-triangle"></i>'.$this->translate("Report this Product"), array('class' => 'smoothbox')); ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>

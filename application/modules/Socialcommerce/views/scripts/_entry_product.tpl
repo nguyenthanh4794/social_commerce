@@ -6,21 +6,15 @@
         <div class="socialcommerce-bg-block">
             <?php
                 if ($this->item->photo_id)
-                    $photoUrl = $this->item->getPhotoUrl('thumb.normal');
+                    $photoUrl = $this->item->getPhotoUrl('thumb.main');
                 else
-                    $photoUrl = $this->getNoPhoto($this->item, 'thumb.normal');
+                    $photoUrl = $this->getNoPhoto($this->item, 'thumb.main');
             ?>
             <a class="socialcommerce-bg" href="<?php $this->item->getHref() ?>" style="background-image: url(<?php echo $photoUrl ?>)"></a>
 
             <div class="socialcommerce-featured">
                 <div title="<?php echo $this->translate('Featured') ?>" class="socialcommerce-featured-triangle socialcommerce_entry_feature_icon-<?php echo $this->item->getIdentity() ?>" style="<?php if ($this->item->featured) echo 'visibility: hidden'; ?>">
                     <i class="ynicon yn-diamond"></i>
-                </div>
-            </div>
-
-            <div class="socialcommerce-addtocart-compare-block">
-                <div title="<?php echo $this->translate('Add to cart') ?>" class="socialcommerce-btn socialcommerce-addtocart-btn" onclick="javascript:en4.store.cart.addProductBox(<?php echo $this->item->getIdentity() ?>)" data-addtocartid="<?php echo $this->item->getIdentity() ?>">
-                    <i class="ynicon yn-cart-plus"></i>
                 </div>
             </div>
         </div>
@@ -71,11 +65,13 @@
                 </div>
 
 
-
+                <?php $viewer = Engine_Api::_()->user()->getViewer(); ?>
+                <?php if ($this->item->owner_id != $viewer->getIdentity()): ?>
                 <div title="<?php echo $this->translate('Add to cart') ?>" class="socialcommerce-btn socialcommerce-addtocart-btn" onclick="javascript:en4.store.cart.addProductBox(<?php echo $this->item->getIdentity() ?>)" data-addtocartid="<?php echo $this->item->getIdentity() ?>" style="display:none">
                     <i class="ynicon yn-cart-plus"></i>
                     <?php echo $this->translate('Add to cart') ?>
                 </div>
+                <?php endif; ?>
             </div>
         </div>
 
@@ -85,10 +81,6 @@
             </div>
         </div>
 
-        <div class="socialcommerce-actions-block">
-            <div class="socialcommerce-cms">
-                <?php echo $this->partial('_link_manage_product.tpl', 'socialcommerce', array('item' => $this->item)); ?>
-            </div>
-        </div>
+        <?php echo $this->partial('_link_manage_product.tpl', 'socialcommerce', array('item' => $this->item)); ?>
     </div>
 </li>

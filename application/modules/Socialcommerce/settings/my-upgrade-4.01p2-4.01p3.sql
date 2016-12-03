@@ -8,3 +8,4 @@ INSERT INTO `engine4_core_menuitems` (`id`, `name`, `module`, `label`, `plugin`,
 UPDATE `engine4_core_menuitems` SET `order` = '3' WHERE `engine4_core_menuitems`.`name` = 'socialcommerce_seller_payment';
 
 UPDATE  `social_commerce`.`engine4_core_menuitems` SET  `params` = '{"route":"socialcommerce_general","controller":"account","icon":"application/modules/Socialcommerce/externals/images/links/item.png","class":"socialcommerce_seller_menu_item socialcommerce_tcaccount","icon-class":"fa fa-user"}' WHERE  `engine4_core_menuitems`.`name` ='socialcommerce_seller_account';
+ALTER TABLE `engine4_socialcommerce_orderitems` ADD `owner_id` INT(10) NULL DEFAULT NULL;
