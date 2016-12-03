@@ -5,7 +5,7 @@ return array(
         array(
             'type' => 'module',
             'name' => 'socialcommerce',
-            'version' => '4.01p3',
+            'version' => '4.01p2',
             'path' => 'application/modules/Socialcommerce',
             'title' => 'Social - Commerce',
             'description' => '',

@@ -162,6 +162,20 @@ return array(
     ),
 
     array(
+        'title' => 'Social Commerce - Seller Manage Listings',
+        'description' => 'Displays Listings of seller on Seller Section page',
+        'category' => 'Social Commerce',
+        'type' => 'widget',
+        'name' => 'socialcommerce.seller-manage-listings',
+        'isPaginated' => true,
+        'defaultParams' => array(
+            'title' => 'My Listings',
+            'titleCount' => true,
+            'itemCountPerPage' => 10
+        ),
+    ),
+
+    array(
         'title' => 'Social Commerce - Seller Information',
         'description' => 'Displays all information of seller in Seller Section page.',
         'category' => 'Social Commerce',
