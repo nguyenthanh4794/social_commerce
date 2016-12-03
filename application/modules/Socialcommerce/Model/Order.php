@@ -311,4 +311,10 @@ class Socialcommerce_Model_Order extends Core_Model_Item_Abstract
         }
         return $total;
     }
+
+    public function updateStatus($status)
+    {
+        $this->order_status = $status;
+        $this->save();
+    }
 }

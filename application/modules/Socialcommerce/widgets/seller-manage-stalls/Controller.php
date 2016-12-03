@@ -11,7 +11,6 @@ class Socialcommerce_Widget_SellerManageStallsController extends Engine_Content_
     public function indexAction()
     {
         // Return if guest try to access to create link.
-        $request = Zend_Controller_Front::getInstance()->getRequest();
         $viewer = Engine_Api::_()->user()->getViewer();
         $paginator = Engine_Api::_()->getDbTable('stalls', 'socialcommerce')->getStallsPaginator(array('owner_id' => $viewer->getIdentity()));
         $this->view->paginator = $paginator;

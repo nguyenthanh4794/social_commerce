@@ -21,9 +21,9 @@ class Socialcommerce_Installer extends Engine_Package_Installer_Module
 
         $this->_addSellerInfoPage();
         $this->_addSellerPaymentPage();
-        $this->_addSellerManageListingsPage();
-        $this->_addSellerManageStallsPage();
-        $this->_addSellerTransactionPage();
+        $this->_addSellerBuyingActivitiesPage();
+        $this->_addSellerTCAccountPage();
+        $this->_addSellerDashboardPage();
 
         $this->_addBuyerMyBagsPage();
         $this->_addBuyerPaymentPage();
@@ -731,22 +731,22 @@ class Socialcommerce_Installer extends Engine_Package_Installer_Module
         }
     }
 
-    protected function _addSellerManageListingsPage() {
+    protected function _addSellerBuyingActivitiesPage() {
         $db = $this->getDb();
 
         $page_id = $db->select()
             ->from('engine4_core_pages', 'page_id')
-            ->where('name = ?', 'socialcommerce_seller_manage-listings')
+            ->where('name = ?', 'socialcommerce_seller_buying-activities')
             ->limit(1)
             ->query()
             ->fetchColumn();
 
         if(!$page_id) {
             $db->insert('engine4_core_pages', array(
-                'name' => 'socialcommerce_seller_manage-listings',
-                'displayname' => 'Social Commerce Seller Section Manage Listings Page',
-                'title' => 'Social Commerce Seller Section Manage Listings Page',
-                'description' => 'This page show all listings of seller',
+                'name' => 'socialcommerce_seller_buying-activities',
+                'displayname' => 'Social Commerce Manage Buying Activities Page',
+                'title' => 'Social Commerce Manage Buying Activities Page',
+                'description' => 'This page show all buying activities of user',
                 'custom' => 0
             ));
             $page_id = $db->lastInsertId();
@@ -829,22 +829,22 @@ class Socialcommerce_Installer extends Engine_Package_Installer_Module
         }
     }
 
-    protected function _addSellerManageStallsPage() {
+    protected function _addSellerTCAccountPage() {
         $db = $this->getDb();
 
         $page_id = $db->select()
             ->from('engine4_core_pages', 'page_id')
-            ->where('name = ?', 'socialcommerce_seller_manage-stalls')
+            ->where('name = ?', 'socialcommerce_account_index')
             ->limit(1)
             ->query()
             ->fetchColumn();
 
         if(!$page_id) {
             $db->insert('engine4_core_pages', array(
-                'name' => 'socialcommerce_seller_manage-stalls',
-                'displayname' => 'Social Commerce Seller Section Manage Stalls Page',
-                'title' => 'Social Commerce Seller Section Manage Stalls Page',
-                'description' => 'This page show all stalls of seller',
+                'name' => 'socialcommerce_account_index',
+                'displayname' => 'Social Commerce Seller Section Manage TC Account Page',
+                'title' => 'Social Commerce Seller Section Manage TC Account Page',
+                'description' => 'This page show all statistic of seller',
                 'custom' => 0
             ));
             $page_id = $db->lastInsertId();
@@ -927,7 +927,7 @@ class Socialcommerce_Installer extends Engine_Package_Installer_Module
         }
     }
 
-    protected function _addSellerTransactionPage() {
+    protected function _addSellerDashboardPage() {
         $db = $this->getDb();
 
         $page_id = $db->select()
@@ -940,9 +940,9 @@ class Socialcommerce_Installer extends Engine_Package_Installer_Module
         if(!$page_id) {
             $db->insert('engine4_core_pages', array(
                 'name' => 'socialcommerce_seller_transaction',
-                'displayname' => 'Social Commerce Seller Section Transaction Page',
-                'title' => 'Social Commerce Seller Section Transaction Page',
-                'description' => 'This page show all transaction of seller',
+                'displayname' => 'Social Commerce Seller Section Dashboard Page',
+                'title' => 'Social Commerce Seller Section Dashboard Page',
+                'description' => 'This page show dashboard of seller',
                 'custom' => 0
             ));
             $page_id = $db->lastInsertId();

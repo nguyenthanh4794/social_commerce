@@ -32,7 +32,7 @@
                             <div class="socialcommerce-grid-item-hover">
                                 <div class="socialcommerce-grid-item-hover-background">
                                     <div class="product_add_cart" id="product_add_cart_<?php echo $product->getIdentity() ?>">
-                                        <a href="javascript:en4.store.cart.addProductBox(<?php echo $product->getIdentity() ?>)"><?php echo $this->translate('<span class="fa fa-shopping-bag"></span> ')?></a>
+                                        <a href="javascript:en4.store.cart.addProductBox(<?php echo $product->getIdentity() ?>)"><?php echo $this->translate('<span class="fa fa-cart-plus"></span> ')?></a>
                                     </div>
                                 </div>
                             </div>

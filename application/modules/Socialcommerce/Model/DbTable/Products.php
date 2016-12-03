@@ -25,6 +25,10 @@ class Socialcommerce_Model_DbTable_Products extends Engine_Db_Table
             $select->where('stall_id = ?', $params['stall_id']);
         }
 
+        if (isset($params['owner_id'])) {
+            $select->where('owner_id = ?', $params['owner_id']);
+        }
+
         $select->group("product_id");
         $select->order('product_id DESC');
         return $select;

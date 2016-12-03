@@ -53,6 +53,9 @@ class Socialcommerce_AccountController extends Core_Controller_Action_Standard
     {
         if (!$this->_helper->requireUser()->isValid()) return;
 
+        $this->_helper->content
+            ->setEnabled();
+
         $this->view->viewer = $viewer = Engine_Api::_()->user()->getViewer();
         $user_id = $viewer->getIdentity();
         $values = $this->getRequest()->getParams();
