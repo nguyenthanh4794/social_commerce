@@ -214,13 +214,6 @@ POPULAR MEMBERS WIDGET
 Lists the most popular members, typically placed
 on the main home page.
 */
-.layout_user_list_popular
-{
-  clear: both;
-  overflow: auto;
-  width: 100%;
-  margin-bottom: 15px;
-}
 .layout_user_list_popular > ul
 {
   +foreground;
@@ -265,12 +258,13 @@ NEWEST MEMBERS WIDGET
 Lists the most recent signups, typically placed
 on the main home page.
 */
-.layout_user_list_signups
+.layout_user_list_signups, .layout_user_list_popular
 {
   clear: both;
   overflow: auto;
-  width: 100%;
-  margin-bottom: 15px;
+  background-color: #fff;
+  padding: 0 15px;!important;
+  padding-bottom: 10px;!important;
 }
 .layout_user_list_signups > ul
 {

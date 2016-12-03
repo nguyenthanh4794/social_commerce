@@ -7,6 +7,17 @@
  */
 return array(
     array(
+        'title' => 'Social Commerce - Expandable Categories',
+        'description' => 'Presents categories in expandable way.',
+        'category' => 'Social Commerce',
+        'type' => 'widget',
+        'name' => 'socialcommerce.exp-categories',
+        'defaultParams' => array(
+            'title' => 'Browse',
+        ),
+    ),
+
+    array(
         'title' => 'Social Commerce - Main Menu',
         'description' => 'Displays a menu in the main page.',
         'category' => 'Social Commerce',

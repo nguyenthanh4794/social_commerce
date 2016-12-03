@@ -1124,12 +1124,12 @@ ul.generic_list_widget
   padding: 5px;
   margin-bottom: 15px;
 }
-ul.generic_list_widget > li
-{
-  clear: both;
-  overflow: hidden;
-  padding: 3px 5px 3px 5px;
-}
+/*ul.generic_list_widget > li*/
+/*{*/
+  /*clear: both;*/
+  /*overflow: hidden;*/
+  /*padding: 3px 5px 3px 5px;*/
+/*}*/
 ul.generic_list_widget_large_photo > li + li
 {
   margin-top: 10px;

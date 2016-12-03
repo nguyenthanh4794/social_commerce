@@ -72,7 +72,7 @@ $this->headLink()->appendStylesheet($this->baseUrl() . '/application/modules/Soc
 
 <div class="">
     <!-- template -->
-    <div class="ms-partialview-template" id="partial-view-1" style="padding-bottom: 101px;">
+    <div class="ms-partialview-template" id="partial-view-1">
         <!-- masterslider -->
         <div class="master-slider ms-skin-default" id="masterslider">
             <?php foreach($this->paginator as $stall) :?>
@@ -106,7 +106,7 @@ $this->headLink()->appendStylesheet($this->baseUrl() . '/application/modules/Soc
 
 
     slider.setup('masterslider' , {
-        width:1140,
+        width:100%,
         height:580,
         space:0,
         preload:0,

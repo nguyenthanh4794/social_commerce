@@ -17,7 +17,7 @@ $coverPhotoUrl = $this->stall->getCoverPhotoUrl();
             <span style="background-image: url(<?php echo $stallPhotoUrl; ?>);"></span>
         </div>
         <div class="profile-cover-title">
-            <span class="socialcommerce_stall_profile_name" title="Group Name"><?php echo $this->translate($this->stall->title) ?></span>
+            <span class="socialcommerce_stall_profile_name"><?php echo $this->translate($this->stall->title) ?></span>
         </div>
         <div class="pu_clearfix"></div>
     </div>
