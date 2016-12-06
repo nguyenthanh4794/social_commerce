@@ -3,12 +3,21 @@
     <div class="socialcommerce_options">
         <?php
         echo $this->htmlLink(array(
-        'route' => 'socialcommerce_general',
-        'controller' => 'product',
+        'route' => 'socialcommerce_specific',
         'action' => 'edit',
-        'listing_id' => $this->item->getIdentity(),
+        'id' => $this->item->getIdentity(),
         ), '<i class="fa fa-pencil-square-o"></i>'.$this->translate('Edit listing'), array('class' => 'icon_socialcommerce_edit'));
         ?>
+
+        <?php
+        echo $this->htmlLink(array(
+        'route' => 'socialcommerce_general',
+        'controller' => 'photo',
+        'action' => 'manage',
+        'listing_id' => $this->item->getIdentity(),
+        ), '<i class="fa fa-picture-o"></i>'.$this->translate('Manage photos'), array('class' => 'icon_socialcommerce_edit'));
+        ?>
+
         <?php
                     if ($item->status != 2) {
         echo $this->htmlLink(array(
