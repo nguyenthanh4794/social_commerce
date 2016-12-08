@@ -9,3 +9,6 @@ UPDATE `engine4_core_menuitems` SET `order` = '3' WHERE `engine4_core_menuitems`
 
 UPDATE  `social_commerce`.`engine4_core_menuitems` SET  `params` = '{"route":"socialcommerce_general","controller":"account","icon":"application/modules/Socialcommerce/externals/images/links/item.png","class":"socialcommerce_seller_menu_item socialcommerce_tcaccount","icon-class":"fa fa-user"}' WHERE  `engine4_core_menuitems`.`name` ='socialcommerce_seller_account';
 ALTER TABLE `engine4_socialcommerce_orderitems` ADD `owner_id` INT(10) NULL DEFAULT NULL;
+
+INSERT IGNORE INTO `engine4_core_menuitems` (`name`, `module`, `label`, `plugin`, `params`, `menu`, `submenu`, `order`) VALUES
+('socialcommerce_admin_main_fee', 'socialcommerce', 'Manage Fee Schedule', '', '{"route":"admin_default","module":"socialcommerce","controller":"settings", "action":"fee"}', 'socialcommerce_admin_main', '', 11);

@@ -26,14 +26,25 @@ class Socialcommerce_Widget_BrowseSearchController extends Engine_Content_Widget
 
         // Prepare form
         $this->view->form = $form = new Socialcommerce_Form_Search(array(
-            'type' => 'socialcommerce_listing',
             'location' => $location,
         ));
-        $form->setAttrib('style', 'padding: 0 0 15px 0;');
+
+        if ($request->getModuleName() != 'socialcommerce')
+            return $this->setNoRender();
+
+        $controller = $request->getControllerName();
+        if ($controller == 'index')
+        {
+            $form -> setAction(Zend_Controller_Front::getInstance() -> getRouter() -> assemble(array('action' => 'browse'), 'socialcommerce_general', true));
+        } else {
+            if ($controller == 'product')
+                $form -> setAction(Zend_Controller_Front::getInstance() -> getRouter() -> assemble(array('action' => 'browse'), 'socialcommerce_specific', true));
+            else
+                $form -> setAction(Zend_Controller_Front::getInstance() -> getRouter() -> assemble(array('controller' => 'stall', 'action' => 'browse'), 'socialcommerce_general', true));
+        }
+
         $this->view->headScript()->appendFile("https://maps.googleapis.com/maps/api/js?key=". Engine_Api::_() -> getApi('settings', 'core') -> getSetting('yncore.google.api.key', 'AIzaSyB3LowZcG12R1nclRd9NrwRgIxZNxLMjgc')."&v=3.exp&libraries=places");
         $p = Zend_Controller_Front::getInstance()->getRequest()->getParams();
         $form->populate($p);
-        $this->view->topLevelId = $form->getTopLevelId();
-        $this->view->topLevelValue = $form->getTopLevelValue();
     }
 }

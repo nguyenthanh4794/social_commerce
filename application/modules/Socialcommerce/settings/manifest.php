@@ -84,7 +84,7 @@ return array(
                 'action' => 'index',
             ),
             'reqs' => array(
-                'action' => '(index|direction|email-to-friends|edit)'
+                'action' => '(index|direction|email-to-friends|edit|browse)'
             )
         ),
 

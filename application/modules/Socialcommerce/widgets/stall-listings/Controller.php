@@ -10,24 +10,37 @@ class Socialcommerce_Widget_StallListingsController extends Engine_Content_Widge
 {
     public function indexAction()
     {
-        $params = $this -> _getAllParams();
         $request = Zend_Controller_Front::getInstance()->getRequest();
+        $params = $request->getParams();
+
         $form = new Socialcommerce_Form_Search(array(
-            'type' => 'socialcommerce_listing',
             'location' => $params['location'],
         ));
 
+        $controller = $request->getControllerName();
+        $action = $request->getActionName();
+
+        if ($controller == 'index' && $action == 'browse')
+            $this->view->inBrowsePage = true;
+
         if($form->isValid($params)) {
             $values = $form->getValues();
+            $this->view->formValues = array_filter($values);
         } else {
             $values = array();
         }
 
-        $page = $values['page'];
-        if (!$page) $page = 1;
+        $page = $request->getParam('page', 1);
+        $limit = $this -> _getParam('itemCountPerPage', 4);
+
         $paginator = Engine_Api::_() -> getDbTable('stalls', 'socialcommerce') -> getStallsPaginator($values);
+        if (in_array($controller, array('stall'))) {
+            $this->view->pager = true;
+            $limit = 6;
+        }
+
         $paginator -> setCurrentPageNumber($page);
-        $paginator -> setItemCountPerPage($this -> _getParam('itemCountPerPage', 10));
+        $paginator -> setItemCountPerPage($limit);
         $this -> view -> paginator = $paginator;
     }
 }

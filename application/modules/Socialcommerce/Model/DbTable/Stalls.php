@@ -53,29 +53,16 @@ class Socialcommerce_Model_DbTable_Stalls extends Engine_Db_Table
         }
         $select
             ->joinLeft("$userTblName as user", "user.user_id = stall.owner_id", "")
-            ->joinLeft("$categoryTblName as category", "category.category_id = stall.category", "")
-            ->joinLeft("$searchTableName as search", "search.item_id = stall.stall_id", "");
+            ->joinLeft("$categoryTblName as category", "category.category_id = stall.category", "");
 
         $select->group("stall.stall_id");
 
-        $tmp = array();
-        foreach ($params as $k => $v) {
-            if (null == $v || '' == $v || (is_array($v) && count(array_filter($v)) == 0)) {
-                continue;
-            } else if (false !== strpos($k, '_field_')) {
-                list($null, $field) = explode('_field_', $k);
-                $tmp['field_' . $field] = $v;
-            } else if (false !== strpos($k, '_alias_')) {
-                list($null, $alias) = explode('_alias_', $k);
-                $tmp[$alias] = $v;
-            } else {
-                $tmp[$k] = $v;
-            }
+        if (!empty($params['keyword'])) {
+            $select->where('stall.title LIKE ?', '%' . $params['keyword'] . '%');
         }
-        $params = $tmp;
 
-        if (isset($params['displayname']) && $params['displayname'] != '') {
-            $select->where('stall.title LIKE ?', '%' . $params['displayname'] . '%');
+        if (!empty($params['category']) && is_numeric($params['category'])) {
+            $select->where('category = ?', $params['category']);
         }
 
         if (isset($params['category']) && $params['category'] != 'all') {
@@ -100,22 +87,6 @@ class Socialcommerce_Model_DbTable_Stalls extends Engine_Db_Table
 
         if (isset($params['owner_id'])) {
             $select->where('stall.owner_id = ?', $params['owner_id']);
-        }
-
-//        if (isset($params['user_id'])) {
-//            $select->where('stall.user_id = ?', $params['user_id']);
-//        } else {
-//            if ($params['admin'] == null) {
-//                $select
-//                    ->where('stall.search = ?', 1)
-//                    ->where('stall.status = ?', 'open')
-//                    ->where('stall.approved_status = ?', 'approved');
-//            }
-//        }
-
-        $searchParts = Engine_Api::_()->fields()->getSearchQuery('socialcommerce_listing', $params);
-        foreach ($searchParts as $k => $v) {
-            $select->where("search.$k", $v);
         }
 
         if ($base_lat && $base_lng && $target_distance && is_numeric($target_distance)) {

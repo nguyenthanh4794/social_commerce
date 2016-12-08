@@ -62,17 +62,6 @@ return array(
     ),
 
     array(
-        'title' => 'Social Commerce - Browse Search',
-        'description' => 'Displays a search form in the stall/product browse page.',
-        'category' => 'Social Commerce',
-        'type' => 'widget',
-        'name' => 'socialcommerce.browse-search',
-        'requirements' => array(
-            'no-subject',
-        ),
-    ),
-
-    array(
         'title' => 'Social Commerce - Quick Links',
         'description' => 'Displays a list of quick links.',
         'category' => 'Social Commerce',

@@ -98,24 +98,18 @@ $this->headTranslate(array(
     {
         if(navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
-                fromPoint = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-                map.setCenter(fromPoint);
-                var marker = new google.maps.Marker({
-                    map:map,
-                    draggable:true,
-                    animation: google.maps.Animation.DROP,
-                    position: fromPoint
-                });
-
+                var lat = position.coords.latitude;
+                var lng = position.coords.longitude;
                 //Get location title
                 var current_posstion = new Request.JSON({
                     'format' : 'json',
-                    'url' : '<?php echo $this->url(array('action'=>'get-my-location'), 'socialcommerce_general') ?>',
+                    'url' : '<?php echo $this->url(array('action'=>'get-my-location'), 'socialcommerce_general', true) ?>',
                     'data' : {
-                        latitude : position.coords.latitude,
-                        longitude : position.coords.longitude,
+                        latitude : lat,
+                        longitude : lng,
                     },
                     'onSuccess' : function(json, text) {
+                        console.log(json);
                         if(json.status == 'OK')
                         {
                             if (json.results.length > 0)
@@ -126,6 +120,15 @@ $this->headTranslate(array(
                             {
                                 $("pac-input").set("value", en4.core.language.translate("Current location..."));
                             }
+
+                            fromPoint = new google.maps.LatLng(lat,lng);
+                            map.setCenter(fromPoint);
+                            var marker = new google.maps.Marker({
+                                map:map,
+                                draggable:true,
+                                animation: google.maps.Animation.DROP,
+                                position: fromPoint
+                            });
                         }
                         else{
                             alert(en4.core.language.translate("Browser doesn't support Geolocation"));
@@ -133,7 +136,9 @@ $this->headTranslate(array(
                     }
                 });
                 current_posstion.send();
-            }, function() {});
+            }, function() {
+                handleLocationError(true);
+            });
         }
         // Browser doesn't support Geolocation
         else {

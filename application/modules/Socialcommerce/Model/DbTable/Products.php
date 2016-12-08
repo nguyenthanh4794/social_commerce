@@ -25,12 +25,41 @@ class Socialcommerce_Model_DbTable_Products extends Engine_Db_Table
             $select->where('stall_id = ?', $params['stall_id']);
         }
 
+        if (!empty($params['keyword'])) {
+            $select->where('title LIKE ?', '%'.$params['keyword'].'%');
+        }
+
         if (isset($params['owner_id'])) {
             $select->where('owner_id = ?', $params['owner_id']);
         }
 
+        if (!empty($params['category']) && is_numeric($params['category'])) {
+            $select->where('category = ?', $params['category']);
+        }
+
+        if (!empty($params['sort_by']))
+        {
+            switch ($params['sort_by']) {
+                case 'most_liked':
+                    $select->order('like_count DESC');
+                    break;
+                case 'most_viewed':
+                    $select->order('view_count DESC');
+                    break;
+                case 'highest_sales':
+                    $select->order('sold_qty DESC');
+                    break;
+                default:
+                    $select->order('creation_date DESC');
+                    break;
+            }
+
+        } else {
+            $select->order('creation_date DESC');
+        }
+
         $select->group("product_id");
-        $select->order('product_id DESC');
+
         return $select;
 
     }

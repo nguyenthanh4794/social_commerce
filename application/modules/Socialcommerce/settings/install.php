@@ -19,6 +19,7 @@ class Socialcommerce_Installer extends Engine_Package_Installer_Module
         $this->_addEditNewProduct();
         $this->_addStallDetailPage();
         $this->_addHomePages();
+        $this->_addBrowsePages();
 
         $this->_addManagePhotoPage();
         $this->_addUploadPhotoPage();
@@ -209,6 +210,115 @@ class Socialcommerce_Installer extends Engine_Package_Installer_Module
                 'displayname' => 'Social Commerce Home Page',
                 'title' => 'Social Commerce Home Page',
                 'description' => 'This is home page',
+                'custom' => 0
+            ));
+            $page_id = $db->lastInsertId();
+
+            // Insert top
+            $db->insert('engine4_core_content', array(
+                'type' => 'container',
+                'name' => 'top',
+                'page_id' => $page_id,
+                'order' => 1,
+            ));
+            $top_id = $db->lastInsertId();
+
+            //Insert main
+            $db->insert('engine4_core_content', array(
+                'type' => 'container',
+                'name' => 'main',
+                'page_id' => $page_id,
+                'order' => 2,
+            ));
+            $main_id = $db->lastInsertId();
+
+            //Insert top-middle
+            $db->insert('engine4_core_content', array(
+                'type' => 'container',
+                'name' => 'middle',
+                'page_id' => $page_id,
+                'parent_content_id' => $top_id,
+            ));
+            $top_middle_id = $db->lastInsertId();
+
+            // Insert main-middle
+            $db->insert('engine4_core_content', array(
+                'type' => 'container',
+                'name' => 'middle',
+                'page_id' => $page_id,
+                'parent_content_id' => $main_id,
+                'order' => 2,
+            ));
+            $main_middle_id = $db->lastInsertId();
+
+            //Insert menu
+            $db->insert('engine4_core_content', array(
+                'type' => 'widget',
+                'name' => 'socialcommerce.main-menu',
+                'page_id' => $page_id,
+                'parent_content_id' => $top_middle_id,
+                'order' => 1,
+            ));
+
+            //Insert featured stall
+            $db->insert('engine4_core_content', array(
+                'type' => 'widget',
+                'name' => 'socialcommerce.featured-stalls',
+                'page_id' => $page_id,
+                'parent_content_id' => $main_middle_id,
+                'order' => 1,
+                'params' => '',
+            ));
+
+            //Insert featured stall
+            $db->insert('engine4_core_content', array(
+                'type' => 'widget',
+                'name' => 'socialcommerce.lastest-products',
+                'page_id' => $page_id,
+                'parent_content_id' => $main_middle_id,
+                'order' => 2,
+                'params' => '',
+            ));
+
+            //Insert featured stall
+            $db->insert('engine4_core_content', array(
+                'type' => 'widget',
+                'name' => 'socialcommerce.nearest-stalls',
+                'page_id' => $page_id,
+                'parent_content_id' => $main_middle_id,
+                'order' => 3,
+                'params' => '',
+            ));
+
+            //Insert featured stall
+            $db->insert('engine4_core_content', array(
+                'type' => 'widget',
+                'name' => 'socialcommerce.suggested-stalls',
+                'page_id' => $page_id,
+                'parent_content_id' => $main_middle_id,
+                'order' => 4,
+                'params' => '',
+            ));
+        }
+    }
+
+    protected function _addBrowsePages()
+    {
+        $db = $this->getDb();
+
+        $page_id = $db->select()
+            ->from('engine4_core_pages', 'page_id')
+            ->where('name = ?', 'socialcommerce_index_browse')
+            ->limit(1)
+            ->query()
+            ->fetchColumn();
+
+        if(!$page_id) {
+            $db->insert('engine4_core_pages', array(
+                'name' => 'socialcommerce_index_browse',
+                'displayname' => 'Social Commerce Search Result From Home Page',
+                'title' => 'Social Commerce Browse Page',
+                'description' => 'This is search result from home page',
                 'custom' => 0
             ));
             $page_id = $db->lastInsertId();
