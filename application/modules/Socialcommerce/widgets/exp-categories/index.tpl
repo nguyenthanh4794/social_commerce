@@ -1,4 +1,4 @@
-<div class=""
+<div class="">
     <ul class="action" id="ynsocialstore_category_menus">
         <?php foreach($this->categories as $aCategory): ?>
         <li class="ynstore-main-category-item">

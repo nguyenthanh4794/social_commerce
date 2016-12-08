@@ -103,7 +103,7 @@
 #global_page_socialcommerce-stall-browse, #global_page_socialcommerce-product-browse {
     +yn-category();
 }
-#global_page_socialcommerce-stall-browse, #global_page_socialcommerce-product-browse {
+#global_page_socialcommerce-stall-browse, #global_page_socialcommerce-product-browse, #global_page_socialcommerce-index-browse, #global_page_socialcommerce-index-index {
     +yn-form-search-widget();
 }
 #global_page_socialcommerce-stall-browse form {
@@ -2452,8 +2452,8 @@ ul.socialcommerce_seller_menu{
 {
     ul.stall_browse > li
     {
-        width: 50%;
-        float: left;
+        width: 49%;
+        display: inline-block;
         .socialcommerce-list-item {
             margin-right: 20px;
             margin-bottom: 20px;

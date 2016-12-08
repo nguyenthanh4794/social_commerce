@@ -65,14 +65,13 @@ $this->headScript()
 ->appendFile($this->baseUrl() . '/application/modules/Socialcommerce/externals/scripts/jquery.easing.min.js')
 ->appendFile($this->baseUrl() . '/application/modules/Socialcommerce/externals/scripts/masterslider.min.js');
 
-$this->headLink()->appendStylesheet($this->baseUrl() . '/application/modules/Socialcommerce/externals/styles/masterslider/ms-tabs-style.css');
+$this->headLink()->appendStylesheet($this->baseUrl() . '/application/modules/Socialcommerce/externals/styles/masterslider/ms-partialview.css');
 $this->headLink()->appendStylesheet($this->baseUrl() . '/application/modules/Socialcommerce/externals/styles/masterslider/masterslider.css');
-$this->headLink()->appendStylesheet($this->baseUrl() . '/application/modules/Socialcommerce/externals/styles/masterslider/masterslider-style.css');
+$this->headLink()->appendStylesheet($this->baseUrl() . '/application/modules/Socialcommerce/externals/styles/masterslider/skins/default/style.css');
 ?>
 
-<div class="">
     <!-- template -->
-    <div class="ms-partialview-template" id="partial-view-1">
+    <div class="ms-partialview-template" id="partial_view_ms">
         <!-- masterslider -->
         <div class="master-slider ms-skin-default" id="masterslider">
             <?php foreach($this->paginator as $stall) :?>
@@ -83,10 +82,7 @@ $this->headLink()->appendStylesheet($this->baseUrl() . '/application/modules/Soc
 
             <div class="ms-slide">
                 <img src="application/modules/Socialcommerce/externals/images/blank.gif" data-src="<?php echo $stall_photo ?>" alt="lorem ipsum dolor sit"/>
-                <div class="ms-thumb">
-                    <h3>SAMPLE TITLE</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetuer elit</p>
-                </div>
+
             </div>
 
             <?php endforeach; ?>
@@ -94,24 +90,21 @@ $this->headLink()->appendStylesheet($this->baseUrl() . '/application/modules/Soc
         <!-- end of masterslider -->
     </div>
     <!-- end of template -->
-</div>
 <script type="text/javascript">
 
     jQuery.noConflict();
     var slider = new MasterSlider();
     slider.control('arrows');
-    slider.control('c',{autohide:false});
     slider.control('circletimer' , {color:"#FFFFFF" , stroke:9});
-    slider.control('thumblist' , {autohide:false ,dir:'h',type:'tabs'});
 
 
     slider.setup('masterslider' , {
-        width:100%,
-        height:580,
-        space:0,
-        preload:0,
-        view:'basic'
-
+        width:760,
+        height:400,
+        space:10,
+        loop:true,
+        view:'fadeWave',
+        layout:'partialview'
     });
 
 </script>

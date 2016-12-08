@@ -27,7 +27,7 @@ $coverPhotoUrl = $this->stall->getCoverPhotoUrl();
     </div>
     <?php else : ?>
     <div class="profile-cover-picture">
-        <span class="profile-cover-picture-span" style="background-image: url('application/modules/Socialcommerce/externals/images/socialcommerce_default_cover.jpg');"></span>
+        <span class="profile-cover-picture-span" style="background-image: url('application/modules/Socialcommerce/externals/images/socialcommerce_default_cover.png');"></span>
     </div>
     <?php endif; ?>
     <div class="socialcommerce-detail-info">
