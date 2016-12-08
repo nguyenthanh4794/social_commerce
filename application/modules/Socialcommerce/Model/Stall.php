@@ -58,7 +58,7 @@ class Socialcommerce_Model_Stall extends Core_Model_Item_Abstract
 
         $total = $this->ratingCount();
         if ($total)
-            $rating = $rating_sum / $total;
+            $rating = round($rating_sum / $total, 2);
         else
             $rating = 0;
         echo $rating;

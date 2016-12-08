@@ -36,7 +36,7 @@
             <div class="stall_description">
                 <div class="stall_name">
                     <h3 class="socialcommerce_stall_profile_name">
-                        <?php echo $this->translate($stall->title) ?>
+                        <?php echo $this->htmlLink($stall->getHref(), $stall->getTitle()) ?>
                     </h3>
                 </div>
                 <div class="stall_rating">
@@ -47,7 +47,7 @@
                 </div>
                 <div class="stall_info">
                     <span class="stall_info_peace">30 items &nbsp;|&nbsp;</span>
-                    <span class="stall_info_peace">by GladYolus</span>
+                    <span class="stall_info_peace">by <?php echo $stall->getOwner() ?></span>
                     <span class="stall_info_peace final_peace">
                         <a href="<?php echo $stall->getHref(); ?>" class="alink float_right right_padding">Shop now</a>
                     </span>
