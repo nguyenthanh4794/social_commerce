@@ -77,14 +77,14 @@ return array(
         ),
 
         'socialcommerce_specific' => array(
-            'route' => 'social-commerce/products/:action/*',
+                'route' => 'social-commerce/product/:action/*',
             'defaults' => array(
                 'module' => 'socialcommerce',
-                'controller' => 'products',
+                'controller' => 'product',
                 'action' => 'index',
             ),
             'reqs' => array(
-                'action' => '(index|direction|email-to-friends)'
+                'action' => '(index|direction|email-to-friends|edit|browse)'
             )
         ),
 

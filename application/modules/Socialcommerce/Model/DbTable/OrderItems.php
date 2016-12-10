@@ -72,6 +72,12 @@ class Socialcommerce_Model_DbTable_OrderItems extends Engine_Db_Table
             $select->where($rName.".order_id LIKE ? ",'%'.$params['order_id'].'%');
         }
 
+        if( isset($params['stall_id']) && $params['stall_id'] != '')
+        {
+            $select->where($rName.".stall_id = ? ", $params['stall_id']);
+        }
+
+
         if(isset($params['status']) && $params['status'] != ''){
             $select->where("$rName.delivery_status = ?", $params['status']);
         }

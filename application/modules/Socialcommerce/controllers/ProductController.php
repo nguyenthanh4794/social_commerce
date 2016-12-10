@@ -18,9 +18,9 @@ class Socialcommerce_ProductController extends Core_Controller_Action_Standard
             if($oProduct && !Engine_Api::_()->core()->hasSubject('socialcommerce_product')) {
                 Engine_Api::_() -> core() -> setSubject($oProduct);
 
-                if (!$this -> _helper -> requireAuth -> setAuthParams($oProduct, null, 'view') -> isValid()) {
-                    return;
-                }
+//                if (!$this -> _helper -> requireAuth -> setAuthParams($oProduct, null, 'view') -> isValid()) {
+//                    return;
+//                }
             }
         }
     }
@@ -37,6 +37,78 @@ class Socialcommerce_ProductController extends Core_Controller_Action_Standard
     public function indexAction()
     {
         $this->_helper->content->setEnable();
+    }
+
+    public function editAction()
+    {
+        $this->_helper->content
+            //->setNoRender()
+            ->setEnabled()
+        ;
+        if (!$this->_helper->requireAuth()->setAuthParams('socialcommerce_product', null, 'view')->isValid()) {
+            return $this->_helper->requireAuth()->forward();
+        }
+
+        if(!Engine_Api::_()->core()->hasSubject())
+        {
+            return $this->_helper->requireSubject()->forward();
+        }
+
+        $this->view->product = $subject = Engine_Api::_()->core()->getSubject();
+
+        if (!$subject) {
+            return $this->_helper->requireSubject()->forward();
+        }
+
+        $user = Engine_Api::_()->user()->getViewer();
+
+        $this -> view -> form = $form = new Socialcommerce_Form_Product_Create();
+        $categories = Engine_Api::_()->getDbTable('categories', 'socialcommerce')->getCategoriesAssoc();
+        $form->category->setMultiOptions($categories);
+        $form->populate($subject->toArray());
+
+        // If not post or form not valid, return
+        if( !$this->getRequest()->isPost() ) {
+            return;
+        }
+
+        if( !$form->isValid($this->getRequest()->getPost()) ) {
+            return;
+        }
+
+        $table = Engine_Api::_()->getDbTable('products', 'socialcommerce');
+        // Begin transaction
+        $db = $table -> getAdapter();
+        $db -> beginTransaction();
+
+        try {
+            $values = $form->getValues();
+            $product = $table -> createRow();
+
+            $product -> setFromArray($values);
+            $product -> owner_id = $user -> getIdentity();
+
+            if (!empty($values['main_photo'])) {
+                $product->setPhoto($form->main_photo);
+            }
+            $product -> save();
+
+            // Auth
+            $auth = Engine_Api::_()->authorization()->context;
+            $roles = array('owner', 'owner_member', 'owner_member_member', 'owner_network', 'registered', 'everyone');
+
+            foreach ($roles as $i => $role)
+            {
+                $auth->setAllowed($product, $role, 'view', 1);
+                $auth->setAllowed($product, $role, 'comment', 1);
+                $auth->setAllowed($product, $role, 'submission', 1);
+            }
+
+            $db -> commit();
+        } catch (Exception $e) {
+            $db -> rollBack();
+            throw $e;
+        }
     }
 
     public function createAction()

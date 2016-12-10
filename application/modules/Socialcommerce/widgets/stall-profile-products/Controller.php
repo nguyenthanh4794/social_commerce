@@ -8,6 +8,7 @@
  */
 class Socialcommerce_Widget_StallProfileProductsController extends Engine_Content_Widget_Abstract
 {
+    protected $_childCount;
     public function indexAction()
     {
         $viewer = Engine_Api::_()->user()->getViewer();
@@ -40,5 +41,10 @@ class Socialcommerce_Widget_StallProfileProductsController extends Engine_Conten
 
         $this->view->view_mode = 'list';
         $this -> view -> canCreate = true;
+        $this->_childCount = $paginator->getTotalItemCount();
+    }
+
+    public function getChildCount() {
+        return $this->_childCount;
     }
 }

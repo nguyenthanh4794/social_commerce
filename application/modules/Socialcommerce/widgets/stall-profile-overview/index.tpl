@@ -1,5 +1,5 @@
 <h3><?php echo $this->translate('About ').$this->stall->title; ?></h3>
-<?php if ($this->viewer() -> getIdentity()):
+<?php if ($this->viewer() -> getIdentity() == $this->stall->owner_id):
 $url = $this -> url(array(
 'module' => 'socialcommerce',
 'controller' => 'stall',

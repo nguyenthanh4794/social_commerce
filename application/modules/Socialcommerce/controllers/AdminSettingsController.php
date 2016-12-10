@@ -126,4 +126,26 @@ class Socialcommerce_AdminSettingsController extends Core_Controller_Action_Admi
 
         $form->addNotice('Your changes have been saved.');
     }
+
+    public function feeAction()
+    {
+        $this->view->navigation = $navigation = Engine_Api::_()->getApi('menus', 'core')
+            ->getNavigation('socialcommerce_admin_main', array(), 'socialcommerce_admin_main_fee');
+        $settings = Engine_Api::_()->getApi('settings', 'core');
+
+        $params = array();
+        if ($this->getRequest()->isPost()) {
+            $params = $this->getRequest()->getPost();
+        }
+
+        $this->view->form = $setting_form = new Socialcommerce_Form_Admin_Settings_Fee(array('params' => $params));
+
+        if ($this->getRequest()->isPost() && $setting_form->isValid($this->_getAllParams())) {
+            $values = $setting_form->getValues();
+            foreach ($values as $key => $value) {
+                $settings->setSetting($key, $value);
+            }
+            $setting_form->addNotice(Zend_Registry::get('Zend_Translate')->_('Your changes have been saved.'));
+        }
+    }
 }

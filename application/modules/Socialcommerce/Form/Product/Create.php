@@ -39,37 +39,12 @@ class Socialcommerce_Form_Product_Create extends Engine_Form
             )
         ));
 
-        $upload_url = "";
-
-        if(Engine_Api::_()->authorization()->isAllowed('album', $user, 'create')){
-            $upload_url = Zend_Controller_Front::getInstance()->getRouter()->assemble(array('action' => 'upload-photo'), 'socialcommerce_product_general', true);
-        }
-
-        $editorOptions = array(
-            'upload_url' => $upload_url,
-        );
-
-        if (!empty($upload_url))
-        {
-            $editorOptions['plugins'] = array(
-                'table', 'fullscreen', 'media', 'preview', 'paste',
-                'code', 'image', 'textcolor', 'jbimages', 'link'
-            );
-
-            $editorOptions['toolbar1'] = array(
-                'undo', 'redo', 'removeformat', 'pastetext', '|', 'code',
-                'media', 'image', 'jbimages', 'link', 'fullscreen',
-                'preview'
-            );
-        }
-
         $allowed_html = 'strong, b, em, i, u, strike, sub, sup, p, div, pre, address, h1, h2, h3, h4, h5, h6, span, ol, li, ul, a, img, embed, br, hr, object , param, iframe';
         $this->addElement('TinyMce', 'description', array(
             'label' => '*Description',
             'description' => 'Maximum 500 characters',
             'required' => true,
             'allowEmpty' => false,
-            'editorOptions' => $editorOptions,
             'filters' => array(
                 new Engine_Filter_Censor(),
                 new Engine_Filter_Html(array('AllowedTags'=>$allowed_html)),
@@ -87,26 +62,6 @@ class Socialcommerce_Form_Product_Create extends Engine_Form
             ),
         ));
 
-        // Init file
-        $this->addElement('Hidden', 'photo_id');
-        $fancyUpload = new Engine_Form_Element_FancyUpload('file');
-        $fancyUpload->clearDecorators()
-            ->addDecorator('FormFancyUpload')
-            ->addDecorator('viewScript', array(
-                'viewScript' => '_FancyUpload.tpl',
-                'placement'  => '',
-            ));
-        Engine_Form::addDefaultDecorators($fancyUpload);
-        $fancyUpload->setLabel("Photo");
-        $this->addElement($fancyUpload);
-
-        $this->addDisplayGroup(array('file'), 'upload_image');
-        $upload_image_group = $this->getDisplayGroup('upload_image');
-
-        $this->addElement('Image', 'photo_preview', array(
-            'style' => 'display: none; max-width: 200px; margin-left: 20px;',
-            'ignore' => true,
-        ));
 
         $this->addElement('Text', 'price', array(
             'label' => '*Price',

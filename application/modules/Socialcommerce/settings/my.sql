@@ -354,6 +354,7 @@ INSERT IGNORE INTO `engine4_core_menuitems` (`name`, `module`, `label`, `plugin`
   ('socialcommerce_admin_main_requests', 'socialcommerce', 'Manage Money Requests', '', '{"route":"admin_default","module":"socialcommerce","controller":"requests", "action":"index"}', 'socialcommerce_admin_main', '', 8),
   ('socialcommerce_admin_main_accounts', 'socialcommerce', 'Manage Accounts', '', '{"route":"admin_default","module":"socialcommerce","controller":"accounts", "action":"index"}', 'socialcommerce_admin_main', '', 9),
   ('socialcommerce_admin_main_faqs', 'socialcommerce', 'Manage FAQs', '', '{"route":"admin_default","module":"socialcommerce","controller":"faqs", "action":"index"}', 'socialcommerce_admin_main', '', 10),
+  ('socialcommerce_admin_main_fee', 'socialcommerce', 'Manage Fee Schedule', '', '{"route":"admin_default","module":"socialcommerce","controller":"settings", "action":"fee"}', 'socialcommerce_admin_main', '', 7),
 
   ('socialcommerce_link_home', 'user', 'Trader Club', '', '{"route":"socialcommerce_general","controller":"stall","action":"browse","icon":"application/modules/Socialcommerce/externals/images/links/trader.png"}', 'socialcommerce_link', '', 1),
   ('socialcommerce_link_my-bag', 'user', 'My Bag', '', '{"route":"socialcommerce_general","controller":"stall","action":"browse","icon":"application/modules/Socialcommerce/externals/images/links/bag.png"}', 'socialcommerce_link', '', 2),

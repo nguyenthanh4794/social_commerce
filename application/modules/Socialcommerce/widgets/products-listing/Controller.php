@@ -16,23 +16,32 @@ class Socialcommerce_Widget_ProductsListingController extends Engine_Content_Wid
         $controller = $request->getControllerName();
         $action = $request->getActionName();
 
-        $inHomePage = false;
+        $location = $request -> getParam('location', '');
+        $form = new Socialcommerce_Form_Search(array('location' => $location));
+        $form->populate($request->getParams());
 
-        if ($controller == 'index' && $action == 'index')
-        {
-            $inHomePage = true;
-            $categoryTable = Engine_Api::_()->getDbTable('categories', 'socialcommerce');
-            $categories = $categoryTable->getAllCategoriesByParent();
+        $values = $form->getValues();
+        $this->view->formValues = array_filter($values);
 
-            $this->view->categories = $categories;
+        $page = $request->getParam('page', 1);
+        $limit = $this -> _getParam('itemCountPerPage', 12);
+        $values['page'] = $page;
+        $values['limit'] = $limit;
+
+        if ($controller == 'index' && $action == 'browse') {
+            $this->view->inBrowsePage = true;
         }
-        $this->view->paginator = $paginator = Engine_Api::_()->getDbTable('products', 'socialcommerce') -> getProductsPaginator(array());
+
+        if ($controller == 'product' && $action == 'browse') {
+            $this->view->pager = true;
+        }
+
+        $this->view->paginator = $paginator = Engine_Api::_()->getDbTable('products', 'socialcommerce') -> getProductsPaginator($values);
 
         // Set item count per page and current page number
-        $paginator->setItemCountPerPage($this->_getParam('itemCountPerPage', 10));
-        $paginator->setCurrentPageNumber($this->_getParam('page', 1));
+        $paginator->setItemCountPerPage($limit);
+        $paginator->setCurrentPageNumber($page);
 
         $this -> view -> canCreate = true;
-        $this -> view -> inHomePage = $inHomePage;
     }
 }

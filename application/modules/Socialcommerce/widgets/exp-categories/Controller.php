@@ -14,6 +14,5 @@ class Socialcommerce_Widget_ExpCategoriesController extends Engine_Content_Widge
         $categories = $categoryTable->getAllCategoriesByParent();
 
         $this->view->categories = $categories;
-        $this -> view -> inHomePage = $inHomePage;
     }
 }

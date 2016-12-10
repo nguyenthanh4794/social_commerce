@@ -62,17 +62,6 @@ return array(
     ),
 
     array(
-        'title' => 'Social Commerce - Browse Search',
-        'description' => 'Displays a search form in the stall/product browse page.',
-        'category' => 'Social Commerce',
-        'type' => 'widget',
-        'name' => 'socialcommerce.browse-search',
-        'requirements' => array(
-            'no-subject',
-        ),
-    ),
-
-    array(
         'title' => 'Social Commerce - Quick Links',
         'description' => 'Displays a list of quick links.',
         'category' => 'Social Commerce',
@@ -219,6 +208,20 @@ return array(
         'name' => 'socialcommerce.stall-profile-overview',
         'defaultParams' => array(
             'title' => 'Overview',
+        ),
+        'requirements' => array(
+            'subject' => 'socialcommerce_stall',
+        ),
+    ),
+
+    array(
+        'title' => 'Social Commerce - Stall Profile Sales',
+        'description' => 'Displays Stall Sales on Stall Detail page',
+        'category' => 'Social Commerce',
+        'type' => 'widget',
+        'name' => 'socialcommerce.stall-profile-sales',
+        'defaultParams' => array(
+            'title' => 'Sales',
         ),
         'requirements' => array(
             'subject' => 'socialcommerce_stall',

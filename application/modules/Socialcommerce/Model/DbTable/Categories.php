@@ -54,10 +54,10 @@ class Socialcommerce_Model_DbTable_Categories extends Socialcommerce_Model_DbTab
     public function getHref($iCategoryId, $sTitle) {
 
         $params = array(
-            'route' => 'socialcommerce_category',
+            'route' => 'socialcommerce_general',
             'controller' => 'index',
-            'action' => 'listings',
-            'category_id' => $iCategoryId,
+            'action' => 'browse',
+            'category' => $iCategoryId,
             'slug' => $this->seoUrl($sTitle),
         );
 

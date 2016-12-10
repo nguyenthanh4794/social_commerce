@@ -239,4 +239,26 @@ class Socialcommerce_Model_OrderItem extends Core_Model_Item_Abstract
         $result = $OrderItems->fetchRow($select);
         return $result['sum'];
     }
+
+    public function getShippingAddressInfo() {
+        $Address = new Socialcommerce_Model_DbTable_ShippingAddresses;
+
+        $select = $Address->select()->where('order_id=?', $this->order_id);
+        $item = $Address->fetchRow($select);
+        if(is_object($item)){
+            $aValuesShipping = (array)json_decode($item->value);
+            $address = implode(' - ', array_values($aValuesShipping));
+            return $address;
+        }
+        return null;
+    }
+
+    public function getBuyer()
+    {
+        $order = $this->getOrder();
+        if ($order)
+            return $order->getOwner();
+        else
+            return 'Not Found';
+    }
 }

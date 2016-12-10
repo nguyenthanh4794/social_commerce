@@ -184,4 +184,54 @@ class Socialcommerce_SellerController extends Core_Controller_Action_Standard
         $this -> renderScript('seller/confirm.tpl');
 
     }
+    public function shippedAction()
+    {
+        // In smoothbox
+        $this -> _helper -> layout -> setLayout('admin-simple');
+
+        if (!$this->_helper->requireUser()->isValid())
+            return;
+
+        $order_id = $this->_getParam('order_id');
+
+        $this -> view -> order_id = $order_id;
+
+        // Check post
+        if ($this -> getRequest() -> isPost()) {
+            $order = Socialcommerce_Model_DbTable_Orders::getByOrderId($order_id);
+            $order->updateStatus('shipping');
+
+            return $this -> _forward('success', 'utility', 'core', array(
+                'layout' => 'default-simple',
+                'parentRefresh' => true,
+                'messages' => array(Zend_Registry::get('Zend_Translate') -> _('Your order has been successfully updated.'))
+            ));
+        }
+
+        // Output
+        $this -> _helper -> layout -> setLayout('default-simple');
+        $this -> renderScript('seller/confirm-shipped.tpl');
+
+    }
+
+    public function printAction()
+    {
+        $order_id = $this->_getParam('order_id');
+        $orderTable = Engine_Api::_()->getDbTable('orders', 'socialcommerce');
+        $order = $orderTable->getByOrderId($order_id);
+        $order_items = $order->getItems();
+        $this->view->order_id = $order_id;
+        $this->view->order_items = $order_items;
+
+        $shipping = $order->getShippingAddress();
+        $aValuesShipping = (array)json_decode($shipping->value);
+        $this->view->address = $address = implode(' - ', array_values($aValuesShipping));
+
+        list($products, $moreInfo) = $order->getProducts();
+
+        $this->view->products = $products;
+        $this->view->moreInfos = $moreInfo;
+
+        $this->view->order = $order;
+    }
 }

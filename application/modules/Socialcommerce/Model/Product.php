@@ -194,6 +194,136 @@ class Socialcommerce_Model_Product extends Core_Model_Item_Abstract
         return Engine_Api::_()->user()->getViewer()->getIdentity();
     }
 
+    public function allowAction($action,$user = null)
+    {
+        if($user == null)
+            $user = Engine_Api::_()->user()->getViewer();
+        switch ($action) {
+            case 'view':
+                if(in_array($this->status, array('draft', 'pending', 'denied', 'deleted')) && $user->getIdentity() != $this->owner_id && !$user->isAdmin())
+                    return false;
+                return $this -> authorization() -> isAllowed(null, 'view');
+            case 'edit':
+                return $this -> authorization() -> isAllowed(null, 'edit');
+            case 'delete':
+                if(!$this -> authorization() -> isAllowed(null, 'delete'))
+                    return false;
+                if($this->status == 'ongoing')
+                    return false;
+                if($user->getIdentity() != $this->user_id && !$user->isAdmin())
+                    return false;
+                return true;
+            case 'publish':
+                if(!$this -> authorization() -> isAllowed(null, 'can_sell_deal'))
+                    return false;
+                if($this->status != 'draft')
+                    return false;
+                return true;
+            case 'feature':
+                if($user->getIdentity() != $this->user_id && !$user->isAdmin())
+                    return false;
+                if(!in_array($this->status, array('pending', 'upcoming', 'ongoing', 'paused')))
+                    return false;
+                return true;
+            case 'statistic':
+                if($user->getIdentity() != $this->user_id && !$user->isAdmin())
+                    return false;
+                return true;
+            case 'clone':
+                if($this->user_id != $user->getIdentity())
+                    return false;
+                return true;
+            case 'pause':
+                if(! $this -> authorization() -> isAllowed(null, 'pause'))
+                    return false;
+                if($this->user_id != $user->getIdentity())
+                    return false;
+                if($this->status != 'ongoing')
+                    return false;
+                return true;
+            case 'resume':
+                if($this->user_id != $user->getIdentity())
+                    return false;
+                if($this->status != 'paused')
+                    return false;
+                return true;
+            case 'unfeature':
+                if(!$this->featured)
+                    return false;
+                if($user->getIdentity() != $this->user_id && !$user->isAdmin())
+                    return false;
+                return true;
+            case 'mark':
+                return (bool) $user->getIdentity();
+            case 'buy':
+                if($user->getIdentity() == $this->user_id)
+                    return false;
+                if($this->status != 'ongoing')
+                    return false;
+                return true;
+            default:
+                throw new Exception("Unsupported action", 1);
+                return true;
+        }
+    }
+
+    public function setPhoto($photo)
+    {
+        if ($photo instanceof Zend_Form_Element_File)
+        {
+            $file = $photo -> getFileName();
+            $name = basename($file);
+        }
+        else if( $photo instanceof Storage_Model_File ) {
+            $file = $photo->temporary();
+            $name = $photo->name;
+        }
+        else if (is_array($photo) && !empty($photo['tmp_name'])) {
+            $file = $photo['tmp_name'];
+            $name = $photo['name'];
+        } else {
+            throw new User_Model_Exception('invalid argument passed to setPhoto');
+        }
+        $viewer = Engine_Api::_()->user()->getViewer();
+        $path = APPLICATION_PATH . DIRECTORY_SEPARATOR . 'temporary';
+        $params = array(
+            'parent_type' => 'socialcommerce_product',
+            'parent_id' => $this -> getIdentity(),
+            'user_id' => $viewer -> getIdentity(),
+        );
+
+        // Save
+        $storage = Engine_Api::_() -> storage();
+
+        // Resize image (main)
+        $image = Engine_Image::factory();
+        $image -> open($file);
+        $image -> resize(640, 360) -> write($path . '/m_' . $name) -> destroy();
+
+        // Resize image (profile)
+        $image = Engine_Image::factory();
+        $image -> open($file);
+        $image-> resize(420, 236) -> write($path . '/p_' . $name) -> destroy();
+
+        // Store
+        $iMain = $storage -> create($path . '/m_' . $name, $params);
+        $iProfile = $storage -> create($path . '/p_' . $name, $params);
+
+        $iMain -> bridge($iProfile, 'thumb.profile');
+
+        // Remove temp files
+        @unlink($path . '/p_' . $name);
+        @unlink($path . '/m_' . $name);
+        //@unlink($file);
+
+        // Update row
+        $this -> modified_date = date('Y-m-d H:i:s');
+        $this -> photo_id = $iMain -> file_id;
+        $this -> save();
+
+        return $this;
+    }
+
     /**
      * Gets a proxy object for the comment handler
      *
