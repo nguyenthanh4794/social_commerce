@@ -39,7 +39,7 @@ return array(
         ),
     ),
     array(
-        'title' => 'Social Commerce - Browse Search',
+        'title' => 'Social Commerce - Browse Search Products',
         'description' => 'Displays a search form in the stall/product browse page.',
         'category' => 'Social Commerce',
         'type' => 'widget',

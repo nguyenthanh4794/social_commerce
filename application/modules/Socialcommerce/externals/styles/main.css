@@ -1289,6 +1289,9 @@ span.ui-datepicker-trigger{
 #js_block_border_ynsocialstore_category .content {
     padding: 0 !important;
 }
+#ynsocialstore_category_menus {
+    position: relative;
+}
 #ynsocialstore_category_menus a {
     -webkit-transition: all 300ms linear;
     -o-transition: all 300ms linear;
@@ -1296,6 +1299,7 @@ span.ui-datepicker-trigger{
 }
 #ynsocialstore_category_menus .ynstore-main-category-item {
     position: relative;
+    list-style: none;
 }
 #ynsocialstore_category_menus .ynstore-main-category-item.active > a > span {
     color: $theme_link_color_hover;
@@ -1319,7 +1323,7 @@ span.ui-datepicker-trigger{
     margin-right: 10px;
 }
 #ynsocialstore_category_menus .ynstore-main-category-item > a > span {
-    line-height: 50px;
+    line-height: 36px;
     color: #364347;
     overflow: hidden;
     white-space: nowrap;
@@ -1351,6 +1355,7 @@ span.ui-datepicker-trigger{
     top: 0;
     color: #e0e0e0;
     padding: 0;
+    font-size: .7em;
 }
 #ynsocialstore_category_menus .ynstore-main-category-item div.ynsocialstore_sub_category_items {
     right: 100%;
@@ -1374,7 +1379,6 @@ span.ui-datepicker-trigger{
 }
 #ynsocialstore_category_menus .ynstore-main-category-item div.ynsocialstore_sub_category_items .view_all_sub_categories a {
     border: 0;
-    font-size: 100%;
     color: #333;
     padding: 10px;
     text-decoration: none;
@@ -1413,16 +1417,10 @@ span.ui-datepicker-trigger{
     display: table;
 }
 #ynsocialstore_category_menus .ynstore-main-category-item div.ynsocialstore_sub_category_items > ul > li > a {
-    font-weight: 500;
     display: block;
 }
 #ynsocialstore_category_menus .ynstore-main-category-item div.ynsocialstore_sub_category_items > ul > li > a .ynmenu-text {
     padding-bottom: 5px;
-    font-size: 13px;
-    text-transform: uppercase;
-    border-bottom: 1px solid $theme_link_color_hover;
-}
-#ynsocialstore_category_menus .ynstore-main-category-item div.ynsocialstore_sub_category_items > ul > li span.ynmenu-text {
     overflow: hidden;
     white-space: nowrap;
     word-break: break-word;

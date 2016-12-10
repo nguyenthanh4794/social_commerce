@@ -64,3 +64,4 @@
 		</span>
 </div>
 <?php endif;?>
+<div style="clear:both;"></div>
