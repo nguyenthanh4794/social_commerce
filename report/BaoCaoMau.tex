@@ -1,0 +1,144 @@
+\documentclass[a4paper,12pt,times,numbered,print,index]{report}
+\usepackage{vntex}
+\usepackage{graphicx}
+\usepackage{tabularx, caption}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{pdfpages}
+\usepackage[pdftex]{hyperref}
+\usepackage[toc]{appendix}
+\usepackage{tabularx, makecell, multirow}
+\usepackage{float}
+\usepackage{color,soul}
+\usepackage{listings}
+
+\title{BÁO CÁO THỰC TẬP TỐT NGHIỆP}
+
+\usepackage{indentfirst}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstdefinelanguage{JavaScript}{
+	keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+	keywordstyle=\color{blue}\bfseries,
+	ndkeywords={class, export, boolean, throw, implements, import, this},
+	ndkeywordstyle=\color{darkgray}\bfseries,
+	identifierstyle=\color{black},
+	sensitive=false,
+	comment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	commentstyle=\color{purple}\ttfamily,
+	stringstyle=\color{red}\ttfamily,
+	morestring=[b]',
+	morestring=[b]"
+}
+
+\lstset{
+	language=JavaScript,
+	backgroundcolor=\color{white},
+	extendedchars=true,
+	basicstyle=\footnotesize\ttfamily,
+	showstringspaces=false,
+	showspaces=false,
+	numbers=left,
+	numberstyle=\footnotesize,
+	numbersep=9pt,
+	tabsize=2,
+	breaklines=true,
+	showtabs=false,
+	captionpos=b
+}
+
+\begin{document}
+	\begin{center}
+		{ ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH \\
+			TRƯỜNG ĐẠI HỌC BÁCH KHOA \\
+			KHOA KHOA HỌC VÀ KỸ THUẬT MÁY TÍNH} 
+		\\
+		\bigskip
+		\bigskip
+		\bigskip
+		\includegraphics[scale=.4]{Graphics/bachkhoa_logo}\\
+		\bigskip
+		\bigskip
+		\bigskip
+		LUẬN VĂN TỐT NGHIỆP ĐẠI HỌC \\
+		\bigskip
+		{\Huge \textbf{Giải pháp Thương mại điện tử trong Mạng xã hội và hiện thực}}
+		\bigskip
+
+		
+		\begin{table}[h]
+			
+			\begin{tabular}{rll}
+				\hspace{5 cm}  Hội đồng 3: & Hệ thống và Mạng máy tính \\
+				\hspace{5 cm}  GVHD: & TS. Nguyễn Đức Thái \\
+				\\
+				 Thực hiện: \\
+				Sinh viên thực hiện 1& Phạm Phương Uyên & 51204447 \\
+				Sinh viên thực hiện 2 & Nguyễn Chí Thanh & 51203336 \\
+			\end{tabular}
+		\end{table}
+		\vspace*{\fill}
+		{\footnotesize TP. HỒ CHÍ MINH, THÁNG 12/2016}
+	\end{center}
+	\thispagestyle{empty}
+	
+	\newpage
+	\pagenumbering{arabic}
+		
+	\renewcommand{\abstractname}{Lời cảm ơn}
+	\begin{abstract}
+		Xin chân thành cảm ơn sự hướng dẫn tận tình của thầy Nguyễn Đức Thái, CNBM Hệ thống \& Mạng Máy tính, khoa Khoa học và Kỹ thuật Máy tính, trường Đại học Bách Khoa TP.HCM đã luôn theo dõi, hướng dẫn chúng tôi tận tình trong quá trình thực hiện đề tài này.
+		
+		Để hoàn thành đề tài này, chúng tôi đã nhận được không ít sự hỗ trợ và những ý kiến đóng góp cả về kiến thức, công cụ và tinh thần từ các anh chị đi trước và các bạn...................
+		
+		Chúng tôi cũng xin chân thành cảm ơn tác giả của các tài liệu, bài viết mà chúng tôi đã tham khảo được liệt kê ở cuối tài liệu này.
+		\flushright TP HCM, tháng 12 năm 2016\\
+		\flushright Nhóm thực hiện
+		
+	\end{abstract}
+	
+	\renewcommand{\aa}{Lời cam đoan}
+	\begin{center}
+		\textbf{Lời cam đoan}
+		............................
+	\end{center}
+
+	\renewcommand{\abstractname}{Tóm tắt nội dung}
+	\begin{abstract}
+		Mạng xã hội và Thương mại điện tử là hai khái niệm không còn xa lạ với tất cả những người sử dụng Internet hiện nay, nhưng độ phổ biến của chúng và mức độ quan tâm của người dùng Internet đối với chúng chưa bao giờ suy giảm. Hai khái niệm này đang có sự giao thoa đáng kể trong thời kỳ truyền thông xã hội phát triển mạnh mẽ và các bạn trẻ khởi nghiệp kinh doanh thành phong trào như hiện nay.
+		
+		Trong luận văn này chúng tôi đề xuất một giải pháp ít nhiều có tính khả thi để kết hợp hai khái niệm trên một cách chặt chẽ và hiện thực trực quan chúng trên một mạng xã hội nhỏ đơn giản, hệ thống bao gồm:
+		\begin{itemize}
+			\item Mạng xã hội với các yếu tố định nghĩa nó: các mối quan hệ xã hội và các tương tác xã hội;
+			\item Sàn thương mại điện tử với nhiều chức năng phổ biến của thương mại điện tử, đây là một phần của mạng xã hội với nội dung chia sẻ là hàng hoá cần bán;
+			\item Các chức năng hỗ trợ giao dịch;
+			\item Các chức năng hỗ trợ quản lý sàn giao dịch và thu lợi từ website;
+			\item Admin dashboard cho người quản trị mạng xã hội và quản lý sàn thương mại.
+		\end{itemize}
+		
+		Hệ thống này khi hoàn thiện hoàn toàn có khả năng được đưa vào sử dụng trong thực tế như một mạng xã hội kinh doanh, khả năng mở rộng của nó là vô hạn.
+	\end{abstract}
+		
+	\tableofcontents
+	\listoffigures
+	\listoftables
+	
+	\include{gioithieu}
+	\include{lienquan}
+	\include{kienthuc}
+	\include{dexuat}
+	\include{hienthuc}
+	\include{danhgiagiaiphap}
+	\include{danhgiahienthuc}
+	\include{ketluan}
+		
+	\bibliographystyle{plain}
+	\bibliography{ref}
+	
+
+		
+\end{document}
