@@ -75,7 +75,7 @@ $url = $this -> url(array(
     </div>
     <div class="socialcommerce-overview-content">
         <div class="socialcommerce-description rich_content_body">
-            <?php echo $this -> stall -> email?>
+            <a href="mailto:<?php echo $this -> stall -> email?>"><?php echo $this -> stall -> email?></a>
         </div>
     </div>
 </div>

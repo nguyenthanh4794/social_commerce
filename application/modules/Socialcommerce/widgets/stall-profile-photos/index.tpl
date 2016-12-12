@@ -34,7 +34,7 @@ $photo_listing_id = "ynbusinesspages_profile_photos";
     </div> 
     <div class="ynbusinesspages-profile-header-content">
         <?php if( $this->paginator->getTotalItemCount() > 0 ): ?>
-            <span class="ynbusinesspages-numeric"><?php echo $this->paginator->getTotalItemCount(); ?></span> 
+            <span class="ynbusinesspages-numeric"><?php echo $this->paginator->getTotalItemCount(); ?></span>
             <?php echo $this-> translate(array("ynbusiness_photo", "Photos", $this->paginator->getTotalItemCount()), $this->paginator->getTotalItemCount());?>
         <?php endif; ?>
     </div>     
