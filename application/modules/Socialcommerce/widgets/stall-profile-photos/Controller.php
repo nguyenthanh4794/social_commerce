@@ -3,7 +3,7 @@
 class Ynbusinesspages_Widget_BusinessProfilePhotosController extends Engine_Content_Widget_Abstract
 {
   protected $_childCount;
-  
+
   public function indexAction()
   {
     // Don't render this if not authorized
@@ -17,7 +17,7 @@ class Ynbusinesspages_Widget_BusinessProfilePhotosController extends Engine_Cont
     if (!$subject -> isViewable() || !$subject -> getPackage() -> checkAvailableModule('ynbusinesspages_album')) {
         return $this -> setNoRender();
     }
-	
+
     // Get paginator
     $album = $subject->getSingletonAlbum();
     $this->view->paginator = $paginator = $album->getCollectiblesPaginator();
