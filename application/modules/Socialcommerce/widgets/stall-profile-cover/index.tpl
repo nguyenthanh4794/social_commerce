@@ -32,9 +32,10 @@ $coverPhotoUrl = $this->stall->getCoverPhotoUrl();
     <?php endif; ?>
     <div class="socialcommerce-detail-info">
         <div class="info-middle ynclearfix">
-            <div class="socialcommerce_details_owner" title="Group Owner">
-                <img src="http://i.ebayimg.com/00/s/MzAwWDMwMA==/z/~wMAAOxyA7tSYa~H/$(KGrHqMOKpwFJgF3B3h)BSY,+Ghrw!~~60_7.JPG" alt="ebaydealseditor" class="long" style="display: inline;">
-                <?php echo $this->translate($this->stall->getOwner()) ?>
+            <?php $owner = $this->stall->getOwner(); ?>
+            <div class="socialcommerce_details_owner" title="<?php echo $owner->getTitle(); ?>">
+                <?php echo $this->itemPhoto($owner, 'thumb.icon', $owner->getTitle()); ?>
+                <?php echo $owner ?>
             </div>
             <div class="socialcommerce-detail-action">
                 <?php if ($this->viewer() -> getIdentity()):

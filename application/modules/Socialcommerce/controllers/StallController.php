@@ -398,6 +398,16 @@ class Socialcommerce_StallController extends Core_Controller_Action_Standard
             $product->owner_id = Engine_Api::_()->user()->getViewer()->getIdentity();
             $product->save();
 
+            $viewer = Engine_Api::_()->user()->getViewer();
+
+            // Add activity only if blog is published
+            $action = Engine_Api::_()->getDbtable('actions', 'activity')->addActivity($viewer, $stall, 'product_new');
+
+            // make sure action exists before attaching the blog to the activity
+            if( $action ) {
+                Engine_Api::_()->getDbtable('actions', 'activity')->attachActivity($action, $product);
+            }
+
             $db->commit();
         }
         catch( Exception $e )

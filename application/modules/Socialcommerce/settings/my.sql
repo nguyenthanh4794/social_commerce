@@ -382,6 +382,8 @@ INSERT IGNORE INTO `engine4_core_menuitems` (`name`, `module`, `label`, `plugin`
 
 INSERT IGNORE INTO `engine4_activity_actiontypes` (`type`, `module`, `body`, `enabled`, `displayable`, `attachable`, `commentable`, `shareable`, `is_generated`) VALUES
   ('stall_new', 'socialcommerce', '{item:$subject} created a new stall:', 1, 5, 1, 3, 1, 1),
+  ('listing_new', 'socialcommerce', '{item:$subject} published a new listing:', 1, 5, 1, 3, 1, 1),
+  ('product_new', 'socialcommerce', '{item:$subject} published a new product:', 1, 5, 1, 3, 1, 1),
   ('comment_stall', 'socialcommerce', '{item:$subject} commented on {item:$owner}''s {item:$object:stall}: {body:$body}', 1, 1, 1, 1, 1, 0),
   ('socialcommerce_video_create', 'socialcommerce', '{item:$subject} posted a new video.', 1, 3, 1, 1, 1, 1);
 
