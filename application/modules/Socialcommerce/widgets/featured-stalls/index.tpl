@@ -65,13 +65,13 @@ $this->headScript()
 ->appendFile($this->baseUrl() . '/application/modules/Socialcommerce/externals/scripts/jquery.easing.min.js')
 ->appendFile($this->baseUrl() . '/application/modules/Socialcommerce/externals/scripts/masterslider.min.js');
 
-$this->headLink()->appendStylesheet($this->baseUrl() . '/application/modules/Socialcommerce/externals/styles/masterslider/ms-partialview.css');
+$this->headLink()->appendStylesheet($this->baseUrl() . '/application/modules/Socialcommerce/externals/styles/masterslider/ms-tabs-style.css');
 $this->headLink()->appendStylesheet($this->baseUrl() . '/application/modules/Socialcommerce/externals/styles/masterslider/masterslider.css');
 $this->headLink()->appendStylesheet($this->baseUrl() . '/application/modules/Socialcommerce/externals/styles/masterslider/skins/default/style.css');
 ?>
 
     <!-- template -->
-    <div class="ms-partialview-template" id="partial_view_ms">
+    <div class="ms-tabs-template" id="">
         <!-- masterslider -->
         <div class="master-slider ms-skin-default" id="masterslider">
             <?php foreach($this->paginator as $stall) :?>
@@ -82,7 +82,11 @@ $this->headLink()->appendStylesheet($this->baseUrl() . '/application/modules/Soc
 
             <div class="ms-slide">
                 <img src="application/modules/Socialcommerce/externals/images/blank.gif" data-src="<?php echo $stall_photo ?>" alt="lorem ipsum dolor sit"/>
-
+                <div class="ms-thumb">
+                    <span style="background-image: url('<?php echo $stall->getPhotoUrl(); ?>')"></span>
+                    <h3 style="text-transform: uppercase"><?php echo $stall->getTitle(); ?></h3>
+                    <p style="word-break: break-all;"><?php echo strip_tags($stall->getDescription()); ?></p>
+                </div>
             </div>
 
             <?php endforeach; ?>
@@ -92,19 +96,19 @@ $this->headLink()->appendStylesheet($this->baseUrl() . '/application/modules/Soc
     <!-- end of template -->
 <script type="text/javascript">
 
-    jQuery.noConflict();
     var slider = new MasterSlider();
+
     slider.control('arrows');
     slider.control('circletimer' , {color:"#FFFFFF" , stroke:9});
-
+    slider.control('thumblist' , {autohide:false ,dir:'h', type:'tabs',width:240,height:120, align:'bottom', space:0 , margin:-12, hideUnder:400});
 
     slider.setup('masterslider' , {
-        width:760,
-        height:400,
-        space:10,
-        loop:true,
-        view:'fadeWave',
-        layout:'partialview'
+        width:1074,
+        height:290,
+        space:0,
+        loop: true,
+        preload:'all',
+        view:'basic'
     });
 
 </script>
