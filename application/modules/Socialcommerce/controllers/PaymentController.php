@@ -159,7 +159,7 @@ class Socialcommerce_PaymentController extends Core_Controller_Action_Standard
         }
 
         $shipping = $order->getShippingAddress();
-        $aValuesShipping = (array)json_decode($shipping->value);
+        $this->view->aValuesShipping = $aValuesShipping = (array)json_decode($shipping->value);
         $this->view->address = $address = implode(' - ', array_values($aValuesShipping));
         list($products, $moreInfo) = $order->getProducts();
 

@@ -1,5 +1,4 @@
 <!-- render my widget -->
-<?php echo $this->content()->renderWidget('socialcommerce.main-menu') ?>
 <h2>
 <?php echo $this->translate('Your purchase has been completed.');?>
 </h2>

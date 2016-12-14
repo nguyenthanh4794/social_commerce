@@ -10,7 +10,7 @@
 
                 <?php $count = 0; foreach($products as $item): ?>
                 <?php $count++; $photoUrl = $item->getPhotoUrl('thumb.main'); if (!$photoUrl) $photoUrl = 'application/modules/Socialcommerce/externals/images/nophoto_product_thumb_main.png'; ?>
-                    <div class="stall_photo stall_photo_main" style="background-image: url(<?php echo $photoUrl ?>);">
+                    <div class="stall_photo <?php if ($count < 2) echo 'stall_photo_main'; else echo 'pu_product_in_photo'?>" style="background-image: url(<?php echo $photoUrl ?>);">
                         <div style="margin-top: 100%;">
                         </div>
                     </div>

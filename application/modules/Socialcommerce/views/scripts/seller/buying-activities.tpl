@@ -35,14 +35,7 @@ $this->headScript()
                     <td><?php echo $order->order_id ?></td>
                     <?php $product = $order->getObject(); ?>
                     <td>
-                        <div class="order_product_item">
-                            <div class="order_product_image">
-                                <?php echo $this->htmlLink($product->getHref(), $this->itemPhoto($product, 'thumb.icon'), array('class' => 'thumb')) ?>
-                            </div>
-                            <div class="order_product_title">
-                                <?php echo $product->getTitle(); ?>
-                            </div>
-                        </div>
+                        <?php echo $this->htmlLink($product->getHref(), $this->itemPhoto($product, 'thumb.normal').'<span>'.$product->getTitle().'</span>', array('class' => 'thumb_icon')) ?>
                     </td>
                     <td>
                         <?php

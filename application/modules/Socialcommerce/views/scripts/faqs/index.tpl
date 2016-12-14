@@ -1,18 +1,3 @@
-<div class="headline">
-    <h2>
-        <?php echo $this->translate('Socialcommerce');?>
-    </h2>
-    <div class="quicklinks">
-        <?php
-          // Render the menu
-          echo $this->navigation()
-        ->menu()
-        ->setContainer($this->navigation)
-        ->render();
-        ?>
-    </div>
-</div>
-
 <div class="layout_middle">
     <div class="socialcommerce_title"><?php echo $this->translate("FAQs") ?></div>
 

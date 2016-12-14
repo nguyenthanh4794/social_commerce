@@ -1,6 +1,6 @@
 <?php $photoCount = $this->paginator->getTotalItemCount() ?>
 <div class="socialcommerce_manage_photo_title">
-    <?php echo $this->htmlLink(array('route' => 'socialcommerce_general', 'action' => 'manage-selling'), $this->translate('Manage Listings')) ?>
+    <?php echo $this->htmlLink(array('route' => 'socialcommerce_general','controller' => 'seller', 'action' => 'dashboard'), $this->translate('Manage Listings')) ?>
     <?php echo ' / '.$this->listing ?>
     <span><?php echo ' / '.$this->translate('Photos');?></span>
 </div>

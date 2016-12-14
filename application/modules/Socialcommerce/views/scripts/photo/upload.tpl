@@ -1,7 +1,7 @@
 <?php
 if($this->canUpload):
 ?>
-<h2><?php echo $this->translate('Deal Listing Photos');?></h2>
+<h2><?php echo $this->translate('Listing Photos');?></h2>
 <?php echo $this->form->render($this) ?>
 <?php  else: ?>
 <div class="tip" style="clear: inherit;">

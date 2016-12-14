@@ -1,9 +1,3 @@
-<!-- render my widget -->
-<?php echo $this->content()->renderWidget('socialcommerce.main-menu') ?>
-<div class="layout_right">
-    <!-- render mini menu -->
-    <?php echo $this->content()->renderWidget('socialcommerce.payment-menu') ?>
-</div>
 <div class="layout_middle">
     <?php $cart =  Socialcommerce_Api_Cart::getInstance();
 	$order =  $cart->getOrder();

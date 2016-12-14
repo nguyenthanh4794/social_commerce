@@ -105,8 +105,9 @@ class Socialcommerce_PhotoController extends Core_Controller_Action_Standard
         foreach ($paginator as $photo) {
             // GET SUBFORM
             $subform = new Socialcommerce_Form_Photo_Edit();
-            if ($photo->file_id == $listing->photo_id)
+            if ($photo->file_id == $listing->photo_id) {
                 $subform->removeElement('delete');
+            }
             $subform->populate($photo->toArray());
             $form->addSubForm($subform, $photo->getGuid());
             $form->cover->addMultiOption($photo->getIdentity(), $photo->getIdentity());

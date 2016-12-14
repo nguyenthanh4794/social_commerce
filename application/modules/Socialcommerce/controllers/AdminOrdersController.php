@@ -46,7 +46,7 @@ class Socialcommerce_AdminOrdersController extends Core_Controller_Action_Admin
         $this->view->order_items = $order_items;
 
         $shipping = $order->getShippingAddress();
-        $aValuesShipping = (array)json_decode($shipping->value);
+        $this->view->aValuesShipping = $aValuesShipping = (array)json_decode($shipping->value);
         $this->view->address = $address = implode(' - ', array_values($aValuesShipping));
 
         list($products, $moreInfo) = $order->getProducts();
