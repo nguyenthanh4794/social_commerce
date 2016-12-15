@@ -40,7 +40,7 @@ class Socialcommerce_Model_Category extends Socialcommerce_Model_Node
         $params = array_merge(array(
             'route' => 'socialcommerce_general',
             'controller' => 'index',
-            'action' => 'listing',
+            'action' => 'browse',
             'category_id' => $this->getIdentity(),
         ), $params);
         $route = $params['route'];

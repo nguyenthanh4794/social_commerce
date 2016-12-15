@@ -236,21 +236,19 @@ class Socialcommerce_ProductController extends Core_Controller_Action_Standard
         }
 
         $can_review = true;
-//        if (!$subject->isOwner($viewer)) {
-//            $can_review = $can_rate = $this->_helper->requireAuth()->setAuthParams('socialcommerce_product', null, 'rate')->checkRequire();
-//            if ($can_review) {
-//                $reviewTable = Engine_Api::_()->getItemTable('socialcommerce_review');
-//                $reviewSelect = $reviewTable->select()
-//                    ->where('product_id = ?', $subject->getIdentity())
-//                    ->where('user_id = ?', $viewer->getIdentity());
-//                $my_review = $reviewTable->fetchRow($reviewSelect);
-//                if ($my_review) {
-//                    $this->view->has_review = true;
-//                    $this->view->my_review = $my_review;
-//                    $can_review = false;
-//                }
-//            }
-//        }
+        if (!$subject->isOwner($viewer)) {
+            $reviewTable = Engine_Api::_()->getItemTable('socialcommerce_review');
+            $reviewSelect = $reviewTable->select()
+                ->where('item_id = ?', $subject->getIdentity())
+                ->where('user_id = ?', $viewer->getIdentity())
+                ->where('type = \'product\'');
+            $my_review = $reviewTable->fetchRow($reviewSelect);
+            if ($my_review) {
+                $this->view->has_review = true;
+                $this->view->my_review = $my_review;
+                $can_review = false;
+            }
+        }
         $this->view->can_review = $can_review;
     }
 }

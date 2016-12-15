@@ -44,6 +44,7 @@ return array(
         'socialcommerce_order',
         'socialcommerce_faq',
         'socialcommerce_request',
+        'socialcommerce_review',
     ),
 
     // Hooks ---------------------------------------------------------------------

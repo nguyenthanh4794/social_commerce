@@ -190,6 +190,17 @@ return array(
     ),
 
     array(
+        'title' => 'Social Commerce - Product Detail Reviews',
+        'description' => 'Displays reviews on a stall\'s profile.',
+        'category' => 'Social Commerce',
+        'type' => 'widget',
+        'name' => 'socialcommerce.product-detail-reviews',
+        'requirements' => array(
+            'subject' => 'socialcommerce_product',
+        ),
+    ),
+
+    array(
         'title' => 'Social Commerce - Stall Profile Cover',
         'description' => 'Displays a stall cover and information on it\'s profile.',
         'category' => 'Social Commerce',

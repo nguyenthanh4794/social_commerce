@@ -145,7 +145,8 @@
         <div class="product_category_count">
             <div class="product_category">
                 <i class="ynicon yn-folder-open"></i>
-
+                <?php $category = $this->product->getCategory(); ?>
+                <?php if ($category) echo $this->htmlLink($category->getHref(), $category->getTitle()) ?>
             </div>
 
             <div class="product_like_count">
@@ -206,7 +207,7 @@
                         'module' => 'socialcommerce',
                         'action' => 'edit',
                         'id' => $this->product->getIdentity(),
-                        ), 'socialcommerce_general', true);
+                        ), 'socialcommerce_specific', true);
                         ?>
                         <a href="<?php echo $url?>"><?php echo $this->translate('Edit')?></a>
                     </div>
