@@ -16,7 +16,7 @@ class Socialcommerce_Form_Search extends Engine_Form
 
     public function init()
     {
-        $this->setAttribs(array('class' => 'global_form', 'id' => 'filter_form'));
+        $this->setAttribs(array('id' => 'filter_form'));
         $this->setMethod('GET');
 
         $this->addElement('Text', 'keyword', array(

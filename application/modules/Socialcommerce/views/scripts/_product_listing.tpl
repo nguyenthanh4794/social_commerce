@@ -1,6 +1,6 @@
 <?php $this->headScript()
 ->appendFile($this->baseUrl().'/application/modules/Socialcommerce/externals/scripts/core.js'); ?>
-<?php if(count($this->products) > 0):?>
+<?php $viewer = Engine_Api::_()->user()->getViewer(); if(count($this->products) > 0):?>
 <div class="socialcommerce-tabs-content ynclearfix">
     <div id="tab_products_recent" class="tabcontent" style="display: block;">
         <ul class="generic_list_widget product_browse product_browse_view_content yn-layout-gridview clearfix">
@@ -31,9 +31,11 @@
                         </div>
                         <div class="socialcommerce-grid-item-hover">
                             <div class="socialcommerce-grid-item-hover-background">
+                                <?php if ($viewer->getIdentity() != $product->owner_id): ?>
                                 <div class="product_add_cart" id="product_add_cart_<?php echo $product->getIdentity() ?>">
                                     <a href="javascript:en4.store.cart.addProductBox(<?php echo $product->getIdentity() ?>)"><?php echo $this->translate('<span class="fa fa-cart-plus"></span> ')?></a>
                                 </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                         <div class="item-front-info">

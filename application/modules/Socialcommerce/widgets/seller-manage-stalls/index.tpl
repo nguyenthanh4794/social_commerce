@@ -9,7 +9,7 @@
                      style="background-image: url(<?php echo $photo_url ?>)">
 
                     <div id="scstall_status_<?php echo $stall->getIdentity() ?>" class="scstall-status-block">
-                        <div class="scstall-status ynstatus_<?php echo $stall->status ?>">
+                        <div class="scstall-status scstall_<?php echo $stall->status ?>">
                             <?php echo $stall->status ?>
                         </div>
                     </div>
