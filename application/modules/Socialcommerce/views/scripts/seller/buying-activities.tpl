@@ -16,6 +16,7 @@ $this->headScript()
                 <?php echo $this->form->render($this) ?>
             </div>
         </div>
+        <?php if(count($this->paginator) > 0): ?>
         <div class="socialcommerce_manage_requests_table_parent">
             <table class="socialcommerce_manage_requests_table">
                 <thead>
@@ -59,6 +60,11 @@ $this->headScript()
             </table>
             <?php echo $this->paginationControl($this->paginator); ?>
         </div>
+        <?php else: ?>
+        <div class="tip">
+            <span><?php echo $this->translate('There are no orders found.'); ?></span>
+        </div>
+        <?php endif; ?>
     </div>
 </div>
 

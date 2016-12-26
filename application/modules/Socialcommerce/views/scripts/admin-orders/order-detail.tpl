@@ -8,7 +8,29 @@
     ?>
 </div>
 <?php endif; ?>
-
+<style>
+    .order_detail_information span.order_detail_status {
+        font-weight: 700;
+        padding: 5px 10px;
+        border-radius: 4px;
+    }
+    span.order_status_initial {
+        color: #2ea9ce;
+        background-color: #d9edf7;
+        border: 1px solid#2ea9ce;
+    }
+    span.order_status_completed {
+        background-color: #25b35a;
+        color: #fff;
+        border-color: #078034;
+    }
+    .socialcommerce_order_detail_total.order_detail_information {
+        left: 0;
+    }
+    .socialcommerce_order_detail_total.order_detail_information ul li {
+        max-width: 400px;
+    }
+</style>
 <div class='clear'>
     <div class='settings'>
         <form class="global_form">
@@ -17,7 +39,31 @@
                     <?php //echo $this->translate("SOCIALCOMMERCE_VIEWS_SCRIPTS_ADMINORDER_INDEX_DESCRIPTION") ?>
                 </p>
                 <br />
-                <h3><?php echo $this->translate('Order: ') . $this->order_id;?></h3>
+
+                <div class="socialcommerce_order_detail_total order_detail_information">
+                    <div class="socialcommerce_order_detail_info_title"><?php echo $this->translate("Order Information");?></div>
+                    <ul>
+                        <li>
+                            <div>
+                                <span class="product_title"><?php echo $this->translate('Order ID') ?></span>
+                                <span class="product_unit_price"><?php echo $this->order_id; ?></span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <span class="product_title"><?php echo $this->translate('Order Status') ?></span>
+                                <span class="order_detail_status order_status_<?php echo $this->order->order_status; ?>"><?php echo ucfirst($this->order->order_status); ?></span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <span class="product_title"><?php echo $this->translate('Payment Status') ?></span>
+                                <span class="order_detail_status order_status_<?php echo $this->order->payment_status; ?>"><?php echo ucfirst($this->order->payment_status); ?></span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
                 <br />
 
                 <div class="profile_fields">

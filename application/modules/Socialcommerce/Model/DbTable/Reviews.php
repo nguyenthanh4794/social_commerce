@@ -11,10 +11,10 @@ class Socialcommerce_Model_DbTable_Reviews extends Engine_Db_Table
     protected $_rowClass = 'Socialcommerce_Model_Review';
 
     public function getReviewsPaginator($params = array()) {
-        return Zend_Paginator::factory($this->getTopicsSelect($params));
+        return Zend_Paginator::factory($this->getReviewsSelect($params));
     }
 
-    public function getTopicsSelect($params = array()){
+    public function getReviewsSelect($params = array()){
         $table = Engine_Api::_()->getItemTable('socialcommerce_review');
         $tableName = $table->info('name');
 
@@ -28,22 +28,19 @@ class Socialcommerce_Model_DbTable_Reviews extends Engine_Db_Table
                 ->where("$tableName.user_id = ?", $params['user_id']);
         }
 
-        //Listing
-        if(isset ($params['stall_id'])){
+        if( !empty($params['type']) ) {
             $select
-                ->where("$tableName.stall_id = ?", $params['stall_id']);
+                ->where("$tableName.type = ?", $params['type']);
         }
 
-        // Order
-        switch( $params['order'] ) {
-            case 'modified_date':
-                $select -> order ('modified_date DESC');
-                break;
-            case 'recent':
-            default:
-                $select -> order('creation_date DESC');
-                break;
+        //Listing
+        if(isset ($params['item_id'])){
+            $select
+                ->where("$tableName.item_id = ?", $params['item_id']);
         }
+
+        $select->order('creation_date DESC');
+
         return $select;
     }
 }

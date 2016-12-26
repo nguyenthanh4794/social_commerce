@@ -8,6 +8,7 @@
  */
 class Socialcommerce_Widget_StallProfileSalesController extends Engine_Content_Widget_Abstract
 {
+    protected $_childCount;
     public function indexAction()
     {
         if (!Engine_Api::_()->core()->hasSubject()) {
@@ -25,6 +26,11 @@ class Socialcommerce_Widget_StallProfileSalesController extends Engine_Content_W
         $values['stall_id'] = $subject->getIdentity();
 
         $this->view->paginator = $paginator = Engine_Api::_()->getDbTable('orderItems', 'socialcommerce')->getOrderItemsPaginator($values);
+        $this->_childCount = $paginator->getTotalItemCount();
+    }
 
+    public function getChildCount()
+    {
+        return $this->_childCount;
     }
 }

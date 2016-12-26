@@ -72,6 +72,19 @@ class Socialcommerce_Model_DbTable_OrderItems extends Engine_Db_Table
             $select->where($rName.".order_id LIKE ? ",'%'.$params['order_id'].'%');
         }
 
+        if( isset($params['keyword']) && $params['keyword'] != '')
+        {
+            $select->where($rName.".name LIKE ? ",'\'%'.$params['keyword'].'%\'');
+        }
+
+        // Endtime
+        if (isset($params['start_date']) && !empty($params['start_date'])) {
+            $select -> where($orderName.".creation_date >= ?", date("Y-m-d 00-00-01", strtotime($params['start_date'])));
+        }
+        if (isset($params['to_date']) && !empty($params['to_date'])) {
+            $select -> where($orderName.".creation_date < ?", date("Y-m-d 23-59-59", strtotime($params['to_date'])));
+        }
+
         if( isset($params['stall_id']) && $params['stall_id'] != '')
         {
             $select->where($rName.".stall_id = ? ", $params['stall_id']);

@@ -12,7 +12,7 @@ class Socialcommerce_Form_Seller_SearchBuyActivities extends Engine_Form
     {
         $view = Zend_Registry::get('Zend_View');
         $this->setMethod('get');
-        $this->addElement('Text', 'text', array(
+        $this->addElement('Text', 'keyword', array(
             'label' => 'Product Name',
         ));
 

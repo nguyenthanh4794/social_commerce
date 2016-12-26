@@ -203,38 +203,50 @@
 
                     <?php if ($this->product->isEditable()) : ?>
                     <div id="edit">
-                        <?php $url = $this -> url(array(
-                        'module' => 'socialcommerce',
+                        <?php
+                        echo $this->htmlLink(array(
+                        'route' => 'socialcommerce_specific',
                         'action' => 'edit',
                         'id' => $this->product->getIdentity(),
-                        ), 'socialcommerce_specific', true);
+                        ), '<i class="fa fa-pencil-square-o"></i>'.$this->translate('Edit listing'), array('class' => 'icon_socialcommerce_edit'));
                         ?>
-                        <a href="<?php echo $url?>"><?php echo $this->translate('Edit')?></a>
                     </div>
                     <?php endif; ?>
 
+                    <div id="manage_photo">
+                        <?php
+                        echo $this->htmlLink(array(
+                        'route' => 'socialcommerce_general',
+                        'controller' => 'photo',
+                        'action' => 'manage',
+                        'listing_id' => $this->product->getIdentity(),
+                        ), '<i class="fa fa-picture-o"></i>'.$this->translate('Manage photos'), array('class' => 'icon_socialcommerce_edit'));
+                        ?>
+                    </div>
+
                     <div id="share">
-                        <?php $url = $this -> url(array(
+                        <?php
+                        echo $this->htmlLink(array(
+                        'route' => 'default',
                         'module' => 'activity',
                         'controller' => 'index',
                         'action' => 'share',
                         'type' => 'socialcommerce_product',
                         'id' => $this->product->getIdentity(),
-                        'format' => 'smoothbox'),'default', true)
-                        ;?>
-                        <a href="javascript:void(0);" onclick="checkOpenPopup('<?php echo $url?>')"><?php echo $this->translate('Share')?></a>
+                        ), '<i class="fa fa-share-alt"></i>'.$this->translate('Share'), array('class' => 'icon_socialcommerce_edit'));
+                        ?>
                     </div>
 
                     <div id="report">
                         <?php
-                            $url = $this->url(array(
+                        echo $this->htmlLink(array(
+                        'route' => 'default',
                         'module' => 'core',
                         'controller' => 'report',
                         'action' => 'create',
                         'subject' => $this->product->getGuid(),
-                        'format' => 'smoothbox'),'default', true);
+                        ), '<i class="fa fa-exclamation-triangle"></i>'.$this->translate('Share'), array('class' => 'icon_socialcommerce_edit'));
                         ?>
-                        <a href="javascript:void(0)" onclick="checkOpenPopup('<?php echo $url?>')"><?php echo $this->translate('Report') ?></a>
                     </div>
 
                 </div>
@@ -242,14 +254,8 @@
             <?php endif; ?>
             <br/><br/>
             <!-- Add-This Button BEGIN -->
-            <div class="addthis_toolbox addthis_default_style">
-                <a class="addthis_button_google_plusone addthis_32x32_style"></a>
-                <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
-                <a class="addthis_button_tweet" tw:via="addthis"></a>
-                <a class="addthis_counter addthis_pill_style"></a>
-            </div>
-            <script type="text/javascript">var addthis_config = {"data_track_clickback":true};</script>
-            <script type="text/javascript" src="//s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+            <div class="addthis_sharing_toolbox"></div>
+            <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=<?php echo Engine_Api::_() -> getApi('settings', 'core') -> getSetting('socialcommerce.addthis.pubid', 'ra-5773709668f9323d') ?>"></script>
             <!-- Add-This Button END -->
             <div class="product_description">
                 <h4>Description</h4>
@@ -325,3 +331,12 @@ function unlike(itemType, itemId)
     }).send();
 }
 </script>
+
+<style>
+    #global_page_socialcommerce-product-detail .socialcommerce_view_more_popup {
+        width: auto;
+    }
+    #global_page_socialcommerce-product-detail .socialcommerce_view_more_popup i {
+        margin-right: 5px;
+    }
+</style>

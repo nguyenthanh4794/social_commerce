@@ -27,21 +27,6 @@ class Socialcommerce_Form_Review_Create extends Engine_Form
             )),
         ));
 
-        $this->addElement('Text', 'title', array(
-            'label' => 'Review Title',
-            'placeholder' => 'Title of the review...',
-            'allowEmpty' => false,
-            'required' => true,
-            'validators' => array(
-                array('NotEmpty', true),
-                array('StringLength', false, array(1, 128)),
-            ),
-            'filters' => array(
-                'StripTags',
-                new Engine_Filter_Censor(),
-            ),
-        ));
-
         $this->addElement('Textarea', 'body', array(
             'label' => 'Content',
             'filters' => array(
