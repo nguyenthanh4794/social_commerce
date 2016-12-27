@@ -9,6 +9,7 @@
 class Socialcommerce_PaymentPaypalController extends Core_Controller_Action_Standard
 {
     const PAYPAL_ID = 2;
+
     /**
      * @return Zend_Log
      */
@@ -113,46 +114,6 @@ class Socialcommerce_PaymentPaypalController extends Core_Controller_Action_Stan
         return $this->_forward('process-error');
     }
 
-    public function processSaleAction()
-    {
-        if (!$this->_isValidProcess()) {
-            return;
-        }
-
-        // check valid gateway has posted to.
-        $order_id = $this->_getParam('id');
-        $order = Socialcommerce_Model_DbTable_Orders::getByOrderId($order_id);
-
-        $gateway = 'paypal';
-        $payment = new Socialcommerce_Payment(array('gateway' => $gateway));
-        $request = new Socialcommerce_Payment_Request('capture');
-
-
-        $router = $this->getFrontController()->getRouter();
-        $return_url = $router->assemble(array('module' => 'socialcommerce', 'controller' => 'payment-review', 'action' => 'review', 'id' => $order_id, 'gateway' => $gateway), 'default', true);
-        $notify_url = $router->assemble(array('module' => 'socialcommerce', 'controller' => 'payment-paypal', 'action' => 'notify', 'id' => $order_id, 'gateway' => $gateway), 'default', true);
-        $cancel_url = $router->assemble(array('module' => 'socialcommerce', 'controller' => 'payment-paypal', 'action' => 'cancel', 'id' => $order_id, 'gateway' => $gateway), 'default', true);
-
-        $options = array(
-            'return_url' => $this->getBaseUrl() . $return_url,
-            'notify_url' => $this->getBaseUrl() . $notify_url,
-            'cancel_url' => $this->getBaseUrl() . $cancel_url,
-        );
-
-        $request->setOrder($order);
-        $request->setOptions($options);
-        $response = $payment->process($request);
-        if ($response->isSuccess()) {
-            $url = $response->getOption('redirect_url');
-            if ($url) {
-                return $this->_redirect($url);
-            }
-        }
-        $this->view->response = $response;
-
-        //return $this->_forward('process-error');
-    }
-
     public function processAction()
     {
         $this->_forward('process-init');
@@ -165,8 +126,6 @@ class Socialcommerce_PaymentPaypalController extends Core_Controller_Action_Stan
             return;
         }
 
-        Zend_Registry::set('active_menu', 'socialcommerce_main_mycart');
-        Zend_Registry::set('PAYMENTMENU_ACTIVE', 'payment-confirm');
         $form = $this->view->form = new Socialcommerce_Form_Payment_Review;
         // get result from review action
         $token = $this->_getParam('token');
@@ -222,7 +181,7 @@ class Socialcommerce_PaymentPaypalController extends Core_Controller_Action_Stan
                 $response = $payment->process($request);
                 // log response result.
                 $response_options = $response->getOptions();
-                $this->getLog('socialcommerce.response.log')->log(var_export($response_options,true), Zend_Log::DEBUG);
+                $this->getLog('socialcommerce.response.log')->log(var_export($response_options, true), Zend_Log::DEBUG);
 
                 /**
                  * add transaction
@@ -231,7 +190,7 @@ class Socialcommerce_PaymentPaypalController extends Core_Controller_Action_Stan
                 // get payment status
                 $status = $response->getOption('payment_status');
                 $status = strtolower($status);
-                $this->getLog('socialcommerce.status.log')->log(var_export($status,true), Zend_Log::DEBUG);
+                $this->getLog('socialcommerce.status.log')->log(var_export($status, true), Zend_Log::DEBUG);
                 // cucess result
                 if ($response->isSuccess()) {
                     // process plugin.

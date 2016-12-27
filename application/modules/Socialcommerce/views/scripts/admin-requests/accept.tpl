@@ -37,14 +37,6 @@
                                     <?php echo $this->account->account_username ?>
                                 </div>
                             </div>
-                            <!--  <div class="form-wrapper">
-                                <div class="form-label">
-                                    <label class="optional">Message</label>
-                                </div>
-                                <div id="store_product_rate-element" class="form-element">
-                                    <textarea id = "response_message" name="note"></textarea>
-                                </div>
-                            </div>-->
                             <input type="hidden" name="no_shipping" value="1"/>
                             <input type="hidden" name="cmd" VALUE="_xclick">
                             <input type="hidden" name="business" VALUE=" <?php echo $this -> account -> account_username;?>">

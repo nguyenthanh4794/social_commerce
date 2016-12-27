@@ -147,9 +147,9 @@ class Socialcommerce_SellerController extends Core_Controller_Action_Standard
         $values = $form->getValues();
         $values['limit'] = Engine_Api::_()->getApi('settings', 'core')->getSetting('store.page', 10);
         $values['page'] = $page;
+
         $this->view->paginator = $paginator = Engine_Api::_()->getDbTable('orderItems', 'socialcommerce')->getOrderItemsPaginator($values);
         $this->view->params = $values;
-        Zend_Registry::set('SELLERMENU_ACTIVE', 'buying-activities');
 
         $this->_helper->content
             ->setEnabled();
@@ -233,5 +233,71 @@ class Socialcommerce_SellerController extends Core_Controller_Action_Standard
         $this->view->moreInfos = $moreInfo;
 
         $this->view->order = $order;
+    }
+
+    public function paymentAction()
+    {
+        if (!$this->_helper->requireUser()->isValid()) return;
+
+        $this->_helper->content
+            ->setEnabled();
+
+        $viewer = Engine_Api::_()->user()->getViewer();
+
+        $Table =  Engine_Api::_()->getDbTable('paypalaccounts', 'socialcommerce');
+        $select =  $Table->select()->where('owner_id = ? ', $viewer->getIdentity());
+        $this->view->account = $item =  $Table->fetchRow($select);
+    }
+
+    public function createPaypalAccountAction()
+    {
+        // only members can create account
+        if (!$this->_helper->requireUser()->isValid()) return;
+        $bIsEdit = false;
+
+        if ($this->_getParam('id') > 0)
+        {
+            $bIsEdit = $this->_getParam('id');
+        }
+
+        $table = Engine_Api::_()->getDbTable('paypalaccounts', 'socialcommerce');
+
+        $viewer = Engine_Api::_()->user()->getViewer();
+
+        $this->view->form = $form = new Socialcommerce_Form_Account_CreatePayPalAccount();
+
+        if ($bIsEdit) {
+            $form->setTitle('Edit PayPal Account');
+            $form->submit->setLabel('Save changes');
+            $table =  Engine_Api::_()->getDbTable('paypalaccounts', 'socialcommerce');
+            $paypalAccount =  $table->find($bIsEdit)->current();
+            $form->populate($paypalAccount->toArray());
+        }
+
+        if ($this->getRequest()->isPost() && $form->isValid($this->getRequest()->getPost())) {
+            $db = $table->getAdapter();
+            $db->beginTransaction();
+            try {
+                if (!$bIsEdit)
+                    $paypalAccount = $table->createRow();
+
+                $paypalAccount->setFromArray($form->getValues());
+                $paypalAccount->owner_id = $viewer->getIdentity();
+                $paypalAccount->save();
+
+                $db->commit();
+            } catch (Exception $e) {
+                $db->rollback();
+                throw $e;
+            }
+
+            return $this -> _forward('success', 'utility', 'core', array(
+                'parentRedirect' => Zend_Controller_Front::getInstance() -> getRouter() -> assemble(array(
+                    'controller' => 'seller',
+                    'action' => 'payment',
+                ), 'socialcommerce_general', true),
+                'messages' => array(Zend_Registry::get('Zend_Translate') -> _('Your PayPal account has been successfully created.'))
+            ));
+        }
     }
 }

@@ -94,11 +94,22 @@ class Socialcommerce_PaymentController extends Core_Controller_Action_Standard
             return;
         }
         $order_id = $order->order_id;
-        $this->view->order_id = $order_id;
-        Zend_Registry::set('order_id', $order_id);
-        $gateway = $this->_getParam('gateway', '');
 
-        $form = $this->view->form = new Socialcommerce_Form_Payment_Shipping();
+        $this->view->order_id = $order_id;
+
+        Zend_Registry::set('order_id', $order_id);
+
+        // GET SHIPPING INFORMATION OF CURRENT USER
+        $shippingInfoTable = Engine_Api::_()->getDbTable('shippingAddresses', 'socialcommerce');
+        $this->view->shipping_infos = $shipping_infos = $shippingInfoTable->getShippingInfosByUserId($viewer->getIdentity());
+
+        // FORM TO SUBMIT
+        $this->view->form = $form = new Socialcommerce_Form_Payment_ShippingInformation();
+
+        // ADD OPTION TO INFO ARRAY TO VALIDATE FORM
+        foreach ($shipping_infos as $shipping_info) {
+            $form->shippinginformation_id->addMultiOption($shipping_info->getIdentity(), $shipping_info->getIdentity());
+        }
 
         if (!$this->getRequest()->isPost()) {
             return;
@@ -108,14 +119,13 @@ class Socialcommerce_PaymentController extends Core_Controller_Action_Standard
             return;
         }
 
-        // Process
-        $table = new Socialcommerce_Model_DbTable_ShippingAddresses;
-        $db = $table->getAdapter();
+        $db = Engine_Db_Table::getDefaultAdapter();
         $db->beginTransaction();
-
         try {
             // Create blog
-            $address = $form->saveValues($order_id);
+            $order->shipping_id = $this->_getParam('shippinginformation_id');
+            $order->save();
+
             $db->commit();
         } catch (Exception $e) {
             $db->rollBack();
@@ -147,7 +157,7 @@ class Socialcommerce_PaymentController extends Core_Controller_Action_Standard
         Zend_Registry::set('order_id', $order_id);
         $viewer = Engine_Api::_()->user()->getViewer();
 
-        if ($order->guest_id == 0 && $order->owner_id != $viewer->getIdentity()) {
+        if ($order->owner_id != $viewer->getIdentity()) {
             $this->_forward('order-notfound');
             return;
         }
@@ -176,7 +186,8 @@ class Socialcommerce_PaymentController extends Core_Controller_Action_Standard
         }
     }
 
-    public function gatewayAction() {
+    public function gatewayAction()
+    {
         if (!Engine_Api::_()->core()->hasSubject()) {
             return $this->_helper->requireSubject()->forward();
         }
@@ -186,9 +197,5 @@ class Socialcommerce_PaymentController extends Core_Controller_Action_Standard
         if (!$order) {
             return $this->_helper->requireSubject()->forward();
         }
-
-        $order_id = $order->order_id;
-
-        $this->view->form = $form = new Socialcommerce_Form_Payment_Gateway;
     }
 }

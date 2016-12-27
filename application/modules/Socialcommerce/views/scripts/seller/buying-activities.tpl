@@ -31,26 +31,26 @@ $this->headScript()
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach($this->paginator as $order): ?>
+                <?php foreach($this->paginator as $orderItem): ?>
                 <tr>
-                    <td><?php echo $order->order_id ?></td>
-                    <?php $product = $order->getObject(); ?>
+                    <td><?php echo $orderItem->order_id ?></td>
+                    <?php $product = $orderItem->getObject(); ?>
                     <td>
                         <?php echo $this->htmlLink($product->getHref(), $this->itemPhoto($product, 'thumb.normal').'<span>'.$product->getTitle().'</span>', array('class' => 'thumb_icon')) ?>
                     </td>
                     <td>
                         <?php
-                  $oDate = new DateTime($order->creation_date);
+                  $oDate = new DateTime($orderItem->creation_date);
                         $oDate->setTimezone(new DateTimeZone($this->viewer->timezone));
                         echo $oDate->format("H:ia d/m/Y")
                         ?>
                     </td>
-                    <td><?php echo $order->	quantity ?></td>
-                    <td><?php echo $order->	total_amount ?></td>
-                    <td><?php echo $order->	order_status ?></td>
+                    <td><?php echo $orderItem->	quantity ?></td>
+                    <td><?php echo $orderItem->	total_amount ?></td>
+                    <td><?php echo $orderItem->	order_status ?></td>
                     <td>
-                        <?php if($order->order_status != 'deliveried'): ?>
-                        <a href="<?php echo $this->url(array('controller'=>'seller', 'action'=>'received', 'order_id' => $order->order_id), 'socialcommerce_general') ?>" class="smoothbox"><?php echo $this->translate('Received') ?></a> |
+                        <?php if($orderItem->order_status != 'deliveried'): ?>
+                        <a href="<?php echo $this->url(array('controller'=>'seller', 'action'=>'received', 'order_id' => $orderItem->order_id), 'socialcommerce_general') ?>" class="smoothbox"><?php echo $this->translate('Received') ?></a> |
                         <?php endif; ?>
                         <?php echo $this->htmlLink(Array('module'=> 'core', 'controller' => 'report', 'action' => 'create', 'route' => 'default', 'subject' => $product->getGuid(), 'format' => 'smoothbox'), '<i class="ynicon yn-warning-triangle"></i>'.$this->translate("Report this Product"), array('class' => 'smoothbox')); ?>
                     </td>

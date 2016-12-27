@@ -328,6 +328,19 @@ CREATE TABLE `engine4_socialcommerce_accounts` (
   PRIMARY KEY (`account_id`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS `engine4_socialcommerce_paypalaccounts` (
+  `account_id` int(11) unsigned NOT NULL auto_increment,
+  `owner_id` int(11) unsigned NOT NULL default '0',
+  `gateway_id` varchar(32) NOT NULL default 'paypal',
+  `name` varchar(128) NOT NULL,
+  `account_username` varchar(128) default NULL,
+  `account_password` varchar(128) default NULL,
+  `config` text NOT NULL,
+  `creation_date` datetime NOT NULL,
+  `modified_date` datetime NOT NULL,
+  PRIMARY KEY  (`account_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 
 
 

@@ -1,6 +1,6 @@
 /*Fixed Menu*/
 #global_header {
-    z-index: 9999;
+    z-index: 1;
     position: fixed;
     left: 0;
     top: 0;
@@ -11,6 +11,11 @@
 }
 
 /*----------  VARIABLES  ----------*/
+=socialcommerce_filter($percent){
+    filter: grayscale($percent);
+    -moz-filter: grayscale($percent);
+    -webkit-filter: grayscale($percent)
+}
 =socialcommerce-clearfix-inline{
     content: ".";
     display: block;
@@ -106,7 +111,10 @@
 #global_page_socialcommerce-stall-create-step-one, #global_page_socialcommerce-stall-edit-info {
     +yn-global-form-inline();
 }
-#global_page_socialcommerce-stall-add-product {
+#global_page_socialcommerce-stall-add-product,
+#global_page_socialcommerce-seller-create-paypal-account,
+#global_page_socialcommerce-seller-edit,
+#global_page_socialcommerce-shipping-address-create {
 	+yn-global-form-inline();
 }
 #global_page_socialcommerce-stall-create-step-two {
@@ -2264,7 +2272,7 @@ ul.socialcommerce_seller_menu{
                   +yn-transition(all, 0.3s, ease-in-out);
                   font-weight: bold;
                   font-size: 14px;
-                  color: #fff;
+                  text-shadow: none;
 
                   .ynicon{
                      font-size: 10px;
@@ -2329,6 +2337,7 @@ ul.socialcommerce_seller_menu{
                            margin-right: 0;
                            min-height: 34px;
                            width: 100%;
+                            text-shadow: none;
                         }
                      }
                   }
@@ -3294,4 +3303,541 @@ ul.socialcommerce_seller_menu{
             }
         }
     }
+}
+
+/*--- payment ---*/
+.socialcommerce_checkout_payment,
+.socialcommerce_publish_deal{
+   padding: 15px;
+   background-color: #fff;
+
+   .socialcommerce_payment_title{
+      font-size: 13px;
+      line-height: 16px;
+      font-weight: bold;
+      color: $theme_font_color_light;
+      border-bottom: 1px solid $theme_border_color;
+      text-transform: uppercase;
+      margin-bottom: 13px;
+      padding-bottom: 12px;
+   }
+   .socialcommerce_payment_bottom_title{
+      font-size: 14px;
+      font-weight: bold;
+      color: $theme_font_color;
+      text-transform: uppercase;
+      line-height: 16px;
+      margin-bottom: 3px;
+   }
+   .socialcommerce_payment_bottom_label{
+      font-size: 12px;
+      line-height: 16px;
+      color: $theme_font_color_light;
+      font-weight: normal;
+   }
+   .socialcommerce_payment_items{
+      margin-top: 18px;
+
+      ul{
+         margin: 0 -10px;
+
+         & > li{
+            width: 25%;
+            display: inline-block;
+            float: left;
+            height: 110px;
+            cursor: pointer;
+            padding: 0 10px;
+            position: relative;
+            margin-bottom: 20px;
+
+            & > div{
+               width: 100%;
+               height: 100%;
+               border-width: 1px;
+               border-style: solid;
+               border-color: $theme_border_color;
+               +yn-transition(border-color, 0.3s, ease-in-out);
+
+               div:first-of-type{
+                  background-repeat: no-repeat;
+                  background-position: center center;
+                  background-size: contain;
+                  display: block;
+                  height: 52px;
+                  width: 100%;
+                  margin: 0 auto;
+                  margin-top: 20px;
+                  +socialcommerce_filter(100%);
+                  +yn-transition(all, 0.3s, ease-in-out);
+               }
+               div:last-of-type{
+                  font-weight: bold;
+                  font-size: 14px;
+                  line-height: 16px;
+                  color: $theme_font_color;
+                  text-align: center;
+                  margin-top: 10px;
+                  +yn-truncate(block);
+                  +yn-transition(all, 0.3s, ease-in-out);
+               }
+            }
+            &#socialcommerce_payment_cash{
+               & > div div:first-of-type{
+                  background-image: url(~/application/modules/Socialcommerce/externals/images/cash.png);
+               }
+            }
+            &#socialcommerce_payment_paypal{
+               & > div div:first-of-type{
+                  background-image: url(~/application/modules/Socialcommerce/externals/images/paypal.png);
+               }
+            }
+            &#socialcommerce_payment_virtual{
+               & > div div:first-of-type{
+                  background-image: url(~/application/modules/Socialcommerce/externals/images/virtual.png);
+               }
+            }
+
+            &.payment_active{
+               & > div{
+                  border: 3px solid $theme_link_color;
+
+                  div:first-of-type{
+                     +socialcommerce_filter(0);
+                  }
+                  div:last-of-type{
+                     color: $theme_link_color;
+                  }
+               }
+               &:before, &:after{
+                  opacity: 1;
+               }
+            }
+            &:before{
+               content: "";
+               width: 0;
+               height: 0;
+               border-top: 37px solid $theme_link_color;
+               border-right: 37px solid transparent;
+               position: absolute;
+               left: 10px;
+               top: 0;
+               +yn-transition(all, 0.3s, ease-in-out);
+               opacity: 0;
+            }
+            &:after{
+               +yn-font-ynicon(e96e);
+               font-weight: bold;
+               color: #fff;
+               position: absolute;
+               top: 6px;
+               left: 16px;
+               opacity: 0;
+               +yn-transition(all, 0.3s, ease-in-out);
+            }
+            &:hover{
+               & > div{
+                  border-color: $theme_link_color;
+
+                  div:first-of-type{
+                     +socialcommerce_filter(0);
+                  }
+                  div:last-of-type{
+                     color: $theme_link_color;
+                  }
+               }
+               &:before, &:after{
+                  opacity: 1;
+               }
+            }
+         }
+      }
+   }
+   .socialcommerce_payment_button{
+      text-align: right;
+      margin-top: 16px;
+      +yn-flex(flex, center, flex-end);
+
+      .ynicon{
+         font-size: 11px;
+         display: inline-block;
+         max-width: 20px;
+         font-weight: bold;
+         text-align: center;
+         margin-left: 4px;
+      }
+      button{
+         min-width: 80px;
+         width: auto;
+         height: 36px;
+         font-size: 14px;
+         line-height: 16px;
+         font-weight: bold;
+         +yn-transition(all, 0.3s, ease-in-out);
+         color: #fff;
+         display: block;
+
+         &:first-of-type{
+            margin-right: 10px;
+            background-color: #fff;
+            border: 1px solid #999;
+            text-shadow: none;
+            color: $theme_font_color !important;
+
+            .ynicon{
+               margin-left: 0;
+               margin-right: 4px;
+            }
+         }
+         &:hover{
+            &:first-of-type{
+               color: $theme_link_color !important;
+               border: 1px solid $theme_link_color !important;
+            }
+         }
+      }
+   }
+   .socialcommerce_publish_top_info{
+      font-size: 13px;
+      font-weight: bold;
+      line-height: 18px;
+      color: $theme_font_color;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+
+      span{
+         font-size: 18px;
+         line-height: 22px;
+         color: $yn_warning_color;
+      }
+   }
+   .socialcommerce_publish_item{
+      height: 190px;
+      border: 1px solid $theme_border_medium_color;
+      margin-bottom: 20px;
+
+      .socialcommerce_publish_item_photo{
+         width: 259px;
+         height: 190px;
+         border-right: 1px solid $theme_border_color;
+         display: inline-block;
+         float: left;
+
+         a{
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            display: block;
+            width: 100%;
+            height: 100%;
+         }
+      }
+      .socialcommerce_publish_item_info{
+         overflow: hidden;
+         padding: 20px;
+
+         .socialcommerce_publish_item_info_title{
+            font-size: 13px;
+            line-height: 18px;
+            margin-top: -4px;
+            font-weight: bold;
+            +yn-truncate(block);
+            margin-bottom: 4px;
+         }
+         .socialcommerce_publish_item_info_desc{
+            display: block;
+            +yn-text-clamp(13px, 16px, 3);
+         }
+         .socialcommerce_publish_item_info_price{
+            max-width: 390px;
+            margin-top: 10px;
+            overflow: hidden;
+
+            div{
+               +yn-flex(flex, initial, space-between);
+               padding-right: 10px;
+
+               &.socialcommerce_publish_item_price_publish{
+                  margin-bottom: 1px;
+               }
+               &.socialcommerce_publish_item_price_feature{
+                  padding-bottom: 6px;
+               }
+               &.socialcommerce_publish_item_price_total{
+                  border-top: 1px solid $theme_border_color;
+                  padding-top: 6px;
+
+                  span.publish_price{
+                     color: $yn_warning_color;
+                  }
+               }
+               span{
+                  font-size: 13px;
+                  line-height: 18px;
+                  color: $theme_font_color_light;
+                  font-weight: normal;
+
+                  &.publish_price{
+                     font-weight: bold;
+                     color: $theme_font_color;
+                  }
+               }
+            }
+         }
+      }
+   }
+   .socialcommerce_publish_bottom_label{
+      font-size: 13px;
+      font-weight: bold;
+      color: $theme_font_color_light;
+   }
+}
+
+/*--- shipping ---*/
+.socialcommerce_shipping_top_info{
+   margin-bottom: 12px;
+   +yn-flex(flex, initial, space-between);
+   width: 100%;
+   & > div{
+      display: inline-block;
+
+      &.socialcommerce_shipping_top_left{
+         div{
+            &:first-of-type{
+               font-weight: bold;
+               font-size: 14px;
+               line-height: 18px;
+               color: $theme_font_color;
+               text-transform: uppercase;
+               margin-bottom: 1px;
+            }
+            &:last-of-type{
+               font-size: 12px;
+               line-height: 18px;
+               font-weight: normal;
+               color: $theme_font_color_light;
+               word-break:  break-word;
+            }
+         }
+      }
+
+      &.socialcommerce_shipping_top_right{
+         float: right;
+         align-self: flex-end;
+
+         a{
+            min-width: 188px;
+            display: block;
+            height: 36px;
+            line-height: 34px;
+            border: 1px solid #999;
+            font-size: 13px;
+            +yn-border-radius(3px);
+            padding: 0 9px;
+            color: $theme_font_color;
+
+            .ynicon{
+               font-size: 11px;
+               margin-right: 1px;
+            }
+            &:hover{
+               color: $theme_link_color;
+               border-color: $theme_link_color;
+            }
+         }
+      }
+   }
+}
+
+.socialcommerce_shipping_items{
+   & > ul{
+      overflow: hidden;
+      margin: 0 -10px;
+
+      & > li{
+         width: 50%;
+         margin-bottom: 20px;
+         display: inline-block;
+         float: left;
+         padding: 0 10px;
+
+         & > div{
+            +yn-transition(all, 0.3s, ease-in-out);
+            border: 1px solid #ddd;
+            padding: 18px;
+            position: relative;
+            min-height: 180px;
+            overflow: hidden;
+
+            .socialcommerce_shipping_item_title{
+               +yn-transition(all, 0.3s, ease-in-out);
+               font-weight: bold;
+               margin-top: -4px;
+               color: $theme_font_color;
+               padding-right: 25px;
+               +yn-text-clamp(18px, 24px, 2);
+            }
+            .socialcommerce_shipping_item_info{
+               padding-top: 13px;
+               margin-top: 12px;
+               border-top: 1px solid $theme_border_color;
+               min-height: 78px;
+
+               & > div{
+                  font-size: 14px;
+                  line-height: 18px;
+                  color: #888;
+                  font-weight: normal;
+                  margin-bottom: 2px;
+
+                  span{
+                     font-weight: bold;
+                     text-transform: capitalize;
+                  }
+               }
+            }
+            .yn-dropdown-block{
+               right: 8px;
+               top: 10px;
+               padding: 0;
+
+               .yn-dropdown{
+                  margin-left: 0;
+
+                  .yn-dropdown-btn{
+                     background-color: #fff;
+                     border: 1px solid #999;
+                     color: #999;
+
+                     &:hover{
+                        border-color: $theme_link_color;
+                        color: #fff;
+                        background-color: $theme_link_color;
+                     }
+                  }
+                  &.open{
+                     .yn-dropdown-btn{
+                        border-color: $theme_link_color;
+                        color: #fff;
+                        background-color: $theme_link_color;
+                     }
+                  }
+               }
+               .yn-dropdown-menu{
+                  .ynicon{
+                     min-width: 20px;
+                     display: inline-block;
+                  }
+               }
+            }
+            .socialcommerce_shipping_background{
+               display: block;
+               background-position: center;
+               background-size: contain;
+               background-repeat: no-repeat;
+               width: 132px;
+               height: 100px;
+               opacity: 0.05;
+               position: absolute;
+               right: -16px;
+               bottom: -8px;
+            }
+            .select_shipping{
+               +yn-transition(all, 0.3s, ease-in-out);
+               min-width: auto;
+               position: absolute;
+               width: 40px;
+               height: 40px;
+               right: 8px;
+               bottom: 8px;
+               padding-left: 0;
+               +yn-flex(inline-flex,center,center);
+               background-color: #fff;
+               border-radius: 100%;
+               border: 1px solid #ccc;
+               color: #ccc;
+               cursor: pointer;
+            }
+         }
+         &.shipping_active{
+            & > div{
+               background-color: #f3faff;
+               border-color: $theme_link_color;
+            }
+            .socialcommerce_shipping_item_title{
+               color: $theme_link_color;
+            }
+            .select_shipping{
+               color: #fff;
+               border-color: $theme_link_color;
+               background-color: $theme_link_color;
+               padding-left: 0;
+            }
+         }
+      }
+   }
+   .socialcommerce_shipping_show_more{
+      cursor: pointer;
+      min-width: 230px;
+      padding: 0 10px;
+      margin-top: -10px;
+      height: 36px;
+      text-align: center;
+      line-height: 34px;
+      border: 1px solid #999;
+      color: $theme_font_color;
+      +yn-border-radius(3px);
+      font-size: 13px;
+      display: inline-block;
+      background-color: #fff;
+      +yn-transition(all, 0.3s, ease-in-out);
+
+      &:first-letter{
+         text-transform: capitalize;
+      }
+      &:hover{
+         color: $theme_link_color;
+         border-color: $theme_link_color;
+      }
+   }
+   #shipping_note-wrapper{
+      #shipping_note-label{
+         font-size: 14px;
+         font-weight: bold;
+         color: $theme_font_color;
+         line-height: 18px;
+         text-transform: uppercase;
+         margin-bottom: 8px;
+
+         span{
+            text-transform: lowercase;
+            font-weight: normal;
+            font-size: 12px;
+            line-height: 18px;
+            color: $theme_font_color_light;
+         }
+      }
+      textarea{
+         min-height: 140px;
+         width: 100%;
+         padding: 12px;
+      }
+      .description{
+         font-size: 12px;
+         line-height: 16px;
+         color: $theme_font_color_light;
+         margin-top: 11px;
+
+         span{
+            font-weight: bold;
+
+            span{
+               color: $theme_font_color;
+            }
+         }
+      }
+   }
+   .socialcommerce_payment_button{
+      margin-top: -16px;
+   }
 }

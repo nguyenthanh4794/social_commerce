@@ -98,14 +98,11 @@ abstract class Socialcommerce_Plugin_Payment_Abstract
         return new Socialcommerce_Model_DbTable_OrderItems;
     }
 
-    public function getByObjectId($object_id, $options = null)
+    public function getByObjectId($object_id)
     {
         $order_id = $this->getOrder()->getId();
         $Items = $this->getModelOrderItems();
         $select = $Items->select()->where('order_id=?', $order_id)->where('object_id=?', (string)$object_id);
-        if ($options != null) {
-            $select->where('options = ?', $options);
-        }
         return $Items->fetchRow($select);
     }
 

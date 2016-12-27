@@ -56,25 +56,6 @@ if (!$account):
 <?php else: ?>
 <div class="socialcommerce_my_account">
     <div>
-        <div class="socialcommerce_my_account_title"><?php echo $this->translate('My Account'); ?></div>
-        <div class="socialcommerce_my_account_info_block">
-            <div class="socialcommerce_my_account_block_title"><?php echo $this->translate('payment information')?></div>
-            <?php $info_user = $this->info_user; ?>
-            <div class="socialcommerce_my_account_block_account">
-                <ul>
-                    <li>
-                        <span><?php echo $this->translate('gateway')?></span>
-                        <span><?php echo $this->translate('paypal')?></span>
-                    </li>
-                    <li>
-                        <span><?php echo $this->translate('paypal account')?></span>
-                        <span><?php echo $info_user['account_username'] ?></span>
-                    </li>
-
-                    <a href="<?php echo $this->url(array('action'=>'edit'),'socialcommerce_account'); ?>"><i class="ynicon yn-pencil"></i></a>
-                </ul>
-            </div>
-        </div>
         <div class="socialcommerce_my_account_price_block">
             <ul class="yn-clearfix">
                 <li>

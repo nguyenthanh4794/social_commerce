@@ -13,7 +13,7 @@ class Socialcommerce_Form_Payment_Shipping extends Engine_Form_Email
         //Set Form Informations
         $this->setAttribs(array('class' => 'global_form', 'method' => 'post'))
             ->setTitle('Shipping Information')
-            ->setDescription('SHIPPING_INFORMATION_DESCRIPTION');
+            ->setDescription('Please input your shipping address information.');
 
         $this->addElement('text', 'fullname', array(
             'label' => 'Full Name',
@@ -122,21 +122,8 @@ class Socialcommerce_Form_Payment_Shipping extends Engine_Form_Email
         ));
 
         $this->addElement('Button', 'execute', array(
-            'label' => 'Continue',
+            'label' => 'Save',
             'type' => 'submit',
-            'ignore' => true,
-            'decorators' => array(
-                'ViewHelper',
-            ),
-        ));
-        $order_id = '';
-        if (Zend_Registry::isRegistered('order_id')) {
-            $order_id = Zend_Registry::get('order_id');
-        }
-        $this->addElement('Button', 'addshippingaddress', array(
-            'label' => 'Add Another Address',
-            'type' => 'button',
-            'onclick' => "javascript:en4.socialcommerce.shipping.addAnotherBox('" . $order_id . "')",
             'ignore' => true,
             'decorators' => array(
                 'ViewHelper',
@@ -168,7 +155,7 @@ class Socialcommerce_Form_Payment_Shipping extends Engine_Form_Email
         ));
     }
 
-    public function saveValues($order_id)
+    public function saveValues()
     {
         $viewer = Engine_Api::_()->user()->getViewer();
         $params = $this->getValues();
@@ -178,7 +165,6 @@ class Socialcommerce_Form_Payment_Shipping extends Engine_Form_Email
         $address = $table->createRow();
 
         $address->user_id = $viewer->getIdentity();
-        $address->order_id = $order_id;
         $address->value = json_encode($params);
         $address->save();
 

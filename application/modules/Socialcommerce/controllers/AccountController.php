@@ -41,7 +41,7 @@ class Socialcommerce_AccountController extends Core_Controller_Action_Standard
                 $this->view->result = $result;
                 $db->commit();
                 if ($result)
-                    return $this->_redirect('group-buy/account');
+                    return $this->_redirect('social-commerce/account');
             } catch (Exception $e) {
                 $db->rollback();
                 throw $e;
@@ -277,7 +277,7 @@ class Socialcommerce_AccountController extends Core_Controller_Action_Standard
             ));
         }
 
-        $this->view->currency = $currency = Engine_Api::_() -> getApi('settings', 'core')->getSetting('payment.currency', 'USD');
+        $this->view->currency = $currency = Engine_Api::_()->getApi('settings', 'core')->getSetting('payment.currency', 'USD');
         $this->view->min_payout = $min_payout = Engine_Api::_()->getApi('settings', 'core')->getSetting('socialcommerce.minWithdrawSeller', 5.00);
         $this->view->max_payout = $max_payout = Engine_Api::_()->getApi('settings', 'core')->getSetting('socialcommerce.maxWithdrawSeller', 100.00);
         $this->_helper->layout->setLayout('default-simple');

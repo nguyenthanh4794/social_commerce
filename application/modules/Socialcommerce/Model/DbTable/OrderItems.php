@@ -57,10 +57,13 @@ class Socialcommerce_Model_DbTable_OrderItems extends Engine_Db_Table
     {
         $table = $this;
         $rName = $table->info('name');
+
         $orderTable = Engine_Api::_()->getDbTable('orders', 'socialcommerce');
         $orderName = $orderTable->info('name');
-        $select = $table->select("$rName.*")->from($rName)->setIntegrityCheck(false);
-        $select->join($orderName, "$rName.order_id = $orderName.order_id")->where("$orderName.owner_id = ?", Engine_Api::_()->user()->getViewer()->getIdentity());
+
+        $select = $table->select()->setIntegrityCheck(false)->from($rName);
+
+        $select->joinLeft($orderName, "$rName.order_id = $orderName.order_id")->where("$orderName.owner_id = ?", Engine_Api::_()->user()->getViewer()->getIdentity());
 
 //        $select->where("$orderName.payment_status <> 'initial'");
         $select->where("$rName.object_type = 'shopping-cart'");
@@ -101,12 +104,8 @@ class Socialcommerce_Model_DbTable_OrderItems extends Engine_Db_Table
         elseif (!empty($params['order'])) {
             $select->order($params['order'].' '.$params['direction']);
         }
-        else
-        {
-            $select->order("$orderName.creation_date DESC");
-        }
 
-        $select->group("$orderName.order_id");
+        $select->order("$rName.orderitem_id DESC");
 
         if(getenv('DEVMODE') == 'localdev'){
             print_r($params);

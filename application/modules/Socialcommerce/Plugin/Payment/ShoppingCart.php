@@ -10,14 +10,16 @@ class Socialcommerce_Plugin_Payment_ShoppingCart extends Socialcommerce_Plugin_P
 {
     protected static $_baseUrl;
 
-    public static function getBaseUrl(){
-        if(self::$_baseUrl == NULL){
-            $request =  Zend_Controller_Front::getInstance()->getRequest();
+    public static function getBaseUrl()
+    {
+        if (self::$_baseUrl == NULL) {
+            $request = Zend_Controller_Front::getInstance()->getRequest();
             self::$_baseUrl = sprintf('%s://%s', $request->getScheme(), $request->getHttpHost());
 
         }
         return self::$_baseUrl;
     }
+
     /**
      * @param   string $type
      * @return  string
@@ -27,22 +29,25 @@ class Socialcommerce_Plugin_Payment_ShoppingCart extends Socialcommerce_Plugin_P
         return self::getBaseUrl();
     }
 
-    public function getSuccessRedirectUrl(){
+    public function getSuccessRedirectUrl()
+    {
         $router = Zend_Controller_Front::getInstance()->getRouter();
-        $url =  $router->assemble(array('module'=>'socialcommerce','controller'=>'my-cart'),'default',true);
+        $url = $router->assemble(array('module' => 'socialcommerce', 'controller' => 'my-cart'), 'default', true);
         return $url;
     }
 
-    public function getCancelRedirectUrl(){
+    public function getCancelRedirectUrl()
+    {
         $router = Zend_Controller_Front::getInstance()->getRouter();
-        $url =  $router->assemble(array('module'=>'socialcommerce','controller'=>'my-cart'),'default',true);
+        $url = $router->assemble(array('module' => 'socialcommerce', 'controller' => 'my-cart'), 'default', true);
         return $url;
     }
 
-    public function onSuccess() {
-        $order = $this -> getOrder();
-        $order -> payment_status = 'completed';
-        $order -> save();
+    public function onSuccess()
+    {
+        $order = $this->getOrder();
+        $order->payment_status = 'completed';
+        $order->save();
 
         $cart = Socialcommerce_Api_Cart::getInstance();
         $cart->removeCarts();
@@ -53,13 +58,13 @@ class Socialcommerce_Plugin_Payment_ShoppingCart extends Socialcommerce_Plugin_P
         $transactionId = $transactionModel->fetchRow($transelect)->transaction_id;
         $modelShipping = new Socialcommerce_Model_DbTable_ShippingAddresses;
         $select = $modelShipping->select()->where("order_id = ?", $order->order_id);
-        $result = $modelShipping -> fetchRow($select);
+        $result = $modelShipping->fetchRow($select);
         $params = array();
         $result = (array)Zend_Json::decode($result->value);
         $params['stall_orderid'] = $order->order_id;
         $params['buyer_name'] = $result['fullname'];
         $params['buyer_email'] = $result['email'];
-        $params['buyer_address'] = $result['street'].' '.$result['city'].' City, '.$result['country'];
+        $params['buyer_address'] = $result['street'] . ' ' . $result['city'] . ' City, ' . $result['country'];
         foreach ($orderitems as $item) {
 
             // Update Product Quantity
@@ -83,36 +88,36 @@ class Socialcommerce_Plugin_Payment_ShoppingCart extends Socialcommerce_Plugin_P
             $sendTo = Engine_Api::_()->getItem('user', $product->owner_id)->email;
             $params['product_title'] = $product->title;
             $params['stall_title'] = $stall->title;
-            $params['stall_link'] = $url.$stall->getHref();
-            $params['product_link'] = $url.$product->getHref();
+            $params['stall_link'] = $url . $stall->getHref();
+            $params['product_link'] = $url . $product->getHref();
             $params['product_quantity'] = $item->quantity;
             $params['product_price'] = $item->price;
             $params['product_total'] = $item->total_amount;
-            Engine_Api::_()->getApi('mail','socialcommerce')->send($sendTo, 'stall_purchaseseller',$params);
+            Engine_Api::_()->getApi('mail', 'socialcommerce')->send($sendTo, 'stall_purchaseseller', $params);
 
             // Prepare html content to send to Buyer
 
             $xhtml .= "<div>==========Product Detail==============</div>
 						<div><span>Product Name: </span>
-							 <span>".$product->title."</span>
+							 <span>" . $product->title . "</span>
 						</div>
 						<div><span>Product Link: </span>
-							<span>".$this->selfURL().$product->getHref()."</span>
+							<span>" . $this->selfURL() . $product->getHref() . "</span>
 						</div>					
 						<div><span>Stall Name: </span>
-							 <span>".$stall->title."</span>
+							 <span>" . $stall->title . "</span>
 						</div>
 						<div><span>Stall Link: </span>
-							<span>".$this->selfURL().$stall->getHref()."</span>
+							<span>" . $this->selfURL() . $stall->getHref() . "</span>
 						</div>
 						<div><span>Quantity: </span>
-							<span>".$item->quantity."</span>
+							<span>" . $item->quantity . "</span>
 						</div>
 						<div><span>Unit Price: </span>
-							<span>".$item->price."</span>
+							<span>" . $item->price . "</span>
 						</div>
 						<div><span>Total: </span>
-							<span>".$item->total_amount."</span>							
+							<span>" . $item->total_amount . "</span>							
 						</div>
 					";
 //            if ($product->product_type == 'downloadable') {
@@ -129,10 +134,10 @@ class Socialcommerce_Plugin_Payment_ShoppingCart extends Socialcommerce_Plugin_P
 
         $xhtml .= "<div>==========Transaction Detail==============</div>
 				<div><span>Order ID: </span>
-				<span>".$order->order_id."</span>
+				<span>" . $order->order_id . "</span>
 				</div>
 				<div><span>Transaction ID: </span>
-				<span>".$transactionId."</span>
+				<span>" . $transactionId . "</span>
 				</div>
 			";
 
@@ -141,16 +146,17 @@ class Socialcommerce_Plugin_Payment_ShoppingCart extends Socialcommerce_Plugin_P
         $buyerparams = $order->toArray();
         $buyerparams['buyer_name'] = $result['fullname'];
         $buyerparams['buyer_email'] = $email;
-        $buyerparams['buyer_address'] = $result['street'].' '.$result['city'].' City, '.$result['country'];
+        $buyerparams['buyer_address'] = $result['street'] . ' ' . $result['city'] . ' City, ' . $result['country'];
         $buyerparams['ordercontent'] = $xhtml;
 
-        Engine_Api::_()->getApi('mail','socialcommerce')->send($email, 'stall_purchasebuyer',$buyerparams);
+        Engine_Api::_()->getApi('mail', 'socialcommerce')->send($email, 'stall_purchasebuyer', $buyerparams);
     }
 
-    public function onFailure() {
-        $order = $this -> getOrder();
-        $order -> payment_status = 'failure';
-        $order -> save();
+    public function onFailure()
+    {
+        $order = $this->getOrder();
+        $order->payment_status = 'failure';
+        $order->save();
         $cart = Socialcommerce_Api_Cart::getInstance();
         $cart->removeCarts();
         $orderitems = $order->getItems();
@@ -160,10 +166,11 @@ class Socialcommerce_Plugin_Payment_ShoppingCart extends Socialcommerce_Plugin_P
         }
     }
 
-    public function onPending() {
-        $order = $this -> getOrder();
-        $order -> payment_status = 'pending';
-        $order -> save();
+    public function onPending()
+    {
+        $order = $this->getOrder();
+        $order->payment_status = 'pending';
+        $order->save();
         $orderitems = $order->getItems();
         foreach ($orderitems as $item) {
             $item->payment_status = $order->payment_status;
@@ -171,67 +178,71 @@ class Socialcommerce_Plugin_Payment_ShoppingCart extends Socialcommerce_Plugin_P
         }
     }
 
-    public function onCancel() {
-        $order = $this -> getOrder();
-        $order -> payment_status = 'cancel';
-        $order -> save();
+    public function onCancel()
+    {
+        $order = $this->getOrder();
+        $order->payment_status = 'cancel';
+        $order->save();
         foreach ($orderitems as $item) {
             $item->payment_status = $order->payment_status;
             $item->save();
         }
     }
 
-    public function noBilling() {
+    public function noBilling()
+    {
         return false;
     }
 
-    public function noShipping() {
+    public function noShipping()
+    {
         return false;
     }
 
-    public function addItem($item, $qty, $save_order, $options = null) {
-        $order = $this -> getOrder();
-        $orderItem = $this -> getByObjectId($item -> getIdentity(),$options);
+    public function addItem($item, $qty = 1, $save_order)
+    {
+        $order = $this->getOrder();
+        $orderItem = $this->getByObjectId($item->getIdentity());
         // check not exists
 
-        if(!is_object($orderItem)) {
+        if (!is_object($orderItem)) {
             $item->setQuantity($qty);
             $user = Engine_Api::_()->getItem('user', $item->owner_id);
             $commission = Engine_Api::_()->authorization()->getAdapter('levels')->getAllowed('socialcommerce_product', $user, 'product_com');
-            $orderItem = $this -> getModelOrderItems() -> fetchNew();
+            $orderItem = $this->getModelOrderItems()->fetchNew();
 
-            $orderItem -> name = $item -> getTitle();
-            $orderItem -> description = $item -> getTitle();
-            $orderItem -> order_id = $this -> getOrder() -> getId();
-            $orderItem -> pretax_price = $item -> getPretaxPrice();
-            $orderItem -> item_commission_amount = round($item->getPretaxPrice() * $commission/100, 2);
-            $orderItem -> currency = $item -> getCurrency();
-            $orderItem -> object_id = $item -> getIdentity();
-            $orderItem -> object_type = $this -> getOrder() -> getPaytype();
-            $orderItem -> quantity = $qty;
-            $orderItem -> item_tax_amount = $item->getItemTaxAmount();
+            $orderItem->name = $item->getTitle();
+            $orderItem->description = $item->getTitle();
+            $orderItem->order_id = $this->getOrder()->getId();
+            $orderItem->pretax_price = $item->getPretaxPrice();
+            $orderItem->item_commission_amount = round($item->getPretaxPrice() * $commission / 100, 2);
+            $orderItem->currency = $item->getCurrency();
+            $orderItem->object_id = $item->getIdentity();
+            $orderItem->object_type = $this->getOrder()->getPaytype();
+            $orderItem->quantity = $qty;
+            $orderItem->item_tax_amount = $item->getItemTaxAmount();
         } else {
-            $orderItem -> quantity += $qty;
-            $item->setQuantity($orderItem -> quantity);
+            $orderItem->quantity += $qty;
+            $item->setQuantity($orderItem->quantity);
         }
 
-        $orderItem ->stall_id =  $item->stall_id;
-        $orderItem -> currency = $item -> getCurrency();
-        $orderItem -> commission_amount = round($orderItem->item_commission_amount * $orderItem -> quantity, 2);
-        $orderItem -> price = round($item -> getPretaxPrice() * $item -> getTaxPercentage() / 100, 2) + $item -> getPretaxPrice();
-        $tax_amount = $item -> getPretaxPrice() * $item -> getTaxPercentage() / 100;
-        $orderItem -> tax_amount = round($tax_amount, 2);
-        $orderItem -> sub_amount = $orderItem -> quantity * $orderItem -> pretax_price;
-        $orderItem -> total_amount = $orderItem -> sub_amount + $orderItem -> tax_amount * $orderItem -> quantity;
-        $orderItem -> seller_amount = $orderItem -> total_amount - $orderItem -> commission_amount;
+        $orderItem->stall_id = $item->stall_id;
+        $orderItem->currency = $item->getCurrency();
+        $orderItem->commission_amount = round($orderItem->item_commission_amount * $orderItem->quantity, 2);
+        $orderItem->price = round($item->getPretaxPrice() * $item->getTaxPercentage() / 100, 2) + $item->getPretaxPrice();
+        $tax_amount = $item->getPretaxPrice() * $item->getTaxPercentage() / 100;
+        $orderItem->tax_amount = round($tax_amount, 2);
+        $orderItem->sub_amount = $orderItem->quantity * $orderItem->pretax_price;
+        $orderItem->total_amount = $orderItem->sub_amount + $orderItem->tax_amount * $orderItem->quantity;
+        $orderItem->seller_amount = $orderItem->total_amount - $orderItem->commission_amount;
 
         // persistance this order items
-        $orderItem -> save();
+        $orderItem->save();
 
         // notify parent order update properties
-        if($save_order != false){
+        if ($save_order != false) {
 
-            $this -> getOrder() -> saveInsecurity();
+            $this->getOrder()->saveInsecurity();
         }
     }
 }

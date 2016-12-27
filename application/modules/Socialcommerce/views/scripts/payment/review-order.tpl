@@ -30,6 +30,8 @@
                     <div class="socialcommerce_order_detail_product_title"><?php echo $product->getTitle(); ?></div>
                     <div class="socialcommerce_order_detail_product_sub_info">
                         <span><?php echo $this->translate('Category:') ?></span>
+                        <?php $category = $product->getCategory(); ?>
+                        <?php echo $this->htmlLink($category->getHref(), $category->getTitle()); ?>
                     </div>
                     <div class="socialcommerce_order_detail_product_sub_info">
                         <span><?php echo $this->translate('Seller:') ?></span>

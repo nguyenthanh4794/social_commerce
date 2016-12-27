@@ -129,24 +129,15 @@ class Socialcommerce_Api_Cart {
 	 * @param    int   $product_quantity
 	 */
 	public function addItem($product_id, $product_qty = 1, $reset = false, $options = null) {
-		$item = $this -> _findItemInCart($product_id, $options);
+		$item = $this -> _findItemInCart($product_id);
 		if(!is_object($item)) {
 			$item = $model = $this -> getModelItems() -> fetchNew();
 			$item -> item_id = $product_id;
 			$item -> item_qty = 0;
 			$item -> cart_id = $this -> getCart() -> getId();
 			$item -> owner_id = $this -> getCart() -> owner_id;
-			$item -> guest_id = $this -> getCart() -> guest_id;
 			$item->save();
-			if ($options != '' && $options != null) {
-				$item -> options = $options;
-				$ProductOptions = new Socialcommerce_Model_DbTable_Productoptions;
-				$pro_opt_select = $ProductOptions->select()->where('productoption_id = ?', $options);
-				$pro_option = $ProductOptions->fetchRow($pro_opt_select);
-				$pro_option->cart_id = $this -> getCart() -> getId();
-				$pro_option->cartitem_id = $item->cartitem_id;
-				$pro_option->save();
-			}
+
 			$item -> creation_date = date('Y-m-d H:i:s');
 			$this -> _cartitems[] = $item;
 		}
@@ -177,16 +168,11 @@ class Socialcommerce_Api_Cart {
 	/**
 	 * @return Socialcommerce_Model_CartItem|NULL
 	 */
-	protected function _findItemInCart($product_id, $options = null) {
+	protected function _findItemInCart($product_id) {
 		foreach($this->getCartItems() as $item) {
-			if ($options != null) {
-				if($item -> item_id == $product_id && $item->options == $options) {
-					return $item;
-				}
-			}
-			else if ($item->item_id == $product_id) {
-				return $item;
-			}
+            if($item -> item_id == $product_id) {
+                return $item;
+            }
 		}
 		return null;
 	}
@@ -227,7 +213,6 @@ class Socialcommerce_Api_Cart {
 		$sum = 0;
 		foreach($this->getCartItems() as $item) {
 			$sum += $item -> item_qty;
-			//print_r($item->toArray());
 		}
 		return $sum;
 	}
@@ -256,7 +241,7 @@ class Socialcommerce_Api_Cart {
 	 * @return $order
 	 */
 	public function makeOrder($cartitems) {
-		$Product =  new Socialcommerce_Model_DbTable_Products;
+		$tableProducts =  new Socialcommerce_Model_DbTable_Products;
 		$order = $this -> getOrder();
 
 		/*
@@ -265,13 +250,12 @@ class Socialcommerce_Api_Cart {
 		foreach($cartitems as $key => $product_quantity) {
 			$key = explode('_', $key);
 			$product_id = $key[0];
-			$product = $Product -> find($product_id) -> current();
-			$order -> getPlugin() -> addItem($product, $product_quantity['qty'], false, $product_quantity['options']);
+			$product = $tableProducts -> find($product_id) -> current();
+			$order -> getPlugin() -> addItem($product, $product_quantity['qty'], false);
 		}
 		$items = $order->getItems();
 		foreach ($items as $item) {
 			if ($item->pretax_price <= 0) {
-                die(print_r($item->toArray()));
 				$string = "invalid";
 				return $string;
 			}

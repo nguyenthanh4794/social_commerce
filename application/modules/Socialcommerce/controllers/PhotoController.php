@@ -227,48 +227,12 @@ class Socialcommerce_PhotoController extends Core_Controller_Action_Standard
         }
     }
 
-    public function editAction()
-    {
-        $photo = Engine_Api::_()->core()->getSubject();
-
-        $this->view->form = $form = new Groupbuy_Form_Photo_Edit();
-
-        if (!$this->getRequest()->isPost()) {
-            $form->populate($photo->toArray());
-            return;
-        }
-
-        if (!$form->isValid($this->getRequest()->getPost())) {
-            return;
-        }
-
-        // Process
-        $db = Engine_Api::_()->getDbtable('photos', 'groupbuy')->getAdapter();
-        $db->beginTransaction();
-
-        try {
-            $photo->setFromArray($form->getValues())->save();
-
-            $db->commit();
-        } catch (Exception $e) {
-            $db->rollBack();
-            throw $e;
-        }
-
-        return $this->_forward('success', 'utility', 'core', array(
-            'messages' => array('Changes saved'),
-            'layout' => 'default-simple',
-            'parentRefresh' => true,
-            'closeSmoothbox' => true,
-        ));
-    }
-
     public function removeAction()
     {
         $viewer = Engine_Api::_()->user()->getViewer();
 
         $photo_id = (int)$this->_getParam('photo_id');
-        $photo = Engine_Api::_()->getItem('groupbuy_photo', $photo_id);
+        $photo = Engine_Api::_()->getItem('album_photo', $photo_id);
 
         $db = $photo->getTable()->getAdapter();
         $db->beginTransaction();
@@ -285,7 +249,7 @@ class Socialcommerce_PhotoController extends Core_Controller_Action_Standard
 
     public function deletePhotoAction()
     {
-        $photo = Engine_Api::_()->getItem('groupbuy_photo', $this->getRequest()->getParam('photo_id'));
+        $photo = Engine_Api::_()->getItem('album_photo', $this->getRequest()->getParam('photo_id'));
 
         if (!$photo) {
             $this->view->success = false;
@@ -294,7 +258,7 @@ class Socialcommerce_PhotoController extends Core_Controller_Action_Standard
             return;
         }
         // Process
-        $db = Engine_Api::_()->getDbtable('photos', 'groupbuy')->getAdapter();
+        $db = Engine_Api::_()->getDbtable('photos', 'album')->getAdapter();
         $db->beginTransaction();
 
         try {

@@ -17,9 +17,9 @@ class Socialcommerce_Model_Request extends Core_Model_Item_Abstract
         return $this->request_status == 'waiting';
     }
 
-    public function getAccount($gateway ='paypal'){
-        $Table =  Engine_Api::_()->getDbTable('accounts', 'socialcommerce');
-        $select =  $Table->select()->where('user_id=?', $this->owner_id)->where('gateway_id=?',$gateway);
+    public function getAccount(){
+        $Table =  Engine_Api::_()->getDbTable('paypalaccounts', 'socialcommerce');
+        $select =  $Table->select()->where('owner_id = ?', $this->owner_id);
         $item =  $Table->fetchRow($select);
         return $item;
     }

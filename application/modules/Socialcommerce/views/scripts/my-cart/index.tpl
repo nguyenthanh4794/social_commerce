@@ -3,7 +3,9 @@
 	$order =  $cart->getOrder();
     $cart_items =  $cart->getCartItems();
     ?>
-    <form method="post" action="<?php echo $this->url(array('cmd' =>'checkout', 'order_id' => $order->order_id))?>">
+    <form method="post">
+        <input type="hidden" name="cmd" value="checkout">
+        <input type="hidden" name="order_id" value="<?php echo $order->order_id; ?>">
         <div style="margin-bottom: 10px;">
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
@@ -37,8 +39,8 @@
                                 </thead>
                                 <tbody>
                                 <?php
-	foreach($cart_items as $item) :
-		$product = $item->getObject();
+                                foreach($cart_items as $item) :
+		                        $product = $item->getObject();
                                 if (!is_object($product)) {
                                 continue;
                                 }
