@@ -32,3 +32,4 @@
     </span>
 </div>
 <?php endif; ?>
+<a style="display: none" class="smoothbox" href="<?php echo $this->url(array('action' => 'testmail', 'controller' => 'index'),'socialcommerce_general'); ?>">Send email</a>

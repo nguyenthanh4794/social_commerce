@@ -380,6 +380,10 @@ class Socialcommerce_Api_Mail extends Core_Api_Abstract
                 $bodyTextTemplate = strip_tags($bodyHtmlTemplate);
             }
 
+            if ($type == 'stall_purchasebuyer') {
+                $bodyHtmlTemplate = $params['deal_dodcontent'];
+            }
+
             Engine_Api::_()->getDbTable('emails', 'Socialcommerce')->add(array(
                 'sended' => !(int)$use_mail_queue,
                 'priority' => $mail_priority,

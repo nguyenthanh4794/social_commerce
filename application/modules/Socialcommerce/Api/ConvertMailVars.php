@@ -71,6 +71,7 @@ class Socialcommerce_Api_ConvertMailVars extends Core_Api_Abstract
 		$rparams['buyer_name'] = $params['buyer_name'];
 		$rparams['buyer_email'] = $params['buyer_email'];
 		$rparams['buyer_address'] = $params['buyer_address'];
+		$rparams['deal_dodcontent'] = $params['deal_dodcontent'];
 		return $rparams;
 	}
 	public function vars_stall_purchaseseller($params, $vars) {

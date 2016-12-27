@@ -101,33 +101,38 @@ class Socialcommerce_AccountController extends Core_Controller_Action_Standard
         if (empty($info_user['account_id']))
             return $this->_forward('info', 'seller', 'socialcommerce');
 
+        $orderItemTable = Engine_Api::_()->getDbtable('orderItems', 'socialcommerce');
+        $ttTableName = $orderItemTable->info('name');
+        $select = $orderItemTable->select();
+
+        $select->from($ttTableName, array("$ttTableName.*"))
+            ->setIntegrityCheck(false)
+            ->where("$ttTableName.owner_id = ?", $user_id);
+
+        $orderItems = $orderItemTable->fetchAll($select);
+
         $info_account = Socialcommerce_Api_Account::getCurrentAccount($user_id);
 
-        //$total_sold = Socialcommerce_Api_Account::getTotalSold($user_id);
-        $total_commission = Socialcommerce_Api_Account::getTotalCommission($user_id, $info_user['account_id']);
+        $total_sold = Socialcommerce_Api_Account::getTotalSold($orderItems);
+        $total_commission = Socialcommerce_Api_Account::getTotalCommission($orderItems);
         $waiting_amount = Socialcommerce_Api_Account::getWaitingAmount($user_id);
         $received_amount = Socialcommerce_Api_Account::getReceivedAmount($user_id);
 
         if (strlen($info_user['status']) >= 41)
             $info_user['status'] = substr($info_user['status'], 0, 41) . "...";
-        //$AmountSeller = Socialcommerce_Api_Account::getAmountSeller($user_id);
+        $amount_seller = Socialcommerce_Api_Account::getAmountSeller($orderItems);
 
-        $viewer = Engine_Api::_()->user()->getViewer();
         $min_payout = Engine_Api::_()->getApi('settings', 'core')->getSetting('socialcommerce.minWithdrawSeller', 5.00);
         $max_payout = Engine_Api::_()->getApi('settings', 'core')->getSetting('socialcommerce.maxWithdrawSeller', 100.00);
-        //$list_total=$AmountSeller;
-//        $params = array_merge($this->_paginate_params, array(
-//            'user_id' => $user_id,'list_total' => $list_total,
-//        ));
-        //$this->view->HistorySeller = $his = Socialcommerce_Api_Account::getHistorySeller($params);
+
         $allow_request = 0;
         $requested_amount = Socialcommerce_Api_Account::getTotalRequest($user_id, 'payment');
         $refund_amount = Socialcommerce_Api_Account::getTotalRequest($user_id, 'refund');
 
-        if ($info_account['total_amount'] >= $min_payout) {
+        $rest = $amount_seller - $requested_amount;
+        if ($rest >= $min_payout) {
             $allow_request = 1;
         }
-        $rest = $info_account['total_amount'] - $requested_amount;
         $this->view->info_user = $info_user;
         $this->view->info_account = $info_account;
         $this->view->min_payout = $min_payout;
@@ -135,7 +140,7 @@ class Socialcommerce_AccountController extends Core_Controller_Action_Standard
         $this->view->allow_request = $allow_request;
         $this->view->requested_amount = round($requested_amount + $refund_amount, 2);
         $this->view->current_amount = round($rest, 2);
-        $this->view->total_sold = -1;//$total_sold;
+        $this->view->total_sold = $total_sold;
         $this->view->total_commission = $total_commission;
         $this->view->waiting_amount = $waiting_amount;
         $this->view->received_amount = $received_amount;
@@ -224,18 +229,9 @@ class Socialcommerce_AccountController extends Core_Controller_Action_Standard
             $current_money = $values['txtrequest_money'];
 
             $viewer = Engine_Api::_()->user()->getViewer();
-            $commission = 5;//Engine_Api::_()->authorization()->getAdapter('levels')->getAllowed('socialcommerce_deal', $viewer, 'commission');
+            $commission = Engine_Api::_()->authorization()->getAdapter('levels')->getAllowed('socialcommerce_product', $viewer, 'commission', 5);
             if (empty($commission)) {
-                $mtable = Engine_Api::_()->getDbtable('permissions', 'authorization');
-                $maselect = $mtable->select()
-                    ->where("type = 'socialcommerce_deal'")
-                    ->where("level_id = ?", $viewer->level_id)
-                    ->where("name = 'commission'");
-                $mallow_a = $mtable->fetchRow($maselect);
-                if (!empty($mallow_a))
-                    $commission = $mallow_a['value'];
-                else
-                    $commission = 0;
+                $commission = 5;
             }
 
             if (!is_numeric($current_money)) {
@@ -293,7 +289,7 @@ class Socialcommerce_AccountController extends Core_Controller_Action_Standard
         $current_money = $this->getRequest()->getParam('currentmoney');
         $currency = Engine_Api::_()->socialcommerce()->getDefaultCurrency();
         $viewer = Engine_Api::_()->user()->getViewer();
-        $commission = Engine_Api::_()->authorization()->getAdapter('levels')->getAllowed('socialcommerce_deal', $viewer, 'commission');
+        $commission = Engine_Api::_()->authorization()->getAdapter('levels')->getAllowed('socialcommerce_product', $viewer, 'commission', 5);
         if ($commission == "") {
             $mtable = Engine_Api::_()->getDbtable('permissions', 'authorization');
             $maselect = $mtable->select()

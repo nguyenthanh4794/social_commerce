@@ -119,6 +119,11 @@ class Socialcommerce_PaymentController extends Core_Controller_Action_Standard
             return;
         }
 
+        if ($this->_getParam('shippinginformation_id') <= 0) {
+            $this->view->error = true;
+            return;
+        }
+
         $db = Engine_Db_Table::getDefaultAdapter();
         $db->beginTransaction();
         try {

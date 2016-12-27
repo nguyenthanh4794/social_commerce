@@ -161,7 +161,7 @@ class Socialcommerce_Form_Payment_Shipping extends Engine_Form_Email
         $params = $this->getValues();
         unset($params['email_field']);
 
-        $table = Engine_Api::_()->getDbTable('shippingaddresses', 'socialcommerce');
+        $table = Engine_Api::_()->getDbTable('shippingAddresses', 'socialcommerce');
         $address = $table->createRow();
 
         $address->user_id = $viewer->getIdentity();

@@ -148,8 +148,34 @@ class Socialcommerce_Plugin_Payment_ShoppingCart extends Socialcommerce_Plugin_P
         $buyerparams['buyer_email'] = $email;
         $buyerparams['buyer_address'] = $result['street'] . ' ' . $result['city'] . ' City, ' . $result['country'];
         $buyerparams['ordercontent'] = $xhtml;
+        $buyerparams['deal_dodcontent'] = $this->getDodContent($orderitems);
 
         Engine_Api::_()->getApi('mail', 'socialcommerce')->send($email, 'stall_purchasebuyer', $buyerparams);
+    }
+
+    public function getDodContent($products){
+        $translate = Zend_Registry::get('Zend_Translate');
+        $this->products =  $products;
+        $this->contacts =  array();
+        $this->uri = $this->getFullUri();
+        $this->site_name = Engine_Api::_()->getApi('settings', 'core')->getSetting('core_general_site_title', $translate->translate('_SITE_TITLE'));
+        $filename = APPLICATION_PATH . '/application/modules/Socialcommerce/views/scripts/mail/dod_content.tpl';
+        ob_start();
+        include $filename;
+        $result = ob_get_clean();
+        return $result;
+    }
+
+    public function getFullUri() {
+        $host = (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '');
+        $proto = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== "off") ? 'https' : 'http';
+        $port = (isset($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : 80);
+        $uri = $proto . '://' . $host;
+        if ((('http' == $proto) && (80 != $port)) || (('https' == $proto) && (443 != $port)))
+        {
+            $uri .= ':' . $port;
+        }
+        return $uri;
     }
 
     public function onFailure()
@@ -208,7 +234,10 @@ class Socialcommerce_Plugin_Payment_ShoppingCart extends Socialcommerce_Plugin_P
         if (!is_object($orderItem)) {
             $item->setQuantity($qty);
             $user = Engine_Api::_()->getItem('user', $item->owner_id);
-            $commission = Engine_Api::_()->authorization()->getAdapter('levels')->getAllowed('socialcommerce_product', $user, 'product_com');
+            $commission = Engine_Api::_()->authorization()->getAdapter('levels')->getAllowed('socialcommerce_product', $user, 'commission', 5);
+            if (!$commission)
+                $commission = 5;
+
             $orderItem = $this->getModelOrderItems()->fetchNew();
 
             $orderItem->name = $item->getTitle();
@@ -235,6 +264,7 @@ class Socialcommerce_Plugin_Payment_ShoppingCart extends Socialcommerce_Plugin_P
         $orderItem->sub_amount = $orderItem->quantity * $orderItem->pretax_price;
         $orderItem->total_amount = $orderItem->sub_amount + $orderItem->tax_amount * $orderItem->quantity;
         $orderItem->seller_amount = $orderItem->total_amount - $orderItem->commission_amount;
+        $orderItem->owner_id = $item->owner_id;
 
         // persistance this order items
         $orderItem->save();

@@ -20,18 +20,9 @@ $this->headScript()
 
 <?php
 $viewer = Engine_Api::_()->user()->getViewer();
-$commission = 5;//Engine_Api::_()->authorization()->getAdapter('levels')->getAllowed('socialcommerce_deal', $viewer, 'commission');
+$commission = Engine_Api::_()->authorization()->getAdapter('levels')->getAllowed('socialcommerce_product', $viewer, 'commission', 5);
 if ($commission == "") {
-$mtable = Engine_Api::_()->getDbtable('permissions', 'authorization');
-$maselect = $mtable->select()
-->where("type = 'socialcommerce_deal'")
-->where("level_id = ?", $viewer->level_id)
-->where("name = 'commission'");
-$mallow_a = $mtable->fetchRow($maselect);
-if (!empty($mallow_a))
-$commission = $mallow_a['value'];
-else
-$commission = 0;
+$commission = 5;
 }
 $this->headScript()
 ->appendFile($this->baseUrl() . '/application/modules/Socialcommerce/externals/scripts/socialcommere_function.js');
@@ -61,7 +52,7 @@ if (!$account):
                 <li>
                     <div class="yn-clearfix">
                         <div>
-                            <?php echo $this->locale()->toCurrency($this->total_sold, $currency) ?>
+                            <?php echo $this->locale()->toNumber($this->total_sold) ?>
                         </div>
                         <div>
                             <div><?php echo $this->translate('Total sold') ?></div>

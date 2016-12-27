@@ -17,7 +17,25 @@ $page_description = $this->translate('Select your information listed below, or a
             </div>
         </div>
     </div>
+
     <form action="<?php echo $this->escape($this->form->getAction()) ?>" method="post" id="socialcommerce_shipping_info_form">
+        <?php if (count($this->shipping_infos) <= 0): ?>
+        <ul class="form-errors">
+            <li>
+                <ul class="errors">
+                    <li>You must add and select an shipping information to continue</li>
+                </ul>
+            </li>
+        </ul>
+        <?php elseif ($this->error): ?>
+        <ul class="form-errors">
+            <li>
+                <ul class="errors">
+                    <li>You must select an shipping information to continue</li>
+                </ul>
+            </li>
+        </ul>
+        <?php endif; ?>
         <div class="socialcommerce_shipping_items yn-clearfix">
             <ul class="yn-clearfix">
                 <?php foreach ($this->shipping_infos as $item): ?>
