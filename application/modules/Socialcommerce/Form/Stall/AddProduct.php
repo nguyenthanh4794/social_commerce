@@ -49,12 +49,39 @@ class Socialcommerce_Form_Stall_AddProduct extends Engine_Form
             'value' => '0'
         ));
 
-        $this->addElement('Textarea', 'description', array(
-            'label' => 'Description',
-            'description' => 'Add detail about your item (Optional)'
+        $editorOptions['plugins'] = array(
+            'advlist','autolink','lists','link','image','charmap','print','preview','hr','anchor','pagebreak',
+            'searchreplace','wordcount','visualblocks','visualchars','code','fullscreen',
+            'insertdatetime','media','nonbreaking','save','table','contextmenu','directionality',
+            'emoticons','template','paste','textcolor','colorpicker','textpattern','imagetools','codesample','toc'
+        );
+
+        $editorOptions['toolbar1'] = array(
+            'undo', 'redo', '|', 'insert', '|', 'bold', 'italic', '|',
+            'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
+            'bullist', 'numlist', 'outdent', 'indent', '|',
+            'media', 'image', 'jbimages', 'link', 'fullscreen',
+            'preview'
+        );
+
+        $editorOptions['toolbar2'] = array(
+            'print','preview','media','|'.'forecolor','backcolor','emoticons',' |','codesample',
+        );
+
+        $this->addElement('TinyMce', 'description', array(
+            'disableLoadDefaultDecorators' => true,
+            'required' => true,
+            'allowEmpty' => false,
+            'editorOptions' => $editorOptions,
+            'decorators' => array(
+                'ViewHelper'
+            ),
+            'filters' => array(
+                new Engine_Filter_Censor()
+            ),
         ));
 
-        $this->description->getDecorator('Description')->setOption('placement', 'APPEND');
+//        $this->description->getDecorator('Description')->setOption('placement', 'APPEND');
 
         // Init file
         $this->addElement('FancyUpload', 'file');
@@ -104,6 +131,7 @@ class Socialcommerce_Form_Stall_AddProduct extends Engine_Form
         $params['price'] = (float)$values['price'];
         $params['description'] = $values['description'];
         $params['file'] = $values['file'];
+        $params['category'] = $values['category'];
 
         $product = Engine_Api::_()->getDbtable('products', 'socialcommerce')->createRow();
         $product->setFromArray($params);

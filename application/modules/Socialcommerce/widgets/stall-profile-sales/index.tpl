@@ -15,30 +15,30 @@
                     </tr>
                 </thead>
                 <tbody>
-                <?php foreach($this->paginator as $order): ?>
+                <?php foreach($this->paginator as $orderItem): ?>
                 <tr>
-                    <td><?php echo $order->order_id ?></td>
-                    <?php $product = $order->getObject(); ?>
+                    <td><?php echo $orderItem->order_id ?></td>
+                    <?php $product = $orderItem->getObject(); ?>
                     <td>
                         <a href="<?php echo $product->getHref() ?>"><?php echo $product->getTitle(); ?></a>
                     </td>
-                    <td><?php echo $order->quantity ?></td>
-                    <td><?php echo $order->getBuyer()?></td>
+                    <td><?php echo $orderItem->quantity ?></td>
+                    <td><?php echo $orderItem->getBuyer()?></td>
                     <td>
                         <?php
-                          $oDate = new DateTime($order->creation_date);
+                          $oDate = new DateTime($orderItem->creation_date);
                         $oDate->setTimezone(new DateTimeZone($this->viewer->timezone));
                         echo $oDate->format("H:ia d/m/Y")
                         ?>
                     </td>
 
-                    <td  class="big"><?php echo $order->getShippingAddressInfo() ?></td>
-                    <td><?php echo $order->	order_status ?></td>
+                    <td  class="big"><?php echo $orderItem->getShippingAddressInfo() ?></td>
+                    <td><?php echo $orderItem->	delivery_status ?></td>
                     <td>
-                        <?php if($order->order_status == 'initial'): ?>
-                            <a href="<?php echo $this->url(array('controller'=>'seller', 'action'=>'shipped', 'order_id' => $order->order_id), 'socialcommerce_general') ?>" class="smoothbox"><?php echo $this->translate('Shipped') ?></a> |
+                        <?php if($orderItem->delivery_status == 'shipping'): ?>
+                            <a href="<?php echo $this->url(array('controller'=>'seller', 'action'=>'shipped', 'orderItem_id' => $orderItem->getIdentity()), 'socialcommerce_general') ?>" class="smoothbox"><?php echo $this->translate('Shipped') ?></a> |
                         <?php endif; ?>
-                        <a target="_blank" href="<?php echo $this->url(array('controller'=>'seller', 'action'=>'print', 'order_id' => $order->order_id), 'socialcommerce_general') ?>"><?php echo $this->translate('Print') ?></a> |
+                        <a target="_blank" href="<?php echo $this->url(array('controller'=>'seller', 'action'=>'print', 'order_id' => $orderItem->order_id), 'socialcommerce_general') ?>"><?php echo $this->translate('Print') ?></a> |
                         <?php echo $this->htmlLink(Array('module'=> 'core', 'controller' => 'report', 'action' => 'create', 'route' => 'default', 'subject' => $product->getGuid(), 'format' => 'smoothbox'), '<i class="ynicon yn-warning-triangle"></i>'.$this->translate("Report this Product"), array('class' => 'smoothbox')); ?>
                     </td>
                 </tr>

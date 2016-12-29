@@ -147,6 +147,7 @@ class Socialcommerce_SellerController extends Core_Controller_Action_Standard
         $values = $form->getValues();
         $values['limit'] = Engine_Api::_()->getApi('settings', 'core')->getSetting('store.page', 10);
         $values['page'] = $page;
+        $values['owner_id'] = $viewer->getIdentity();
 
         $this->view->paginator = $paginator = Engine_Api::_()->getDbTable('orderItems', 'socialcommerce')->getOrderItemsPaginator($values);
         $this->view->params = $values;
@@ -163,14 +164,15 @@ class Socialcommerce_SellerController extends Core_Controller_Action_Standard
         if (!$this->_helper->requireUser()->isValid())
             return;
 
-        $order_id = $this->_getParam('order_id');
+        $orderItem_id = $this->_getParam('orderItem_id');
 
-        $this -> view -> order_id = $order_id;
+        $this -> view -> orderItem_id = $orderItem_id;
 
         // Check post
         if ($this -> getRequest() -> isPost()) {
-            $order = Socialcommerce_Model_DbTable_Orders::getByOrderId($order_id);
-            $order->updateStatus('deliveried');
+            $table = new Socialcommerce_Model_DbTable_OrderItems();
+            $orderItem = $table->find($orderItem_id)->current();
+            $orderItem->updateStatus('delivered');
 
             return $this -> _forward('success', 'utility', 'core', array(
                 'layout' => 'default-simple',
@@ -192,14 +194,15 @@ class Socialcommerce_SellerController extends Core_Controller_Action_Standard
         if (!$this->_helper->requireUser()->isValid())
             return;
 
-        $order_id = $this->_getParam('order_id');
+        $orderItem_id = $this->_getParam('orderItem_id');
 
-        $this -> view -> order_id = $order_id;
+        $this -> view -> orderItem_id = $orderItem_id;
 
         // Check post
         if ($this -> getRequest() -> isPost()) {
-            $order = Socialcommerce_Model_DbTable_Orders::getByOrderId($order_id);
-            $order->updateStatus('shipping');
+            $table = new Socialcommerce_Model_DbTable_OrderItems();
+            $orderItem = $table->find($orderItem_id)->current();
+            $orderItem->updateStatus('shipped');
 
             return $this -> _forward('success', 'utility', 'core', array(
                 'layout' => 'default-simple',

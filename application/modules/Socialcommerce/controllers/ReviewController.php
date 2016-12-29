@@ -25,6 +25,15 @@ class Socialcommerce_ReviewController extends Core_Controller_Action_Standard
         $form = $this -> view -> form = new Socialcommerce_Form_Review_Create();
         $table = $this -> getDbTable();
 
+        $bIsEdit = false;
+
+        if ($this->_getParam('review_id', 0) > 0) {
+            $bIsEdit = $this->_getParam('review_id');
+            $review = Engine_Api::_()->getItem('socialcommerce_review', $bIsEdit);
+
+            $form->populate($review->toArray());
+        }
+
         if (!$this -> getRequest() -> isPost())
             return;
 
@@ -40,7 +49,9 @@ class Socialcommerce_ReviewController extends Core_Controller_Action_Standard
         $db -> beginTransaction();
 
         try {
-            $review = $table -> createRow();
+            if (!$bIsEdit) {
+                $review = $table -> createRow();
+            }
 
             $review -> setFromArray($values);
             $review -> user_id = $user -> getIdentity();
@@ -56,7 +67,7 @@ class Socialcommerce_ReviewController extends Core_Controller_Action_Standard
 
         return $this -> _forward('success', 'utility', 'core', array(
             'parentRedirect' => $item->getHref(),
-            'messages' => array(Zend_Registry::get('Zend_Translate') -> _('Your review has been successfully added.'))
+            'messages' => array(Zend_Registry::get('Zend_Translate') -> _('Thank you for your review.'))
         ));
 
     }

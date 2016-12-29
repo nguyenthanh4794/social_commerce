@@ -29,10 +29,10 @@ class Socialcommerce_Plugin_Payment_ShoppingCart extends Socialcommerce_Plugin_P
         return self::getBaseUrl();
     }
 
-    public function getSuccessRedirectUrl()
+    public function getSuccessRedirectUrl($order_id)
     {
         $router = Zend_Controller_Front::getInstance()->getRouter();
-        $url = $router->assemble(array('module' => 'socialcommerce', 'controller' => 'my-cart'), 'default', true);
+        $url = $router->assemble(array('module' => 'socialcommerce', 'controller' => 'order', 'action' => 'detail', 'order_id' => $order_id), 'default', true);
         return $url;
     }
 

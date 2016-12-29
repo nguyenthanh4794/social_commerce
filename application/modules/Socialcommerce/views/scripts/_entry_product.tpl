@@ -11,12 +11,6 @@
                     $photoUrl = $this->getNoPhoto($this->item, 'thumb.main');
             ?>
             <a class="socialcommerce-bg" href="<?php $this->item->getHref() ?>" style="background-image: url(<?php echo $photoUrl ?>)"></a>
-
-            <div class="socialcommerce-featured">
-                <div title="<?php echo $this->translate('Featured') ?>" class="socialcommerce-featured-triangle socialcommerce_entry_feature_icon-<?php echo $this->item->getIdentity() ?>" style="<?php if ($this->item->featured) echo 'visibility: hidden'; ?>">
-                    <i class="ynicon yn-diamond"></i>
-                </div>
-            </div>
         </div>
 
         <div class="socialcommerce-info">
@@ -26,21 +20,21 @@
                         <?php echo $this->item->title ?>
                     </a>
                     <div class="socialcommerce-product-from">
-                        <span><?php echo $this->translate('From')?></span>
+                        <span><?php echo $this->translate('From:')?></span>
                         <?php $stall = $this->item->getStall(); if ($stall): ?>
                         <a title="<?php echo $stall->title ?>" href="<?php echo $stall->getHref() ?>"><?php echo $stall->title ?></a>
                         <?php endif; ?>
                     </div>
 
-                    <div class="socialcommerce-product-description item_view_content" style="display: none;">
-                        <?php echo $this->item->short_description ?>
+                    <div class="socialcommerce-product-description item_view_content" style="">
+                        <?php echo strip_tags($this->item->description) ?>
                     </div>
                 </div>
 
                 <div class="socialcommerce-product-block4list">
                     <div class="socialcommerce-product-pullleft">
                         <div class="socialcommerce-price">
-                            <?php echo $this->item->getCurrency().$this->item->price ?>
+                            <?php echo $this->item->price.' '.$this->item->getCurrency() ?>
                         </div>
                     </div>
 
@@ -58,7 +52,7 @@
                             <?php endfor; ?>
                         </span>
 
-                        <span class="socialcommerce-count-statistic" style="display: none">
+                        <span class="socialcommerce-count-statistic" style="">
                                 11&nbsp;orders
                         </span>
                     </div>
@@ -67,7 +61,7 @@
 
                 <?php $viewer = Engine_Api::_()->user()->getViewer(); ?>
                 <?php if ($this->item->owner_id != $viewer->getIdentity()): ?>
-                <div title="<?php echo $this->translate('Add to cart') ?>" class="socialcommerce-btn socialcommerce-addtocart-btn" onclick="javascript:en4.store.cart.addProductBox(<?php echo $this->item->getIdentity() ?>)" data-addtocartid="<?php echo $this->item->getIdentity() ?>" style="display:none">
+                <div title="<?php echo $this->translate('Add to cart') ?>" class="socialcommerce-btn socialcommerce-addtocart-btn" onclick="javascript:en4.store.cart.addProductBox(<?php echo $this->item->getIdentity() ?>)" data-addtocartid="<?php echo $this->item->getIdentity() ?>">
                     <i class="ynicon yn-cart-plus"></i>
                     <?php echo $this->translate('Add to cart') ?>
                 </div>
@@ -75,8 +69,8 @@
             </div>
         </div>
 
-        <div class="socialcommerce-featured socialcommerce-featured-4list" style="display: none;">
-            <div title="<?php echo $this->translate('Featured')?>" class="socialcommerce-featured-triangle socialcommerce_entry_feature_icon-<?php echo $this->item->getIdentity() ?>" style="<?php if ($this->item->featured) echo 'visibility: hidden'; ?>">
+        <div class="socialcommerce-featured socialcommerce-featured-4list">
+            <div title="<?php echo $this->translate('Featured')?>" class="socialcommerce-featured-triangle socialcommerce_entry_feature_icon-<?php echo $this->item->getIdentity() ?>" style="<?php if (!$this->item->featured) echo 'visibility: hidden'; ?>">
                 <i class="ynicon yn-diamond"></i>
             </div>
         </div>

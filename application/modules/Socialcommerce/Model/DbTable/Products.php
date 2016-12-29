@@ -37,7 +37,7 @@ class Socialcommerce_Model_DbTable_Products extends Engine_Db_Table
             $select->where('category = ?', $params['category']);
         }
 
-        if (!empty($params['limit']) && is_numeric($params['limit'])) {
+        if (!empty($params['limit'])) {
             $select->limit($params['limit']);
         }
 

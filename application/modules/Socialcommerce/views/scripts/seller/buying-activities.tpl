@@ -33,7 +33,7 @@ $this->headScript()
                 <tbody>
                 <?php foreach($this->paginator as $orderItem): ?>
                 <tr>
-                    <td><?php echo $orderItem->order_id ?></td>
+                    <td><a href="<?php echo $this->url(array('module' => 'socialcommerce', 'controller' => 'order', 'action' => 'detail', 'order_id' => $orderItem->order_id), 'default'); ?>"><?php echo $orderItem->order_id ?></td>
                     <?php $product = $orderItem->getObject(); ?>
                     <td>
                         <?php echo $this->htmlLink($product->getHref(), $this->itemPhoto($product, 'thumb.normal').'<span>'.$product->getTitle().'</span>', array('class' => 'thumb_icon')) ?>
@@ -47,10 +47,10 @@ $this->headScript()
                     </td>
                     <td><?php echo $orderItem->	quantity ?></td>
                     <td><?php echo $orderItem->	total_amount ?></td>
-                    <td><?php echo $orderItem->	order_status ?></td>
+                    <td><?php echo $orderItem->	delivery_status ?></td>
                     <td>
-                        <?php if($orderItem->order_status != 'deliveried'): ?>
-                        <a href="<?php echo $this->url(array('controller'=>'seller', 'action'=>'received', 'order_id' => $orderItem->order_id), 'socialcommerce_general') ?>" class="smoothbox"><?php echo $this->translate('Received') ?></a> |
+                        <?php if($orderItem->delivery_status != 'delivered'): ?>
+                        <a href="<?php echo $this->url(array('controller'=>'seller', 'action'=>'received', 'orderItem_id' => $orderItem->getIdentity()), 'socialcommerce_general') ?>" class="smoothbox"><?php echo $this->translate('Received') ?></a> |
                         <?php endif; ?>
                         <?php echo $this->htmlLink(Array('module'=> 'core', 'controller' => 'report', 'action' => 'create', 'route' => 'default', 'subject' => $product->getGuid(), 'format' => 'smoothbox'), '<i class="ynicon yn-warning-triangle"></i>'.$this->translate("Report this Product"), array('class' => 'smoothbox')); ?>
                     </td>

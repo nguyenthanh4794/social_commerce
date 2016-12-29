@@ -261,4 +261,10 @@ class Socialcommerce_Model_OrderItem extends Core_Model_Item_Abstract
         else
             return 'Not Found';
     }
+
+    public function updateStatus($status)
+    {
+        $this->delivery_status = $status;
+        $this->save();
+    }
 }

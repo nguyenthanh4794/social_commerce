@@ -343,4 +343,53 @@ class Socialcommerce_Model_Product extends Core_Model_Item_Abstract
     {
         return new Engine_ProxyObject($this, Engine_Api::_()->getDbtable('likes', 'core'));
     }
+
+    public function sendEmailToFriends($recipients, $message)
+    {
+        $viewer = Engine_Api::_() -> user() -> getViewer();
+        // Check recipients
+        if( is_string($recipients) )
+        {
+            $recipients = preg_split("/[\s,]+/", $recipients);
+        }
+        if( is_array($recipients) )
+        {
+            $recipients = array_map('strtolower', array_unique(array_filter(array_map('trim', $recipients))));
+        }
+        if( !is_array($recipients) || empty($recipients) )
+        {
+            return 0;
+        }
+
+        // Check message
+        $message = trim($message);
+        $sentEmails = 0;
+        $photo_url = ($this->getPhotoUrl('thumb.profile')) ? $this->getPhotoUrl('thumb.profile') : 'application/modules/Socialcommerce/externals/images/nophoto_product_thumb_profile.png';
+        foreach( $recipients as $recipient )
+        {
+            $mailType = 'socialcommerce_email_to_friends';
+            $mailParams = array(
+                'host' => $_SERVER['HTTP_HOST'],
+                'email' => $recipient,
+                'date' => time(),
+                'sender_email' => $viewer->email,
+                'sender_title' => $viewer->getTitle(),
+                'sender_link' => $viewer->getHref(),
+                'sender_photo' => $viewer->getPhotoUrl('thumb.icon'),
+                'message' => $message,
+                'object_link' => $this->getHref(),
+                'object_title' => $this->title,
+                'object_photo' => $photo_url,
+                'object_description' => $this->description,
+            );
+
+            Engine_Api::_()->getApi('mail', 'core')->sendSystem(
+                $recipient,
+                $mailType,
+                $mailParams
+            );
+            $sentEmails++;
+        }
+        return $sentEmails;
+    }
 }

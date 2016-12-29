@@ -62,7 +62,7 @@ class Socialcommerce_ProductController extends Core_Controller_Action_Standard
 
         $user = Engine_Api::_()->user()->getViewer();
 
-        $this -> view -> form = $form = new Socialcommerce_Form_Product_Create();
+        $this -> view -> form = $form = new Socialcommerce_Form_Stall_AddProduct();
         $categories = Engine_Api::_()->getDbTable('categories', 'socialcommerce')->getCategoriesAssoc();
         $form->category->setMultiOptions($categories);
         $form->populate($subject->toArray());
@@ -109,6 +109,14 @@ class Socialcommerce_ProductController extends Core_Controller_Action_Standard
             $db -> rollBack();
             throw $e;
         }
+
+        return $this -> _forward('success', 'utility', 'core', array(
+            'parentRedirect' => Zend_Controller_Front::getInstance() -> getRouter() -> assemble(array(
+                'product_id' => $product -> getIdentity(),
+                'slug' => $product->getTitle(),
+            ), 'socialcommerce_product_profile', true),
+            'messages' => array(Zend_Registry::get('Zend_Translate') -> _('Your product has been successfully updated.'))
+        ));
     }
 
     public function createAction()
@@ -254,5 +262,36 @@ class Socialcommerce_ProductController extends Core_Controller_Action_Standard
         }
 
         $this->view->can_review = $can_review;
+    }
+
+    public function emailToFriendsAction()
+    {
+        if (!$this -> _helper -> requireUser() -> isValid())
+            return;
+
+        $this -> view -> listing = $listing = Engine_Api::_() -> core() -> getSubject();
+
+        if (!$listing) {
+            return $this->_helper->requireSubject()->forward();
+        }
+
+        $this->view->form = $form = new Socialcommerce_Form_EmailToFriends();
+
+        if (!$this -> getRequest() -> isPost()) {
+            return;
+        }
+
+        if (!$form -> isValid($this -> getRequest() -> getPost())) {
+            return;
+        }
+        $values = $form -> getValues();
+        $sentEmails = $listing -> sendEmailToFriends($values['recipients'], @$values['message']);
+
+        $message = Zend_Registry::get('Zend_Translate') -> _("$sentEmails email(s) have been sent.");
+        return $this -> _forward('success', 'utility', 'core', array(
+            'parentRefresh' => false,
+            'smoothboxClose' => true,
+            'messages' => $message
+        ));
     }
 }

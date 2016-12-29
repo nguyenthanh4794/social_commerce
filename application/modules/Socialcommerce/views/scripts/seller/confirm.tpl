@@ -7,7 +7,7 @@
         </p>
         <br />
         <p>
-            <input type="hidden" name="order_id" value="<?php echo $this->order_id?>"/>
+            <input type="hidden" name="orderItem_id" value="<?php echo $this->orderItem_id?>"/>
             <button type='submit'><?php echo $this->translate("Confirm") ?></button>
             <?php echo $this->translate("or") ?>
             <a href='javascript:void(0);' onclick='javascript:parent.Smoothbox.close()'>

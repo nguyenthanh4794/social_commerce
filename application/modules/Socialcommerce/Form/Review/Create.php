@@ -13,7 +13,7 @@ class Socialcommerce_Form_Review_Create extends Engine_Form
         $this->setTitle('Review Product')
             ->setDescription('Description.')
             ->setAttribs(array(
-                    'class' => 'global_form_sc',
+                    'class' => 'global_form',
                 )
             );
         $this -> addElement('dummy', 'rate_number', array(

@@ -15,14 +15,24 @@
         border-radius: 4px;
     }
     span.order_status_initial {
-        color: #2ea9ce;
+        color: #2ea9ce !important;
         background-color: #d9edf7;
-        border: 1px solid#2ea9ce;
+        border: 1px solid #2ea9ce;
+    }
+    span.order_status_shipping {
+        color: #fff !important;
+        background-color: #36a5ec;
+        border: 1px solid #1574b2;
+    }
+    span.order_status_shipped {
+        color: #cd1c1c !important;
+        background-color: #f9e4e4;
+        border: 1px solid #cd1c1c;
     }
     span.order_status_completed {
         background-color: #25b35a;
-        color: #fff;
-        border-color: #078034;
+        color: #fff !important;
+        border: 1px solid #078034;
     }
     .socialcommerce_order_detail_total.order_detail_information {
         left: 0;

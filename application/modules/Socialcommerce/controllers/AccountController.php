@@ -107,7 +107,8 @@ class Socialcommerce_AccountController extends Core_Controller_Action_Standard
 
         $select->from($ttTableName, array("$ttTableName.*"))
             ->setIntegrityCheck(false)
-            ->where("$ttTableName.owner_id = ?", $user_id);
+            ->where("$ttTableName.owner_id = ?", $user_id)
+            ->where("$ttTableName.delivery_status = ?", 'delivered');
 
         $orderItems = $orderItemTable->fetchAll($select);
 

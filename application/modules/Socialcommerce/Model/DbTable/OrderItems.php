@@ -63,7 +63,7 @@ class Socialcommerce_Model_DbTable_OrderItems extends Engine_Db_Table
 
         $select = $table->select()->setIntegrityCheck(false)->from($rName);
 
-        $select->joinLeft($orderName, "$rName.order_id = $orderName.order_id")->where("$orderName.owner_id = ?", Engine_Api::_()->user()->getViewer()->getIdentity());
+        $select->joinLeft($orderName, "$rName.order_id = $orderName.order_id", 'creation_date');
 
 //        $select->where("$orderName.payment_status <> 'initial'");
         $select->where("$rName.object_type = 'shopping-cart'");
@@ -73,6 +73,10 @@ class Socialcommerce_Model_DbTable_OrderItems extends Engine_Db_Table
         if( isset($params['order_id']) && $params['order_id'] != '')
         {
             $select->where($rName.".order_id LIKE ? ",'%'.$params['order_id'].'%');
+        }
+
+        if (!empty($params['owner_id'])) {
+            $select->where("$orderName.owner_id = ?", Engine_Api::_()->user()->getViewer()->getIdentity());
         }
 
         if( isset($params['keyword']) && $params['keyword'] != '')
